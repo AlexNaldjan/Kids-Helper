@@ -1,11 +1,11 @@
-import './App.css';
-import { RegisterForm } from './Components/RegisterForm/RegisterForm';
+import CalendarPage from './Components/Calendar/Calendar';
+
+// import './App.css';
 
 function App() {
   return (
     <>
-      <h1>Hello</h1>
-      <RegisterForm />
+      <CalendarPage />
     </>
   );
 }
