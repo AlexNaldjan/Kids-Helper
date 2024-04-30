@@ -4,7 +4,9 @@ export const RegisterForm = () => {
       <input type="text" />
       <input type="text" />
       <input type="text" />
-      <button>Register</button>
+
+      <button>Зарегистрироваться</button>
+
     </form>
   );
 };
