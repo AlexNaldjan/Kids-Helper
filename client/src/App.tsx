@@ -1,3 +1,4 @@
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Header from './Components/Common/Header/Header';
@@ -8,9 +9,15 @@ import Profile from './Components/Profile/Profile';
 import {  Route, Routes } from "react-router-dom";
 import { RegisterForm } from './Components/RegisterForm/RegisterForm';
 
+import CalendarPage from './Components/Calendar/Calendar';
+
+// import './App.css';
+
+
 function App() {
   return (
     <>
+
     <Header />
     <h1>Hello</h1>
     <Routes>
@@ -18,8 +25,12 @@ function App() {
        <Route path="/map" element={<MapPage/>}/> 
        <Route path="/profile" element={<Profile/>}/>
        <Route path="/register" element={<RegisterForm/>}/>
+      <Route path="/calendar" element={<CalendarPage/>}/>
     </Routes>
    
+
+      
+
     </>
   );
 }
