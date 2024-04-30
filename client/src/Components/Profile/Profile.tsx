@@ -1,6 +1,11 @@
+import Calendar from '../Calendar/Calendar';
+
 function Profile() {
-    return (  
-    <div>Profile</div>);
+  return (
+    <div>
+      <Calendar />
+    </div>
+  );
 }
 
 export default Profile;
