@@ -1,4 +1,4 @@
-export const RegisterForm = () => {
+export const RegisterForm = (): JSX.Element => {
   return (
     <form>
       <input type="text" />
@@ -6,7 +6,6 @@ export const RegisterForm = () => {
       <input type="text" />
 
       <button>Зарегистрироваться</button>
-
     </form>
   );
 };

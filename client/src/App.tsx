@@ -10,7 +10,7 @@ import { RegisterForm } from './Components/RegisterForm/RegisterForm';
 
 // import './App.css';
 
-function App() {
+function App(): JSX.Element {
   return (
     <>
       <Header />

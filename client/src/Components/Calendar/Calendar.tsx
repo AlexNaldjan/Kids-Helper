@@ -4,7 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
-export default function CalendarPage() {
+type TaskType = {
+  description: string;
+};
+
+export default function CalendarPage(): JSX.Element {
   const [selectedDate, setSelectedDate] = useState(null);
   const [eventFormVisible, setEventFormVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
