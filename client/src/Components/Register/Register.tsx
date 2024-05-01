@@ -1,4 +1,4 @@
-export const RegisterForm = () => {
+export const Register = ():JSX.Element => {
   return (
     <form>
       <input type="text" />
