@@ -1,6 +1,6 @@
 import Calendar from '../Calendar/Calendar';
 
-function Profile() {
+function Profile(): JSX.Element {
   return (
     <div>
       <Calendar />
