@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { logoutUser } from '../../../store/auth/actionCreators';
 import { useAppDispatch } from '../../../store/';
+import { RootState } from '../../../store/index';
 
 function Header(): React.ReactElement {
-  const isLoggedIn = useSelector(state => !!state.auth.authData.accessToken);
+  const isLoggedIn = useSelector(
+    (state: RootState) => !!state.auth.authData.accessToken,
+  );
   const dispatch = useAppDispatch();
 
   function logoutHandler() {
