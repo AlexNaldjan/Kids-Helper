@@ -14,7 +14,7 @@ import { getProfile } from './api/auth';
 import { useSelector } from 'react-redux';
 import { Route, Routes, Navigate } from 'react-router-dom';
 
-function App() {
+function App(): JSX.Element {
   // const dispatch = useAppDispatch();
   // useEffect(() => {
   //   dispatch(getProfile());

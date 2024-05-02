@@ -1,6 +1,5 @@
-function Main() {
-    return (  
-    <div> Main </div>);
+function Main(): JSX.Element {
+  return <div> Main </div>;
 }
 
 export default Main;
