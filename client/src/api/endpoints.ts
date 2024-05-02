@@ -1,9 +1,9 @@
 const Endpoints = {
   AUTH: {
-    LOGIN: 'http://localhost:3000/api/auth/login',
-    REFRESH: 'http://localhost:3000/api/auth/refresh',
-    LOGOUT: 'http://localhost:3000/api/auth/logout',
-    PROFILE: 'http://localhost:3000/api/auth/profile',
+    LOGIN: 'http://89.248.207.239/api/auth/login',
+    REFRESH: 'http://89.248.207.239/api/auth/refresh',
+    LOGOUT: 'http://89.248.207.239/api/auth/logout',
+    PROFILE: 'http://89.248.207.239/api/auth/profile',
   },
 };
 export default Endpoints;
