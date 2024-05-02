@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { Button } from 'antd';
 import Calendar from 'react-calendar';
+import './Calendar.css';
 import 'react-calendar/dist/Calendar.css';
 
 export default function CalendarPage() {
@@ -8,7 +10,7 @@ export default function CalendarPage() {
   const [inputValue, setInputValue] = useState('');
   const [tasks, setTasks] = useState({});
 
-  const handleDateClick = (date) => {
+  const handleDateClick = date => {
     setSelectedDate(date);
     setEventFormVisible(true);
   };
@@ -33,10 +35,10 @@ export default function CalendarPage() {
           <input
             value={inputValue}
             type="text"
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={e => setInputValue(e.target.value)}
           />
           <div>
-            <Button variant="primary" type="submit" onClick={handleAddTask}>
+            <Button type="primary" onClick={handleAddTask}>
               +
             </Button>
             {tasks[selectedDate]?.map((task, index) => (

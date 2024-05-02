@@ -1,42 +1,53 @@
-.headerNav {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: rgb(32, 132, 178);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .headerNavItem {
-    display: flex;
-    align-items: center;
-  }
-  
-  .headerNavLink, .adminLink {
-    display: flex;
-    align-items: center;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  
-  .headerNavLink:hover, .adminLink:hover {
-    background-color: rgba(255, 157, 0, 0.744);
-    border-radius: 5px;
-  }
-  
-  .headerNavLink img, .adminLink img {
-    margin-left: 8px;
-  }
-  
-  .headerlogo {
-    margin: 10px;
-  }
-  
-  .adminItem {
-    margin-left: auto; 
-  }
-  
+.headerNav,
+.nav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(32, 132, 178);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerNavItem {
+  display: flex;
+  align-items: center;
+}
+
+.headerNavLink,
+.adminLink {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.headerNavLink:hover,
+.adminLink:hover {
+  background-color: rgba(255, 157, 0, 0.744);
+  border-radius: 5px;
+}
+
+.headerNavLink img,
+.adminLink img {
+  margin-left: 8px;
+}
+
+.headerlogo {
+  margin: 10px;
+}
+
+.adminItem {
+  margin-left: auto;
+}
+
+.quit-btn {
+  padding: 14px 16px;
+  border: none;
+  font: inherit;
+  background-color: transparent;
+  cursor: pointer;
+}

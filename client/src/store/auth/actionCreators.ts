@@ -12,7 +12,6 @@ import {
 } from './authReducer';
 import { history } from '../../utils/history';
 import { store } from '..';
-import { refreshToken } from '../../api/auth';
 import { AxiosPromise } from 'axios';
 import { isTokenExpired } from '../../utils/jwt';
 

@@ -1,3 +1,4 @@
+
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Register.css';
@@ -96,3 +97,4 @@ function Register(): React.ReactElement {
 }
 
 export default Register;
+
