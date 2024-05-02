@@ -1,26 +1,27 @@
 import Calendar from '../Calendar/Calendar';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+// import { Button } from 'antd';
+import { Card } from 'antd';
 
 function Profile() {
   return (
-    <div className='profile-container'>
-    <div className='calendar-placeholder'>
-      <Calendar />
-    </div>
-    <div className="profile-card">
-    <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
-      <Card.Body>
-        <Card.Title>Card Title</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
-      </Card.Body>
-    </Card>
-    </div>
+    <div className="profile-container">
+      <div className="calendar-placeholder">
+        <Calendar />
+      </div>
+      <div className="profile-card">
+        <Card
+          hoverable
+          style={{
+            width: 240,
+          }}
+          cover={
+            <img
+              alt="example"
+              src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+            />
+          }
+        ></Card>
+      </div>
     </div>
   );
 }
