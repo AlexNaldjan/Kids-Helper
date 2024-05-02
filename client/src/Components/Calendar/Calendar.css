@@ -1,0 +1,18 @@
+.react-calendar {
+  width: 100%; /* Ширина календаря */
+  max-width: 600px; /* Максимальная ширина */
+  background: white;
+  border: 1px solid #a0a096;
+  font-family: Arial, sans-serif;
+}
+
+.react-calendar__tile {
+  max-height: 100px; /* Увеличиваем высоту ячеек */
+  font-size: 16px; /* Увеличиваем размер шрифта */
+}
+
+/* Стили для выделения активной даты */
+.react-calendar__tile--active {
+  background-color: #006edc;
+  color: white;
+}
