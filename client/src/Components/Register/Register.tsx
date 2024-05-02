@@ -1,4 +1,3 @@
-
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Register.css';
@@ -19,10 +18,10 @@ function Register(): React.ReactElement {
   const navigate = useNavigate();
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
+    setFormData(prevState => ({
       ...prevState,
       [name]: value,
     }));
@@ -31,11 +30,14 @@ function Register(): React.ReactElement {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        'http://89.248.207.239:3000/api/auth/register',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        },
+      );
       if (!response.ok) throw new Error('Registration failed');
       navigate('/login');
     } catch (error) {
@@ -97,4 +99,3 @@ function Register(): React.ReactElement {
 }
 
 export default Register;
-
