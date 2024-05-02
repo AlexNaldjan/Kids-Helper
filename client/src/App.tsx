@@ -10,7 +10,7 @@ import Login from './Components/Login/Login';
 
 import { RootState, useAppDispatch } from './store';
 import { useEffect } from 'react';
-import { getProfile } from './api/auth';
+import { getProfile } from './api/auth/index';
 import { useSelector } from 'react-redux';
 import { Route, Routes, Navigate } from 'react-router-dom';
 
