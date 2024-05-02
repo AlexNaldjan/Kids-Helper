@@ -17,7 +17,7 @@ import { isTokenExpired } from '../../utils/jwt';
 
 export const loginUser =
   (data: ILoginRequest) =>
-  async (dispatch: Dispatch): Promise<void> => {
+  async (dispatch: Dispatch<any>): Promise<void> => {
     {
       try {
         dispatch(loginStart());
