@@ -7,6 +7,7 @@ const {
   getTokens,
   refreshTokenAge,
   verifyAuthorizationMiddleware,
+  verifyRefreshTokenMiddleware,
 } = require('../../config/utils');
 
 router.post('/register', async (req, res) => {
@@ -91,4 +92,18 @@ router.post('/profile', verifyAuthorizationMiddleware, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+router.get('/refresh', verifyRefreshTokenMiddleware, (req, res) => {
+  const { accessToken, refreshToken } = getTokens(req.user.login);
+
+  res.setHeader(
+    'Set-Cookie',
+    cookie.serialize('refreshToken', refreshToken, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60,
+    })
+  );
+  res.send({ accessToken });
+});
+
 module.exports = router;
