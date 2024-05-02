@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import api from '../../api';
-import { ILoginRequest } from '../../api/auth/type';
+import { ILoginRequest, ILoginResponse } from '../../api/auth/type';
 import {
   loginFailure,
   loginStart,
@@ -12,6 +12,8 @@ import {
 } from './authReducer';
 import { history } from '../../utils/history';
 import { store } from '..';
+import { AxiosPromise } from 'axios';
+import { isTokenExpired } from '../../utils/jwt';
 
 export const loginUser =
   (data: ILoginRequest) =>
@@ -58,12 +60,25 @@ export const getProfile =
     }
   };
 
-export const getAccessToken = () => (): string | null => {
-  try {
-    const accessToken = store.getState().auth.authData.accessToken;
-    return accessToken;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-};
+let refreshTokenRequest: AxiosPromise<ILoginResponse> | null = null;
+
+export const getAccessToken =
+  () =>
+  async (dispatch: Dispatch<any>): Promise<string | null> => {
+    try {
+      const accessToken = store.getState().auth.authData.accessToken;
+      if (!accessToken || isTokenExpired(accessToken)) {
+        if (refreshTokenRequest === null) {
+          refreshTokenRequest = api.auth.refreshToken();
+        }
+        const res = await refreshTokenRequest;
+        refreshTokenRequest = null;
+        dispatch(loginSuccess(res.data.accessToken));
+        return res.data.accessToken;
+      }
+      return accessToken;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
