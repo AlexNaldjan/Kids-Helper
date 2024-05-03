@@ -1,3 +1,4 @@
+import './Profile.css';
 import Calendar from '../Calendar/Calendar';
 // import { Button } from 'antd';
 import { Card } from 'antd';
@@ -10,6 +11,7 @@ function Profile() {
       </div>
       <div className="profile-card">
         <Card
+          className="card-item"
           hoverable
           style={{
             width: 240,

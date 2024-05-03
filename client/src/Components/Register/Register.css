@@ -4,7 +4,21 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: linear-gradient(135deg, #0A1172 0%, #6A1B9A 100%);
+  background-color: linear-gradient(135deg, #0a1172 0%, #6a1b9a 100%);
+}
+
+.header-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.header-text {
+  font-family: 'Onest', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
 }
 
 form {
@@ -46,6 +60,10 @@ form {
   color: #dee2e6;
 }
 
+.form-btn-wrapper {
+  text-align: center;
+}
+
 .btn-primary {
   width: auto;
   padding: 10px 20px;
@@ -58,5 +76,5 @@ form {
 }
 
 .btn-primary:hover {
-  background-color: #FFD700;
+  background-color: #ffd700;
 }

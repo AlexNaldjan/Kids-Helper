@@ -1,54 +1,47 @@
-import { useState } from 'react';
-import { Button } from 'antd';
-import Calendar from 'react-calendar';
+import React, { useEffect, useState } from 'react';
 import './Calendar.css';
-import 'react-calendar/dist/Calendar.css';
+import CalendarGrid from './CalendarGrid/CalendarGrid';
+import CalendarHeader from './CalendarHeader/CalendarHeader';
+import CalendarTimeLine from './CalendarTimeLine/CalendarTimeLine';
+import moment from 'moment';
 
-export default function CalendarPage() {
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [eventFormVisible, setEventFormVisible] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-  const [tasks, setTasks] = useState({});
+function Calendar(): JSX.Element {
+  const [today, setToday] = useState(moment());
 
-  const handleDateClick = date => {
-    setSelectedDate(date);
-    setEventFormVisible(true);
+  const [startDay, setStartDay] = useState(
+    today.clone().startOf('month').startOf('week'),
+  );
+
+  useEffect(() => {
+    setStartDay(today.clone().startOf('month').startOf('week'));
+  }, [today]);
+
+  const previousDateHandler = (): void => {
+    console.log('prev');
+    setToday(prev => prev.clone().subtract(1, 'month'));
   };
-  function handleAddTask() {
-    if (!tasks[selectedDate]) {
-      setTasks({ ...tasks, [selectedDate]: [inputValue] });
-    } else {
-      setTasks({
-        ...tasks,
-        [selectedDate]: [...tasks[selectedDate], inputValue],
-      });
-    }
-    setInputValue('');
-  }
+  const todayDateHandler = (): void => {
+    setToday(moment());
+  };
+  const nextDateHandler = (): void => {
+    setToday(prev => prev.clone().add(1, 'month'));
+    console.log('next');
+  };
 
   return (
-    <div>
-      <Calendar value={selectedDate} onChange={handleDateClick} />
-      {eventFormVisible && (
-        <div>
-          <h3>Запланировано на: {selectedDate.toLocaleDateString()}</h3>
-          <input
-            value={inputValue}
-            type="text"
-            onChange={e => setInputValue(e.target.value)}
-          />
-          <div>
-            <Button type="primary" onClick={handleAddTask}>
-              +
-            </Button>
-            {tasks[selectedDate]?.map((task, index) => (
-              <div key={index} style={{ boxSizing: 'border-box' }}>
-                {index + 1}. {task}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
+    <>
+      <div className="calendar-wrapper">
+        <CalendarHeader />
+        <CalendarTimeLine
+          today={today}
+          previousDateHandler={previousDateHandler}
+          todayDateHandler={todayDateHandler}
+          nextDateHandler={nextDateHandler}
+        />
+        <CalendarGrid today={today} startDay={startDay} />
+      </div>
+    </>
   );
 }
+
+export default Calendar;

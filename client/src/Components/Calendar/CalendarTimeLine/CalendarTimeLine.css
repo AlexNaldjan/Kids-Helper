@@ -1,0 +1,43 @@
+.calendar-control {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #eac7ff;
+}
+
+.year-month-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 80px;
+  font-weight: 1;
+  font-style: normal;
+  font-size: 25pt;
+}
+
+.month,
+.year {
+  margin-left: 10px;
+}
+
+.previous-btn,
+.next-btn {
+  margin-right: 10px;
+  background: none;
+  border: none;
+  padding: 0;
+  transform: scale(0.67);
+  cursor: pointer;
+}
+
+.today-btn {
+  margin: 10px, 0px, 10px, 0px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-weight: 1;
+  font-style: normal;
+  font-size: 25pt;
+  cursor: pointer;
+}

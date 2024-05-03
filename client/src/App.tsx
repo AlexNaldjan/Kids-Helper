@@ -32,7 +32,8 @@ function App() {
         />
         <Route
           path="/profile"
-          element={isLoggedIn ? <Profile /> : <Navigate to="/" />}
+          element={<Profile />}
+          // element={isLoggedIn ? <Profile /> : <Navigate to="/" />}
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

@@ -1,0 +1,54 @@
+.calendar-grid-wrapper {
+  display: inline-grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 40px repeat(5, 1fr);
+  /* border-radius: 12px; */
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: #364351;
+}
+.calendar-day {
+  height: 80px;
+  width: 140px;
+  display: flex;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  box-sizing: border-box;
+  border-right: 1px solid #eff2f7;
+  border-bottom: 1px solid #eff2f7;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 5px;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+}
+
+.calendar-day:hover {
+  background-color: #cbe5f8; /* Цвет фона при наведении */
+  color: #721c24; /* Цвет текста при наведении */
+}
+
+/* подсвечиваем текущий день */
+.date-number-highlight {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #efff9e;
+  color: #364351;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+}
+
+.weekday-calendar-day {
+  height: 40px;
+  width: 140px;
+  display: flex;
+  justify-content: flex-end;
+  color: #eff2f7;
+  border-right: 1px solid #eff2f7;
+  border-bottom: 1px solid #eff2f7;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 5px;
+}
