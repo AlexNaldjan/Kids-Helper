@@ -31,7 +31,7 @@ function Register(): React.ReactElement {
     event.preventDefault();
     try {
       const response = await fetch(
-        'http://192.168.0.2:3000/api/auth/register',
+        'http://31.129.48.98:3000/api/auth/register',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
