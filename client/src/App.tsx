@@ -7,20 +7,21 @@ import MapPage from './Components/MapPage/MapPage';
 import Profile from './Components/Profile/Profile';
 import Register from './Components/Register/Register';
 import Login from './Components/Login/Login';
-
+import { RootState } from './store/index';
 import { RootState, useAppDispatch } from './store';
-import { useEffect } from 'react';
-import { getProfile } from './api/auth';
 import { useSelector } from 'react-redux';
 import { Route, Routes, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { getProfile } from './store/auth/actionCreators';
 
 function App() {
-  // const dispatch = useAppDispatch();
-  // useEffect(() => {
-  //   dispatch(getProfile());
-  // }, [dispatch]);
-  const isLoggedIn = useSelector(state => !!state.auth.authData.accessToken);
-
+  const isLoggedIn = useSelector(
+    (state: RootState) => !!state.auth.authData.accessToken,
+  );
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
   return (
     <>
       <Header />

@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 const signatureAccess = 'Secret_54_access';
 const signatureRefresh = 'Secret_54_refresh';
 
-const accessTokenAge = 20;
-const refreshTokenAge = 60 * 60 * 10;
+const accessTokenAge = 50;
+const refreshTokenAge = 60 * 60 * 24;
 
 const verifyAuthorizationMiddleware = (req, res, next) => {
   const token = req.headers.authorization
@@ -23,7 +23,7 @@ const verifyAuthorizationMiddleware = (req, res, next) => {
 };
 
 const verifyRefreshTokenMiddleware = (req, res, next) => {
-  const refreshToken = req.cookies.refreshToken;
+  const { refreshToken } = req.body;
   if (!refreshToken) {
     return res.sendStatus(401);
   }

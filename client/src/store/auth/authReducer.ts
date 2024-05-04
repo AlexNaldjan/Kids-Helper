@@ -4,7 +4,6 @@ export interface AuthState {
   authData: {
     accessToken: string | null;
     isLoading: boolean;
-    isLoggedIn: boolean;
     error: string | null;
   };
   profileData: {
@@ -18,7 +17,6 @@ const initialState: AuthState = {
   authData: {
     accessToken: null,
     isLoading: false,
-    isLoggedIn: false,
     error: null,
   },
   profileData: {

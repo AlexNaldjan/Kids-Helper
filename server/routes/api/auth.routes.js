@@ -47,17 +47,20 @@ router.post('/login', async (req, res) => {
 
     if (user && isSamePassword) {
       const { accessToken, refreshToken } = getTokens(email);
-      return res
-        .status(200)
-        .setHeader(
-          'Set-Cookie',
-          cookie.serialize('refreshToken', refreshToken, {
-            httpOnly: true,
-            maxAge: refreshTokenAge,
-          })
-        )
-        .send({ accessToken });
+      res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        maxAge: refreshTokenAge,
+      });
+      res.setHeader(
+        'Set-Token',
+        cookie.serialize('refreshToken', refreshToken, {
+          httpOnly: true,
+          maxAge: refreshTokenAge,
+        })
+      );
+      return res.status(200).send({ accessToken, refreshToken });
     }
+    return res.status(401).send('Login fail');
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error.message });
@@ -76,25 +79,12 @@ router.get('/logout', (req, res) => {
     .sendStatus(200);
 });
 
-router.post('/profile', verifyAuthorizationMiddleware, async (req, res) => {
-  try {
-    const { email } = req.body;
-    const user = await User.findOne({ where: { email } });
-    if (user) {
-      return res.status(200).send({
-        username: user.username,
-        avatar: user.avatar,
-        email: user.email,
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error.message });
-  }
+router.get('/profile', verifyAuthorizationMiddleware, (req, res) => {
+  res.send('login');
 });
 
-router.get('/refresh', verifyRefreshTokenMiddleware, (req, res) => {
-  const { accessToken, refreshToken } = getTokens(req.user.login);
+router.post('/refresh', verifyRefreshTokenMiddleware, (req, res) => {
+  const { accessToken, refreshToken } = getTokens(req.user.email);
 
   res.setHeader(
     'Set-Cookie',

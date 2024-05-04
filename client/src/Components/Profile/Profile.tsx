@@ -3,7 +3,7 @@ import Calendar from '../Calendar/Calendar';
 // import { Button } from 'antd';
 import { Card } from 'antd';
 
-function Profile() {
+function Profile(): JSX.Element {
   return (
     <div className="profile-container">
       <div className="calendar-placeholder">
