@@ -1,20 +1,29 @@
 import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-import { loginUser } from '../../store/auth/actionCreators';
 import { useAppDispatch } from '../../store';
+import { loginUser } from '../../store/auth/actionCreators';
+import { useCookies } from 'react-cookie';
+import api from '../../api';
+import { loginStart } from '../../store/auth/authReducer';
 
 function Login(): React.ReactElement {
   const dispatch = useAppDispatch();
-
+  const [, setCookie] = useCookies(['refreshToken']);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const navigate = useNavigate();
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    dispatch(loginUser({ email, password }));
+    dispatch(loginStart());
+    const res = await api.auth.login({ email, password });
+    setCookie('refreshToken', res.data.refreshToken, {
+      path: '/',
+      maxAge: 60 * 60 * 24,
+    });
+    dispatch(loginUser(res.data.accessToken));
     navigate('/');
   };
   return (
@@ -27,7 +36,7 @@ function Login(): React.ReactElement {
               type="text"
               name="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               placeholder="Email"
             />
           </div>
@@ -39,7 +48,7 @@ function Login(): React.ReactElement {
               type="password"
               name="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
               placeholder="Пароль"
             />
           </div>
