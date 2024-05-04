@@ -8,17 +8,13 @@ const urlsSkipAuth = [
   Endpoints.AUTH.REFRESH,
   Endpoints.AUTH.LOGOUT,
 ];
-
-axios.interceptors.request.use(
-  async (config: AxiosRequestConfig): Promise<any> => {
-    if (!config || (config.url && urlsSkipAuth.includes(config.url))) {
-      return config;
-    }
-    const accessToken = await store.dispatch(getAccessToken());
-
-    if (accessToken) {
-      const authorization = `Bearer ${accessToken}`;
-
+axiosInstance.interceptors.request.use(async config => {
+  if (config.url && urlsSkipAuth.includes(config.url)) {
+    return config;
+  }
+  const accessToken = await store.dispatch(getAccessToken());
+  if (accessToken) {
+    const autharization = `Bearer ${accessToken}`;
       config.headers = {
         ...config.headers,
         Authorization: authorization,
@@ -29,7 +25,8 @@ axios.interceptors.request.use(
   (error: AxiosError) => Promise.reject(error),
 );
 
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
+
   response => response,
   (error: AxiosError) => {
     const isLoggedIn = !!store.getState().auth.authData.accessToken;

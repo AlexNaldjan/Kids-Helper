@@ -2,16 +2,22 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { logoutUser } from '../../../store/auth/actionCreators';
-import { useAppDispatch } from '../../../store/';
-import { RootState } from '../../../store/index';
+import { RootState, useAppDispatch } from '../../../store/';
+import { useCookies } from 'react-cookie';
+import { getProfile } from '../../../api/auth';
 
 function Header(): React.ReactElement {
+  const [, setCookie] = useCookies(['refreshToken']);
+
   const isLoggedIn = useSelector(
     (state: RootState) => !!state.auth.authData.accessToken,
   );
   const dispatch = useAppDispatch();
-
   function logoutHandler() {
+    setCookie('refreshToken', '', {
+      path: '/',
+      maxAge: 0,
+    });
     dispatch(logoutUser());
   }
 
