@@ -4,12 +4,18 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: linear-gradient(135deg, #0A1172 0%, #6A1B9A 100%);
+  background-color: linear-gradient(135deg, #0a1172 0%, #6a1b9a 100%);
+}
+
+.header-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 form {
   padding: 20px;
-  background-color: #495057;
+  background-color: #364351;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 100%;
@@ -44,17 +50,23 @@ form {
   color: #dee2e6;
 }
 
+.form-btn-wrapper {
+  text-align: center;
+}
+
 .btn-primary {
   width: auto;
-  background-color: #999da0;
-  color: #fff;
+  background-color: #eff2f7;
+  color: black;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s;
+  align-self: center;
 }
 
 .btn-primary:hover {
-  background-color: #FFD700;
+  background-color: #eac7ff;
+  color: #fff;
 }
