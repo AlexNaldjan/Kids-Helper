@@ -1,8 +1,9 @@
 import React from 'react';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import './CalendarGrid.css';
 import moment from 'moment';
-import { Button, Modal } from 'antd';
+import { Button } from 'antd';
+import ModalWindow from '../ModalWindow/ModalWindow';
 
 interface CalendarGridProps {
   startDay: moment.Moment;
@@ -11,6 +12,7 @@ interface CalendarGridProps {
 
 function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   const totalDays = 42;
+
   const daysArray = Array.from({ length: totalDays }, (_, index) =>
     startDay.clone().add(index, 'days'),
   );
@@ -21,17 +23,12 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   const isCurrentMonth = (day: moment.Moment): boolean =>
     moment().isSame(day, 'month');
 
-  // Состояние для определения видимости модального окна
+  // Состояние для видимости модального окна
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // Создание обработчика с помощью useCallback
   const handleModalOpen = () => {
     setIsModalOpen(true);
-  };
-
-  // Функция для закрытия модального окна
-  const handleCancel = () => {
-    setIsModalOpen(false);
   };
 
   return (
@@ -150,70 +147,11 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                     <div className="date-number-highlight">
                       {dayItem.format('D')}
                     </div>
-                    <Modal
-                      title="Новое Событие"
-                      open={isModalOpen}
-                      onCancel={handleCancel}
-                      key={dayItem.unix()} // Добавляем ключ для каждого модального окна
-                    >
-                      <label className="input-label">
-                        <span className="input-title">Название:</span>
-                        <input
-                          className="input"
-                          type="text"
-                          size="40"
-                          name="one-line"
-                        />
-                      </label>
-
-                      <fieldset className="radio-set">
-                        <legend className="visually-hidden">Категории:</legend>
-
-                        <div className="radio-container">
-                          <label className="radio-label">
-                            <input
-                              className="radio"
-                              type="radio"
-                              name="browser"
-                              value="ie"
-                              id="ie"
-                            />
-                            <span className="radio-title">Медицина</span>
-                          </label>
-                          <label className="radio-label">
-                            <input
-                              className="radio"
-                              size="40"
-                              type="radio"
-                              name="browser"
-                              value="opera"
-                              id="opera"
-                            />
-                            <span className="radio-title">Досуг/Хобби</span>
-                          </label>
-                          <label className="radio-label">
-                            <input
-                              className="radio"
-                              type="radio"
-                              name="browser"
-                              value="firefox"
-                              id="firefox"
-                            />
-                            <span className="radio-title">Образование</span>
-                          </label>
-                        </div>
-                      </fieldset>
-
-                      <label className="input-label">
-                        <span className="input-title">Описание:</span>
-                        <textarea
-                          className="input input-textarea"
-                          name="comment"
-                          cols="40"
-                          rows="3"
-                        ></textarea>
-                      </label>
-                    </Modal>
+                    <ModalWindow
+                      dayItem={dayItem}
+                      isModalOpen={isModalOpen}
+                      setIsModalOpen={setIsModalOpen}
+                    />
                   </>
                 )}
               </div>

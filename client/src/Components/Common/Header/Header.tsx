@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { logoutUser } from '../../../store/auth/actionCreators';
 import { RootState, useAppDispatch } from '../../../store/';
 import { useCookies } from 'react-cookie';
-import { getProfile } from '../../../api/auth';
+// import { getProfile } from '../../../api/auth';
 
 function Header(): React.ReactElement {
   const [, setCookie] = useCookies(['refreshToken']);
@@ -114,11 +114,11 @@ function Header(): React.ReactElement {
                 Главная
               </Link>
             </li>
-            <li className="headerNavItem">
+            {/* <li className="headerNavItem">
               <Link className="headerNavLink" to="/profile">
                 Личный кабинет
               </Link>
-            </li>
+            </li> */}
             <div className="nav">
               {!isLoggedIn ? (
                 <>
@@ -133,11 +133,11 @@ function Header(): React.ReactElement {
                 <>
                   <div className="nav">
                     <ul className="headerNav">
-                      {/* <li className="headerNavItem">
+                      <li className="headerNavItem">
                         <Link className="headerNavLink" to="/profile">
                           Личный кабинет
                         </Link>
-                      </li> */}
+                      </li>
                       <li className="headerNavItem">
                         <Link className="headerNavLink" to="/map">
                           Карта

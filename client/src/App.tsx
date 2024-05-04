@@ -7,7 +7,6 @@ import MapPage from './Components/MapPage/MapPage';
 import Profile from './Components/Profile/Profile';
 import Register from './Components/Register/Register';
 import Login from './Components/Login/Login';
-import { RootState } from './store/index';
 import { RootState, useAppDispatch } from './store';
 import { useSelector } from 'react-redux';
 import { Route, Routes, Navigate } from 'react-router-dom';
@@ -33,8 +32,8 @@ function App() {
         />
         <Route
           path="/profile"
-          element={<Profile />}
-          // element={isLoggedIn ? <Profile /> : <Navigate to="/" />}
+          // element={<Profile />}
+          element={isLoggedIn ? <Profile /> : <Navigate to="/" />}
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
