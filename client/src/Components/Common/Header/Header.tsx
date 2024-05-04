@@ -8,6 +8,7 @@ import { getProfile } from '../../../api/auth';
 
 function Header(): React.ReactElement {
   const [, setCookie] = useCookies(['refreshToken']);
+
   const isLoggedIn = useSelector(
     (state: RootState) => !!state.auth.authData.accessToken,
   );
