@@ -42,6 +42,7 @@ function CalendarTimeLine({
             />
           </svg>
         </button>
+
         <button onClick={todayDateHandler} className="today-btn" type="button">
           Сегодня
         </button>

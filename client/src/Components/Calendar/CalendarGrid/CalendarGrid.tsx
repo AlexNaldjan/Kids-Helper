@@ -1,6 +1,8 @@
 import React from 'react';
+import { useState, useCallback } from 'react';
 import './CalendarGrid.css';
 import moment from 'moment';
+import { Button, Modal } from 'antd';
 
 interface CalendarGridProps {
   startDay: moment.Moment;
@@ -9,7 +11,6 @@ interface CalendarGridProps {
 
 function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   const totalDays = 42;
-  // const day = startDay.clone().startOf('month').startOf('week');
   const daysArray = Array.from({ length: totalDays }, (_, index) =>
     startDay.clone().add(index, 'days'),
   );
@@ -20,45 +21,207 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   const isCurrentMonth = (day: moment.Moment): boolean =>
     moment().isSame(day, 'month');
 
-  return (
-    <div className="calendar-grid-wrapper">
-      {[...Array(7)].map((_, index) => (
-        <div className="weekday-calendar-day">
-          {moment()
-            .day(index % 7)
-            .format('ddd')}
-        </div>
-      ))}
-      {daysArray.map(dayItem => {
-        // Определение, является ли день выходным
-        const isWeekend = dayItem.day() === 6 || dayItem.day() === 0;
-        const dayStyle = {
-          backgroundColor: isWeekend
-            ? '#CBE5F8'
-            : isCurrentMonth(dayItem)
-            ? '#364351'
-            : '#EFF2F7',
-          color: isWeekend
-            ? '#721c24'
-            : isCurrentMonth(dayItem)
-            ? '#A9A9A9'
-            : '#000000',
-          opacity: isCurrentMonth(dayItem) ? 1 : 0.7,
-          //добавить ховер тут
-        };
+  // Состояние для определения видимости модального окна
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-        return (
-          <div className="calendar-day" key={dayItem.unix()} style={dayStyle}>
-            {!iscurrentDay(dayItem) && (
-              <div className="date-number">{dayItem.format('D')}</div>
-            )}
-            {iscurrentDay(dayItem) && (
-              <div className="date-number-highlight">{dayItem.format('D')}</div>
-            )}
+  // Создание обработчика с помощью useCallback
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  // Функция для закрытия модального окна
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  return (
+    <>
+      <div className="calendar-grid-wrapper">
+        {/* мапим дни */}
+        {[...Array(7)].map((_, index) => (
+          <div className="weekday-calendar-day">
+            {moment()
+              .day(index % 7)
+              .format('ddd')}
           </div>
-        );
-      })}
-    </div>
+        ))}
+        {daysArray.map(dayItem => {
+          // Определение, является ли день выходным
+          const isWeekend = dayItem.day() === 6 || dayItem.day() === 0;
+          // Стилизация ячейки дня
+          const dayStyle = {
+            backgroundColor: isWeekend
+              ? '#CBE5F8'
+              : isCurrentMonth(dayItem)
+              ? '#364351'
+              : '#FAFAFA',
+            color: isWeekend
+              ? '#721c24'
+              : isCurrentMonth(dayItem)
+              ? '#FAFAFA'
+              : '#000000',
+            opacity: isCurrentMonth(dayItem) ? 1 : 0.7,
+          };
+
+          return (
+            <>
+              <div
+                className="calendar-day"
+                key={dayItem.unix()}
+                style={dayStyle}
+              >
+                {!iscurrentDay(dayItem) && (
+                  <>
+                    <Button
+                      type="primary"
+                      onClick={handleModalOpen}
+                      className="calendar-day-add-btn"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 80 80"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="40"
+                          cy="40"
+                          r="39"
+                          fill="#FAFAFA"
+                          stroke="#364351"
+                          stroke-width="2"
+                        />
+                        <path
+                          d="M40 24L40 56"
+                          stroke="#364351"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
+                        <path
+                          d="M56 40L24 40"
+                          stroke="#364351"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                    </Button>
+
+                    <div className="date-number">{dayItem.format('D')}</div>
+                  </>
+                )}
+                {iscurrentDay(dayItem) && (
+                  <>
+                    <Button
+                      type="primary"
+                      onClick={handleModalOpen}
+                      className="calendar-day-add-btn"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 80 80"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="40"
+                          cy="40"
+                          r="39"
+                          fill="#FAFAFA"
+                          stroke="#364351"
+                          stroke-width="2"
+                        />
+                        <path
+                          d="M40 24L40 56"
+                          stroke="#364351"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
+                        <path
+                          d="M56 40L24 40"
+                          stroke="#364351"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                    </Button>
+
+                    <div className="date-number-highlight">
+                      {dayItem.format('D')}
+                    </div>
+                    <Modal
+                      title="Новое Событие"
+                      open={isModalOpen}
+                      onCancel={handleCancel}
+                      key={dayItem.unix()} // Добавляем ключ для каждого модального окна
+                    >
+                      <label className="input-label">
+                        <span className="input-title">Название:</span>
+                        <input
+                          className="input"
+                          type="text"
+                          size="40"
+                          name="one-line"
+                        />
+                      </label>
+
+                      <fieldset className="radio-set">
+                        <legend className="visually-hidden">Категории:</legend>
+
+                        <div className="radio-container">
+                          <label className="radio-label">
+                            <input
+                              className="radio"
+                              type="radio"
+                              name="browser"
+                              value="ie"
+                              id="ie"
+                            />
+                            <span className="radio-title">Медицина</span>
+                          </label>
+                          <label className="radio-label">
+                            <input
+                              className="radio"
+                              size="40"
+                              type="radio"
+                              name="browser"
+                              value="opera"
+                              id="opera"
+                            />
+                            <span className="radio-title">Досуг/Хобби</span>
+                          </label>
+                          <label className="radio-label">
+                            <input
+                              className="radio"
+                              type="radio"
+                              name="browser"
+                              value="firefox"
+                              id="firefox"
+                            />
+                            <span className="radio-title">Образование</span>
+                          </label>
+                        </div>
+                      </fieldset>
+
+                      <label className="input-label">
+                        <span className="input-title">Описание:</span>
+                        <textarea
+                          className="input input-textarea"
+                          name="comment"
+                          cols="40"
+                          rows="3"
+                        ></textarea>
+                      </label>
+                    </Modal>
+                  </>
+                )}
+              </div>
+            </>
+          );
+        })}
+      </div>
+    </>
   );
 }
 

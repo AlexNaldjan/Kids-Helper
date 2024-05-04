@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Calendar.css';
 import CalendarGrid from './CalendarGrid/CalendarGrid';
-import CalendarHeader from './CalendarHeader/CalendarHeader';
 import CalendarTimeLine from './CalendarTimeLine/CalendarTimeLine';
 import moment from 'moment';
 
@@ -31,7 +30,6 @@ function Calendar(): JSX.Element {
   return (
     <>
       <div className="calendar-wrapper">
-        <CalendarHeader />
         <CalendarTimeLine
           today={today}
           previousDateHandler={previousDateHandler}
