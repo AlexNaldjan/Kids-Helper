@@ -1,5 +1,22 @@
+@font-face {
+  font-family: 'Onest';
+  src: url('Onest-Regular.woff2') format('woff2'),
+    url('Onest-Regular.woff') format('woff');
+  font-weight: 1;
+  font-style: normal;
+}
+
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Onest Regular';
+  background-color: #fafafa;
+  color: #333;
 }
