@@ -2,6 +2,7 @@ import './Profile.css';
 import { CalendarMain } from '../Calendar/CalendarMain/CalendarMain';
 import { ProfileCard } from './ProfileCard/ProfileCard';
 
+
 function Profile(): JSX.Element {
   return (
     <div className="profile-container">

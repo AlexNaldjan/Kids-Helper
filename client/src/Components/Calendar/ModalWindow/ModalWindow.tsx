@@ -10,20 +10,12 @@ interface ModalWindowProps {
   handleAddEvent: (formData: FormData, dayItem: moment.Moment) => void;
 }
 
-interface InputTypes {
-  title: string;
-  description: string;
-  category: string;
-  cost: number;
-  date: number;
-}
-
 interface FormData {
   title: string;
-  category: string;
   description: string;
+  category: string;
   cost: number;
-  date: number;
+  date: string;  // Assuming date is stored as string (e.g., time)
 }
 
 function ModalWindow({
@@ -32,44 +24,40 @@ function ModalWindow({
   setIsModalOpen,
   handleAddEvent,
 }: ModalWindowProps): JSX.Element {
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     title: '',
     description: '',
     category: '',
     cost: 1000,
-    date: 0,
+    date: '',  // Initialize as empty string if it is intended to capture time as string
   });
 
-  console.log(formData);
-
   const handleInputChange = (
-    e:
-      | React.ChangeEvent<HTMLTextAreaElement>
-      | React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value,
     }));
-    // console.log(e);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    handleAddEvent(formData, dayItem);
     setIsModalOpen(false);
+    // Resetting form data after the event is handled
     setFormData({
       title: '',
       category: '',
       description: '',
       cost: 0,
-      date: 0,
-    } as InputTypes);
-    handleAddEvent(formData, dayItem);
-    console.log(setFormData);
+      date: '',
+    });
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -77,7 +65,7 @@ function ModalWindow({
       title="Новое Событие"
       open={isModalOpen}
       onCancel={handleCancel}
-      key={dayItem ? dayItem.unix() : undefined} // Добавляем ключ для каждого модального окна
+      key={dayItem ? dayItem.unix() : undefined}  // Using the Unix timestamp as a unique key
     >
       {dayItem && (
         <form className="event-form" onSubmit={handleSubmit}>
@@ -101,10 +89,8 @@ function ModalWindow({
               onChange={handleInputChange}
             />
           </label>
-
           <fieldset className="radio-set">
             <legend className="visually-hidden">Категории:</legend>
-
             <div className="radio-container">
               <label className="radio-label">
                 <input
@@ -141,18 +127,16 @@ function ModalWindow({
               </label>
             </div>
           </fieldset>
-
           <label className="input-label">
             <span className="input-title">Стоимость:</span>
             <input
               className="input"
-              type="text"
+              type="number"  // Changed to number to properly capture numerical input
               name="cost"
               value={formData.cost}
               onChange={handleInputChange}
             />
           </label>
-
           <label className="input-label">
             <span className="input-title">Описание:</span>
             <textarea

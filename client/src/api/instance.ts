@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { store } from '../store';
 import { getAccessToken, logoutUser } from '../store/auth/actionCreators';
 import Endpoints from './endpoints';
@@ -10,18 +10,24 @@ const urlsSkipAuth = [
   Endpoints.AUTH.REFRESH,
   Endpoints.AUTH.LOGOUT,
 ];
+
 axiosInstance.interceptors.request.use(
-  async config => {
-    if (config.url && urlsSkipAuth.includes(config.url)) {
+  async (config: AxiosRequestConfig): Promise<any> => {
+    if (!config || (config.url && urlsSkipAuth.includes(config.url))) {
       return config;
     }
     const accessToken = await store.dispatch(getAccessToken());
     if (accessToken) {
-      const autharization = `Bearer ${accessToken}`;
-      config.headers = {
-        ...config.headers,
-        Authorization: authorization,
+      const authorization = `Bearer ${accessToken}`;
+      const newConfig: AxiosRequestConfig<any> = {
+        ...config,
+        headers: {
+          ...config.headers,
+          Authorization: authorization,
+        },
       };
+
+      return newConfig;
     }
     return config;
   },
@@ -43,4 +49,5 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
 export { axios };

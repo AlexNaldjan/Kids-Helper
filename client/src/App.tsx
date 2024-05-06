@@ -7,6 +7,7 @@ import MapPage from './Components/MapPage/MapPage';
 import Profile from './Components/Profile/Profile';
 import Register from './Components/Register/Register';
 import Login from './Components/Login/Login';
+
 import { RootState, useAppDispatch } from './store';
 import { useSelector } from 'react-redux';
 import { Route, Routes, Navigate } from 'react-router-dom';
