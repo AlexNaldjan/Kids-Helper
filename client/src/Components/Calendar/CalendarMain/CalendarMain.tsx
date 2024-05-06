@@ -36,7 +36,12 @@ export function CalendarMain(): JSX.Element {
           todayDateHandler={todayDateHandler}
           nextDateHandler={nextDateHandler}
         />
-        <CalendarGrid today={today} day={today} startDay={startDay} />
+        <CalendarGrid
+          dayItem={null}
+          today={today}
+          day={today}
+          startDay={startDay}
+        />
       </div>
     </>
   );

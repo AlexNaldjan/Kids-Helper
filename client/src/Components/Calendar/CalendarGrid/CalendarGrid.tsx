@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import './CalendarGrid.css';
-import moment from 'moment';
 import { Button } from 'antd';
 import ModalWindow from '../ModalWindow/ModalWindow';
+import moment, { Moment } from 'moment';
 
 interface CalendarGridProps {
-  startDay: moment.Moment;
-  today: moment.Moment;
-  dayItem: moment.Moment;
-  day: moment.Moment | null | undefined; // Типизация для startDay
+  startDay: Moment;
+  today: Moment;
+  dayItem: Moment | null | undefined;
+  day: Moment | null | undefined; // Типизация для startDay
 }
 
-interface FormData {
+export interface FormData {
   title: string;
   category: string;
   description: string;
@@ -39,36 +39,42 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   // Состояние для видимости модального окна
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   // Состояние для выбора дня
-  const [selectedDay, setSelectedDay] = useState<moment.Moment | null>();
+  const [selectedDay, setSelectedDay] = useState<Moment | null>();
 
-  const iscurrentDay = (day: moment.Moment): boolean =>
-    moment().isSame(day, 'day');
+  const iscurrentDay = (day: Moment): boolean => moment().isSame(day, 'day');
 
-  const isCurrentMonth = (day: moment.Moment): boolean =>
+  const isCurrentMonth = (day: Moment): boolean =>
     moment().isSame(day, 'month');
 
   // Создание обработчика с помощью useCallback
-  const handleModalOpen = (dayItem: moment.Moment) => {
-    setSelectedDay(dayItem);
-    setIsModalOpen(true);
+  const handleModalOpen = (dayItem: Moment | null | undefined) => {
+    if (dayItem) {
+      setSelectedDay(dayItem);
+      setIsModalOpen(true);
+    }
   };
 
   //
 
-  const handleAddEvent = (formData: FormData, dayItem: moment.Moment) => {
-    const event: Event = {
-      title: formData.title,
-      category: formData.category,
-      description: formData.description,
-      cost: formData.cost,
-      date: formData.date,
-    };
+  const handleAddEvent = (
+    formData: FormData,
+    dayItem: Moment | null | undefined,
+  ) => {
+    if (dayItem) {
+      const event: Event = {
+        title: formData.title,
+        category: formData.category,
+        description: formData.description,
+        cost: formData.cost,
+        date: formData.date,
+      };
 
-    const dayKey = dayItem.format('YYYY-MM-DD');
-    setEvents(prevEvents => ({
-      ...prevEvents,
-      [dayKey]: [...(prevEvents[dayKey] || []), event],
-    }));
+      const dayKey = dayItem.format('YYYY-MM-DD');
+      setEvents(prevEvents => ({
+        ...prevEvents,
+        [dayKey]: [...(prevEvents[dayKey] || []), event],
+      }));
+    }
   };
 
   return (

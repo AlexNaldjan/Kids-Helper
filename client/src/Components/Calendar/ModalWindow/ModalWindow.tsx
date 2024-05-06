@@ -1,22 +1,26 @@
 import { useState } from 'react';
 import { Modal } from 'antd';
-import moment from 'moment';
+import { Moment } from 'moment';
 import './ModalWindow.css';
+import { FormData } from '../CalendarGrid/CalendarGrid';
 
 interface ModalWindowProps {
-  dayItem: moment.Moment;
+  dayItem: Moment | null | undefined;
   isModalOpen: boolean;
-  setIsModalOpen: (open: boolean) => void;
-  handleAddEvent: (formData: FormData, dayItem: moment.Moment) => void;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  handleAddEvent: (
+    formData: FormData,
+    dayItem: Moment | null | undefined,
+  ) => void;
 }
 
-interface FormData {
-  title: string;
-  description: string;
-  category: string;
-  cost: number;
-  date: string;  // Assuming date is stored as string (e.g., time)
-}
+// interface FormDataModal {
+//   title: string;
+//   description: string;
+//   category: string;
+//   cost: number;
+//   date: string; // Assuming date is stored as string (e.g., time)
+// }
 
 function ModalWindow({
   dayItem,
@@ -28,12 +32,12 @@ function ModalWindow({
     title: '',
     description: '',
     category: '',
-    cost: 1000,
-    date: '',  // Initialize as empty string if it is intended to capture time as string
+    cost: 0,
+    date: 0, // Initialize as empty string if it is intended to capture time as string
   });
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -52,7 +56,7 @@ function ModalWindow({
       category: '',
       description: '',
       cost: 0,
-      date: '',
+      date: 0,
     });
   };
 
@@ -65,7 +69,7 @@ function ModalWindow({
       title="Новое Событие"
       open={isModalOpen}
       onCancel={handleCancel}
-      key={dayItem ? dayItem.unix() : undefined}  // Using the Unix timestamp as a unique key
+      key={dayItem ? dayItem.unix() : undefined} // Using the Unix timestamp as a unique key
     >
       {dayItem && (
         <form className="event-form" onSubmit={handleSubmit}>
@@ -131,7 +135,7 @@ function ModalWindow({
             <span className="input-title">Стоимость:</span>
             <input
               className="input"
-              type="number"  // Changed to number to properly capture numerical input
+              type="number" // Changed to number to properly capture numerical input
               name="cost"
               value={formData.cost}
               onChange={handleInputChange}
