@@ -1,0 +1,11 @@
+.profile-card {
+  min-width: 600px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #364351;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.ant-card-actions {
+  background-color: #364351;
+}

@@ -8,8 +8,8 @@
   background-color: #364351;
 }
 .calendar-day {
-  height: 80px;
-  width: 140px;
+  height: 160px;
+  width: 220px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -36,7 +36,7 @@
 
 .weekday-calendar-day {
   height: 40px;
-  width: 140px;
+  width: 220px;
   display: flex;
   justify-content: flex-end;
   color: #eff2f7;
@@ -73,4 +73,34 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+/* стили для коротких событий */
+.short-events-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: baseline;
+  align-items: center;
+  margin-top: 20px;
+}
+.short-event {
+  width: 160;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.short-event-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-left: 2px;
+  gap: 5px;
+  overflow: hidden;
+  width: 160px;
+  height: 30px;
+  border-style: solid;
+  border-color: #364351;
+  border-radius: 12px;
+  background-color: #eff2f7;
+  color: #364351;
 }

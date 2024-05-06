@@ -1,13 +1,21 @@
 import './Profile.css';
-import Calendar from '../Calendar/Calendar';
+import { CalendarMain } from '../Calendar/CalendarMain/CalendarMain';
+import { ProfileCard } from './ProfileCard/ProfileCard';
+
 
 function Profile(): JSX.Element {
   return (
     <div className="profile-container">
       <div className="calendar-placeholder">
-        <Calendar />
+        <CalendarMain />
       </div>
-      <div className="profile-card"></div>
+      <div className="profile-big-event-container">
+        <div className="profile-card">
+          <ProfileCard />
+        </div>
+
+        <div className="long-event-card"></div>
+      </div>
     </div>
   );
 }
