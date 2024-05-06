@@ -8,7 +8,12 @@ const serverConfig = (app) => {
   app.use(express.json());
   app.use(cookieParser());
   app.use(morgan('dev'));
-  app.use(cors());
+  app.use(
+    cors({
+      credentials: true,
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    })
+  );
 };
 
 module.exports = serverConfig;

@@ -6,7 +6,7 @@ export interface IAuthTokenInfo {
   login: string;
 }
 
-const LIFE_TIME_TO_UPDATE_MULTIPLIER = 0.5;
+const LIFE_TIME_TO_UPDATE_MULTIPLIER = 10;
 
 export const isTokenExpired = (token: string | null): boolean => {
   if (!token) {
@@ -17,10 +17,8 @@ export const isTokenExpired = (token: string | null): boolean => {
     const tokenInfoDecoded = window.atob(tokenInfo);
     const { exp, iat }: IAuthTokenInfo = JSON.parse(tokenInfoDecoded);
 
-    const tokenLeftTime = exp - getUnixTime() / 1000;
-
-    const minLifeTimeForUpdate = exp - iat + LIFE_TIME_TO_UPDATE_MULTIPLIER;
-
+    const tokenLeftTime = exp - getUnixTime();
+    const minLifeTimeForUpdate = exp - iat - LIFE_TIME_TO_UPDATE_MULTIPLIER;
     return tokenLeftTime < minLifeTimeForUpdate;
   } catch (error) {
     console.error(error);

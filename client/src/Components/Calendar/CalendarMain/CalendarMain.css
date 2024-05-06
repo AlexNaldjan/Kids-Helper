@@ -1,0 +1,7 @@
+.calendar-wrapper {
+  border-radius: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-color: #eff2f7;
+  border-width: 1px;
+}

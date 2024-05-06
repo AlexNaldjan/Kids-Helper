@@ -7,23 +7,21 @@ import MapPage from './Components/MapPage/MapPage';
 import Profile from './Components/Profile/Profile';
 import Register from './Components/Register/Register';
 import Login from './Components/Login/Login';
-import { RootState } from './store/index';
 
-// import { RootState, useAppDispatch } from './store';
-// import { useEffect } from 'react';
-// import { getProfile } from './api/auth/index';
+import { RootState, useAppDispatch } from './store';
 import { useSelector } from 'react-redux';
 import { Route, Routes, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { getProfile } from './store/auth/actionCreators';
 
-function App(): JSX.Element {
-  // const dispatch = useAppDispatch();
-  // useEffect(() => {
-  //   dispatch(getProfile());
-  // }, [dispatch]);
+function App() {
   const isLoggedIn = useSelector(
     (state: RootState) => !!state.auth.authData.accessToken,
   );
-
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
   return (
     <>
       <Header />
@@ -35,6 +33,7 @@ function App(): JSX.Element {
         />
         <Route
           path="/profile"
+          // element={<Profile />}
           element={isLoggedIn ? <Profile /> : <Navigate to="/" />}
         />
         <Route path="/login" element={<Login />} />

@@ -7,12 +7,11 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
   },
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(
-      ...(process.env.NODE_ENV !== 'production' ? [logger] : [])
+      ...(process.env.NODE_ENV !== 'production' ? [logger] : []),
     ),
 });
-
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch: () => AppDispatch = useDispatch;

@@ -1,0 +1,27 @@
+.profile-big-event-container {
+  margin: 20px;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.calendar-placeholder {
+  margin: 20px;
+  border-radius: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-color: #364351;
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: #364351;
+}
+
+.profile-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
