@@ -7,16 +7,27 @@ import {
 } from '@pbe/react-yandex-maps';
 import './MapPage.css';
 
+type Coordinates = {
+  latitude: number;
+  longitude: number;
+};
+
+interface ObjectData {
+  name: string;
+  description: string;
+  address: string;
+}
+
 function MapPage() {
-  const defaultState = {
+  const defaultState: ymaps.IMapState = {
     center: [54.43, 20.3],
     zoom: 9,
     controls: [],
   };
 
-  const [coordinates, setCoordinates] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [objectData, setObjectData] = useState(null);
+  const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [objectData, setObjectData] = useState<ObjectData | null>(null);
 
   const handleSearchSubmit = async () => {
     if (!searchQuery) return;
@@ -33,28 +44,34 @@ function MapPage() {
           .split(' ')
           .reverse()
           .map(parseFloat);
-      setCoordinates(foundCoordinates);
 
-      const objectData =
+      const coordinates: Coordinates = {
+        latitude: foundCoordinates[0],
+        longitude: foundCoordinates[1],
+      };
+      setCoordinates(coordinates);
+
+      const objectDataResponse =
         data.response.GeoObjectCollection.featureMember[0].GeoObject;
-      setObjectData({
-        name: objectData.name,
-        description: objectData.description,
-        address: objectData.metaDataProperty.GeocoderMetaData.text,
-      });
-      console.log(objectData);
+      const objectData: ObjectData = {
+        name: objectDataResponse.name,
+        description: objectDataResponse.description,
+        address: objectDataResponse.metaDataProperty.GeocoderMetaData.text,
+      };
+      setObjectData(objectData);
     } catch (error) {
       console.error('Ошибка при поиске адреса:', error);
     }
   };
 
-  const handleMarkerClick = e => {
-    // Отображение информации о маркере при клике
-    setObjectData({
-      name: 'Название маркера',
-      description: 'Описание маркера',
-      address: 'Адрес маркера',
-    });
+  const handleMarkerClick = () => {
+    if (coordinates) {
+      setObjectData({
+        name: 'Название маркера',
+        description: 'Описание маркера',
+        address: 'Адрес маркера',
+      });
+    }
   };
 
   return (

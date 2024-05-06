@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Calendar.css';
 import CalendarGrid from './CalendarGrid/CalendarGrid';
 import CalendarTimeLine from './CalendarTimeLine/CalendarTimeLine';
@@ -36,7 +36,7 @@ function Calendar(): JSX.Element {
           todayDateHandler={todayDateHandler}
           nextDateHandler={nextDateHandler}
         />
-        <CalendarGrid today={today} startDay={startDay} />
+        <CalendarGrid day={today} startDay={startDay} />
       </div>
     </>
   );

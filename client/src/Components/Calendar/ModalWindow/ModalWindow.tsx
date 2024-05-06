@@ -1,4 +1,4 @@
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import moment from 'moment';
 
 interface ModalWindowProps {
@@ -25,7 +25,7 @@ function ModalWindow({
     >
       <label className="input-label">
         <span className="input-title">Название:</span>
-        <input className="input" type="text" size="40" name="one-line" />
+        <input className="input" type="text" name="one-line" />
       </label>
 
       <fieldset className="radio-set">
@@ -45,7 +45,6 @@ function ModalWindow({
           <label className="radio-label">
             <input
               className="radio"
-              size="40"
               type="radio"
               name="browser"
               value="opera"
@@ -68,12 +67,7 @@ function ModalWindow({
 
       <label className="input-label">
         <span className="input-title">Описание:</span>
-        <textarea
-          className="input input-textarea"
-          name="comment"
-          cols="40"
-          rows="3"
-        ></textarea>
+        <textarea className="input input-textarea" name="comment"></textarea>
       </label>
     </Modal>
   );
