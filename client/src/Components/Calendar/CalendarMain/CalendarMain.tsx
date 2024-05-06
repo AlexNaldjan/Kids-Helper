@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import './Calendar.css';
-import CalendarGrid from './CalendarGrid/CalendarGrid';
-import CalendarTimeLine from './CalendarTimeLine/CalendarTimeLine';
+import { useEffect, useState } from 'react';
+import './CalendarMain.css';
+import CalendarGrid from '../CalendarGrid/CalendarGrid';
+import CalendarTimeLine from '../CalendarTimeLine/CalendarTimeLine';
 import moment from 'moment';
 
-function Calendar(): JSX.Element {
-  const [today, setToday] = useState(moment());
+export function CalendarMain(): JSX.Element {
+  const [today, setToday] = useState<moment.Moment>(moment());
 
   const [startDay, setStartDay] = useState(
     today.clone().startOf('month').startOf('week'),
@@ -36,10 +36,8 @@ function Calendar(): JSX.Element {
           todayDateHandler={todayDateHandler}
           nextDateHandler={nextDateHandler}
         />
-        <CalendarGrid today={today} startDay={startDay} />
+        <CalendarGrid today={today} day={today} startDay={startDay} />
       </div>
     </>
   );
 }
-
-export default Calendar;
