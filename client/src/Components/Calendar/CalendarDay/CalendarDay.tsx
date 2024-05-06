@@ -1,22 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Modal } from 'antd';
 import moment from 'moment';
-
-// interface CalendarDayProps {
-//   dayItem: moment.Moment;
-//   isWeekend: boolean;
-//   isCurrentMonth: boolean;
-//   iscurrentDay: () => boolean;
-// }
 
 export const CalendarDay = (dayItem: moment.Moment, dayStyle: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const iscurrentDay = (day: moment.Moment): boolean =>
     moment().isSame(day, 'day');
-
-  const isCurrentMonth = (day: moment.Moment): boolean =>
-    moment().isSame(day, 'month');
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -115,12 +105,7 @@ export const CalendarDay = (dayItem: moment.Moment, dayStyle: any) => {
             >
               <label className="input-label">
                 <span className="input-title">Название:</span>
-                <input
-                  className="input"
-                  type="text"
-                  size="40"
-                  name="one-line"
-                />
+                <input className="input" type="text" name="one-line" />
               </label>
 
               <fieldset className="radio-set">
@@ -140,7 +125,6 @@ export const CalendarDay = (dayItem: moment.Moment, dayStyle: any) => {
                   <label className="radio-label">
                     <input
                       className="radio"
-                      size="40"
                       type="radio"
                       name="browser"
                       value="opera"
@@ -166,8 +150,6 @@ export const CalendarDay = (dayItem: moment.Moment, dayStyle: any) => {
                 <textarea
                   className="input input-textarea"
                   name="comment"
-                  cols="40"
-                  rows="3"
                 ></textarea>
               </label>
             </Modal>
