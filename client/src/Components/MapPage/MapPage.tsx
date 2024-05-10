@@ -12,6 +12,8 @@ import { RootState } from '../../store';
 import { Card } from 'antd';
 import { setSelectedMarker } from '../../store/map/mapSlice';
 import { fetchCoordinates } from '../../store/map/mapThunks';
+import { setMarkers } from '../../store/map/markerSlice';
+import api from '../../api';
 
 const { Meta } = Card;
 
@@ -22,6 +24,14 @@ function MapPage() {
   );
   const coordinates = useSelector((state: RootState) => state.map.coordinates);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function getSocialServices() {
+      const res = await api.services.getServices();
+      dispatch(setMarkers(res.data));
+    }
+    getSocialServices();
+  }, []);
 
   useEffect(() => {
     dispatch(fetchCoordinates(markersData));

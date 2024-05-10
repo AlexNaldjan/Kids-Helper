@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setCoordinates } from '../map/mapSlice';
-import { MarkerDataType } from './markerSlice';
+import { ServicesResponse } from '../../api/services/type';
 
 export const fetchCoordinates = createAsyncThunk(
   'map/fetchCoordinates',
 
-  async (markersData: MarkerDataType[], { dispatch }) => {
+  async (markersData: ServicesResponse[], { dispatch }) => {
     try {
       const promises = markersData.map(async marker => {
         const response = await fetch(
