@@ -1,7 +1,6 @@
 import './Profile.css';
 import { CalendarMain } from '../Calendar/CalendarMain/CalendarMain';
-import { ProfileCard } from './ProfileCard/ProfileCard';
-
+import { ProfileCard } from '../Profile/ProfileCard/ProfileCard';
 
 function Profile(): JSX.Element {
   return (
