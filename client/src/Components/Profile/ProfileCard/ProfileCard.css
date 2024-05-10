@@ -6,6 +6,35 @@
   overflow: hidden;
   border-radius: 12px;
 }
-.ant-card-actions {
-  background-color: #364351;
+
+.user-data-container {
+  color: black !important;
+}
+
+.ant-card-body {
+  background-color: #eff2f7;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.avatar-container {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.ant-avatar .ant-avatar-circle {
+  width: 100px;
+  height: 100px;
+}
+.ant-card .ant-card-head {
+  background-color: #eac7ff;
+}
+
+.ant-form .ant-form-vertical {
+  width: 600px;
+}
+
+.ant-form-item .ant-form-item-label > label {
+  color: #fafafa; /* Задаем новый цвет текста */
 }

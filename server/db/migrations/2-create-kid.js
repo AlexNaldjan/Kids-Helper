@@ -1,7 +1,8 @@
+/* eslint-disable quotes */
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Events", {
+    await queryInterface.createTable("Kids", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,24 +11,16 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "Users",
+          key: "id",
+        },
       },
-      title: {
+      name: {
         type: Sequelize.TEXT,
       },
-      description: {
-        type: Sequelize.TEXT,
-      },
-      date: {
+      age: {
         type: Sequelize.INTEGER,
-      },
-      cost: {
-        type: Sequelize.INTEGER,
-      },
-      status: {
-        type: Sequelize.TEXT,
-      },
-      isAdmin: {
-        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +33,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Events");
+    await queryInterface.dropTable("Kids");
   },
 };
