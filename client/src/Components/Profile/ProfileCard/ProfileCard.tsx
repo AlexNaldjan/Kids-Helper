@@ -6,17 +6,10 @@ import {
   Avatar,
   Upload,
   Descriptions,
-  message,
-  List,
   Modal,
 } from 'antd';
-import {
-  UserOutlined,
-  UploadOutlined,
-  EditOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
-import React, { useState, useEffect } from 'react';
+import { UploadOutlined } from '@ant-design/icons';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProfile } from '../../../store/auth/actionCreators';
 

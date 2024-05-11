@@ -23,8 +23,10 @@ export const fetchCoordinates = createAsyncThunk(
       });
       const coordinatesData = await Promise.all(promises);
       dispatch(setCoordinates(coordinatesData));
+      return coordinatesData;
     } catch (error) {
       console.log(error);
+      throw error;
     }
   },
 );
