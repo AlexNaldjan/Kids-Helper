@@ -1,6 +1,8 @@
+
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const cookie = require('cookie');
+
 
 const { User, Kid } = require('../../db/models/index');
 const {
@@ -91,7 +93,9 @@ router.get('/profile', verifyAuthorizationMiddleware, async (req, res) => {
       include: [
         {
           model: Kid,
+          attributes: ["id", "name", "age"],
           as: 'Kids',
+
         },
       ],
     });
@@ -102,6 +106,7 @@ router.get('/profile', verifyAuthorizationMiddleware, async (req, res) => {
     res.json({
       email: user.email,
       username: user.username,
+      kids: user.Kids,
     });
   } catch (error) {
     console.error(error);
