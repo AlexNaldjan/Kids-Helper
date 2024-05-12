@@ -14,14 +14,6 @@ interface ModalWindowProps {
   ) => void;
 }
 
-// interface FormDataModal {
-//   title: string;
-//   description: string;
-//   category: string;
-//   cost: number;
-//   date: string; // Assuming date is stored as string (e.g., time)
-// }
-
 function ModalWindow({
   dayItem,
   isModalOpen,
@@ -33,7 +25,7 @@ function ModalWindow({
     description: '',
     category: '',
     cost: 0,
-    date: 0, // Initialize as empty string if it is intended to capture time as string
+    date: 0,
   });
 
   const handleInputChange = (
@@ -50,7 +42,7 @@ function ModalWindow({
     e.preventDefault();
     handleAddEvent(formData, dayItem);
     setIsModalOpen(false);
-    // Resetting form data after the event is handled
+
     setFormData({
       title: '',
       category: '',
@@ -69,7 +61,7 @@ function ModalWindow({
       title="Новое Событие"
       open={isModalOpen}
       onCancel={handleCancel}
-      key={dayItem ? dayItem.unix() : undefined} // Using the Unix timestamp as a unique key
+      key={dayItem ? dayItem.unix() : undefined}
     >
       {dayItem && (
         <form className="event-form" onSubmit={handleSubmit}>
@@ -135,7 +127,7 @@ function ModalWindow({
             <span className="input-title">Стоимость:</span>
             <input
               className="input"
-              type="number" // Changed to number to properly capture numerical input
+              type="number"
               name="cost"
               value={formData.cost}
               onChange={handleInputChange}

@@ -41,6 +41,7 @@ export const logoutUser =
       console.log(error);
     }
   };
+
 export const getProfile =
   () =>
   async (dispatch: Dispatch<any>): Promise<void> => {
@@ -48,7 +49,7 @@ export const getProfile =
       dispatch(loadProfileStart());
 
       const res = await api.auth.getProfile();
-      dispatch(loadProfileSuccess(res.data));
+      dispatch(loadProfileSuccess(JSON.parse(res.data)));
     } catch (error: any) {
       console.log(error);
       dispatch(loadProfileFailure(error.message));

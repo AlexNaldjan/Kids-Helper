@@ -1,8 +1,10 @@
+
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const cookie = require('cookie');
 
-const { User } = require('../../db/models/index');
+
+const { User, Kid } = require('../../db/models/index');
 const {
   getTokens,
   refreshTokenAge,
@@ -79,8 +81,37 @@ router.get('/logout', (req, res) => {
     .sendStatus(200);
 });
 
-router.get('/profile', verifyAuthorizationMiddleware, (req, res) => {
-  res.send('login');
+router.get('/profile', verifyAuthorizationMiddleware, async (req, res) => {
+  if (!req.user || !req.user.email) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  try {
+    const user = await User.findOne({
+      where: { email: req.user.email },
+      attributes: ['email', 'username'],
+      include: [
+        {
+          model: Kid,
+          attributes: ["id", "name", "age"],
+          as: 'Kids',
+
+        },
+      ],
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json({
+      email: user.email,
+      username: user.username,
+      kids: user.Kids,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 router.post('/refresh', verifyRefreshTokenMiddleware, (req, res) => {
