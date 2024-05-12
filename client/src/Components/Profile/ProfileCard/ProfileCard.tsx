@@ -8,6 +8,7 @@ import {
   Descriptions,
   Modal,
 } from 'antd';
+
 import {
   MinusCircleOutlined,
   PlusOutlined,
@@ -15,11 +16,13 @@ import {
 } from '@ant-design/icons';
 
 import { useState, useEffect, FormEvent } from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { getProfile } from '../../../store/auth/actionCreators';
 
 import './ProfileCard.css';
 import { RootState } from '../../../store';
+
 import { Kid } from '../../../api/profile/type';
 
 export function ProfileCard(): JSX.Element {
@@ -27,11 +30,13 @@ export function ProfileCard(): JSX.Element {
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
   );
+
   const [isProfileModalVisible, setIsProfileModalVisible] = useState(false);
   const [isKidsModalVisible, setIsKidsModalVisible] = useState(false);
   // const [profileState, setProfileState] = useState({});
   const [kids, setKids] = useState<Kid[]>([]);
   const [form] = Form.useForm(); // хук для библиотеки ant design
+
 
   useEffect(() => {
     dispatch(getProfile());

@@ -1,4 +1,5 @@
 const router = require('express').Router();
+
 const { Social_service } = require('../../db/models/index');
 
 router.get('/socialService', async (req, res) => {
