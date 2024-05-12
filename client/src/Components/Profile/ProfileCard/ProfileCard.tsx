@@ -6,42 +6,70 @@ import {
   Avatar,
   Upload,
   Descriptions,
-  message,
-  List,
   Modal,
 } from 'antd';
 import {
-  UserOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
   UploadOutlined,
-  EditOutlined,
-  DeleteOutlined,
 } from '@ant-design/icons';
-import React, { useState, useEffect } from 'react';
+
+import { useState, useEffect, FormEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProfile } from '../../../store/auth/actionCreators';
 
 import './ProfileCard.css';
+import { RootState } from '../../../store';
+import { Kid } from '../../../api/profile/type';
 
 export function ProfileCard(): JSX.Element {
   const dispatch = useDispatch();
-  const profile = useSelector(state => state.auth.profileData.profile);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const profile = useSelector(
+    (state: RootState) => state.auth.profileData.profile,
+  );
+  const [isProfileModalVisible, setIsProfileModalVisible] = useState(false);
+  const [isKidsModalVisible, setIsKidsModalVisible] = useState(false);
+  // const [profileState, setProfileState] = useState({});
+  const [kids, setKids] = useState<Kid[]>([]);
   const [form] = Form.useForm(); // хук для библиотеки ant design
 
   useEffect(() => {
     dispatch(getProfile());
   }, [dispatch]);
 
-  const showModalWindow = () => {
-    setIsModalVisible(true);
+  // функции для модалок Профиля
+
+  const showProfileModalWindow = (e: FormEvent) => {
+    e.preventDefault();
+    setIsProfileModalVisible(true);
     form.setFieldsValue({
       username: profile.username,
       email: profile.email,
     });
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
+  const handleProfileCancel = () => {
+    setIsProfileModalVisible(false);
+  };
+
+  const handleProfileOk = () => {
+    setIsProfileModalVisible(true);
+  };
+
+  // функции для модалок Kids
+
+  const showKidseModalWindow = () => {
+    setIsKidsModalVisible(true);
+    setKids(profile.kids || []);
+    form.setFieldsValue({});
+  };
+
+  const handleKidsCancel = () => {
+    setIsKidsModalVisible(false);
+  };
+
+  const handleKidseOk = () => {
+    setIsKidsModalVisible(true);
   };
 
   return (
@@ -56,12 +84,33 @@ export function ProfileCard(): JSX.Element {
         <div>{profile ? profile.username : 'Загрузка...'}</div>
         <div>{profile ? profile.email : 'Загрузка...'}</div>
       </Descriptions>
-      <Button onClick={showModalWindow}>Редактировать данные</Button>
+      <Button onClick={showProfileModalWindow}>
+        Редактировать личные данные
+      </Button>
+      <Descriptions title="Мои Дети">
+        {profile?.kids?.length > 0 && (
+          <div className="kids-list-container">
+            <ul className="kids-list">
+              {profile.kids.map((kid, index: number) => (
+                <li key={index}>
+                  {kid.name}, {kid.age} лет
+                  <button>Изменить</button>
+                  <button>
+                    <img src="/src/Components/Profile/ProfileCard/add-event-button.svg"></img>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </Descriptions>
+      <Button onClick={showKidseModalWindow}>Добавить ребёнка</Button>
+
       <Modal
         title="Редактировать профиль"
-        open={isModalVisible}
-        // onOk={alert('info. edited')}
-        onCancel={handleCancel}
+        open={isProfileModalVisible}
+        onCancel={handleProfileCancel}
+        onOk={handleProfileOk}
       >
         <Form form={form}>
           <Form.Item
@@ -80,6 +129,60 @@ export function ProfileCard(): JSX.Element {
           >
             <Input />
           </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        title="Добавить ребенка"
+        open={isKidsModalVisible}
+        onCancel={handleKidsCancel}
+        onOk={handleKidseOk}
+      >
+        <Form form={form}>
+          <Form.List name="kids">
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map(({ key, name, ...restField }) => (
+                  <div
+                    key={key}
+                    style={{
+                      marginBottom: 8,
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'name']}
+                      rules={[
+                        { required: true, message: 'Введите имя ребенка' },
+                      ]}
+                      style={{ flex: 1, marginRight: 8 }}
+                    >
+                      <Input placeholder="Имя" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'age']}
+                      rules={[
+                        { required: true, message: 'Введите возраст ребенка' },
+                      ]}
+                    >
+                      <Input placeholder="Возраст" />
+                    </Form.Item>
+                    <MinusCircleOutlined onClick={() => remove(name)} />
+                  </div>
+                ))}
+                <Button
+                  type="dashed"
+                  onClick={() => add()}
+                  block
+                  icon={<PlusOutlined />}
+                >
+                  Добавить ребенка
+                </Button>
+              </>
+            )}
+          </Form.List>
         </Form>
       </Modal>
     </Card>

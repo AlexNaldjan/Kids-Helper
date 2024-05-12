@@ -8,5 +8,9 @@ const Endpoints = {
   SOCIAL_SERVICES: {
     SERVICES: 'http://localhost:3000/api/socialService',
   },
+  PROFILE: {
+    PROFILE: 'http://localhost:3000/api/profile',
+    KIDS: 'http://localhost:3000/api/profile/kids',
+  },
 };
 export default Endpoints;

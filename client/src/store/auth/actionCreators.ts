@@ -41,6 +41,7 @@ export const logoutUser =
       console.log(error);
     }
   };
+
 export const getProfile =
   () =>
   async (dispatch: Dispatch<any>): Promise<void> => {

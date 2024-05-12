@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable quotes */
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const cookie = require("cookie");
@@ -91,7 +93,7 @@ router.get("/profile", verifyAuthorizationMiddleware, async (req, res) => {
       include: [
         {
           model: Kid,
-          as: "Kids",
+          attributes: ["id", "name", "age"],
         },
       ],
     });
@@ -103,6 +105,7 @@ router.get("/profile", verifyAuthorizationMiddleware, async (req, res) => {
     res.json({
       email: user.email,
       username: user.username,
+      kids: user.Kids,
     });
   } catch (error) {
     console.error(error);
