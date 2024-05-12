@@ -14,6 +14,9 @@ import { setSelectedMarker } from '../../store/map/mapSlice';
 import { fetchCoordinates } from '../../store/map/mapThunks';
 import { setMarkers } from '../../store/map/markerSlice';
 import api from '../../api';
+import { Flex, Layout } from 'antd';
+
+const { Sider, Content } = Layout;
 
 const { Meta } = Card;
 
@@ -46,50 +49,59 @@ function MapPage() {
   };
 
   return (
-    <div className="map-page">
-      <div className="map-container">
-        <YMaps query={{ lang: 'ru_RU' }}>
-          <div style={{ width: '600px', height: '600px' }}>
-            <Map
-              defaultState={{ center: [55.796, 37.541], zoom: 9, controls: [] }}
-              style={{ width: '100%', height: '600px' }}
-              onClick={handleMapClick}
-            >
-              {coordinates.map((coordinate, index) => (
-                <Placemark
-                  key={markersData[index].id}
-                  geometry={coordinate}
-                  options={{
-                    preset: 'islands#icon',
-                    iconColor: '#ff0000',
+    <Flex gap="middle" wrap>
+      <Content>
+        <div className="map-page">
+          <div className="map-container">
+            <YMaps query={{ lang: 'ru_RU' }}>
+              <div style={{ width: '600px', height: '600px' }}>
+                <Map
+                  defaultState={{
+                    center: [55.796, 37.541],
+                    zoom: 9,
+                    controls: [],
                   }}
-                  onClick={() => handleMarkerClick(index)}
-                />
-              ))}
-              <FullscreenControl />
-            </Map>
+                  style={{ width: '100%', height: '600px' }}
+                  onClick={handleMapClick}
+                >
+                  {coordinates.map((coordinate, index) => (
+                    <Placemark
+                      key={markersData[index].id}
+                      geometry={coordinate}
+                      options={{
+                        preset: 'islands#icon',
+                        iconColor: '#ff0000',
+                      }}
+                      onClick={() => handleMarkerClick(index)}
+                    />
+                  ))}
+                  <FullscreenControl />
+                </Map>
+              </div>
+            </YMaps>
           </div>
-        </YMaps>
-      </div>
-      {selectedMarker !== null && (
-        <div className="marker-info">
-          <Card
-            style={{ width: 300 }}
-            cover={
-              <img
-                alt={markersData[selectedMarker].img}
-                src={markersData[selectedMarker].img}
-              />
-            }
-          >
-            <Meta
-              title={markersData[selectedMarker].title}
-              description={markersData[selectedMarker].description}
-            />
-          </Card>
+          {selectedMarker !== null && (
+            <div className="marker-info">
+              <Card
+                style={{ width: 300 }}
+                cover={
+                  <img
+                    alt={markersData[selectedMarker].img}
+                    src={markersData[selectedMarker].img}
+                  />
+                }
+              >
+                <Meta
+                  title={markersData[selectedMarker].title}
+                  description={markersData[selectedMarker].description}
+                />
+              </Card>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </Content>
+      <Sider>Sider</Sider>
+    </Flex>
   );
 }
 
