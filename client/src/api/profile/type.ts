@@ -1,4 +1,3 @@
-
 export interface Kid {
   id: number | null;
   name: string;
@@ -12,5 +11,5 @@ export interface ProfileResponse {
   password: string;
   avatar: string;
   role: string;
-  kids: 
+  kids: Kid[];
 }

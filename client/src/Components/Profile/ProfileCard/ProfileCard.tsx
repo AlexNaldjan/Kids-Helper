@@ -31,12 +31,12 @@ export function ProfileCard(): JSX.Element {
     (state: RootState) => state.auth.profileData.profile,
   );
 
+  console.log(profile);
   const [isProfileModalVisible, setIsProfileModalVisible] = useState(false);
   const [isKidsModalVisible, setIsKidsModalVisible] = useState(false);
   // const [profileState, setProfileState] = useState({});
   const [kids, setKids] = useState<Kid[]>([]);
   const [form] = Form.useForm(); // хук для библиотеки ant design
-
 
   useEffect(() => {
     dispatch(getProfile());
