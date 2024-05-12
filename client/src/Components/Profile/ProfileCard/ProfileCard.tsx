@@ -14,12 +14,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getProfile } from '../../../store/auth/actionCreators';
 
 import './ProfileCard.css';
+import { RootState } from '../../../store';
 
 export function ProfileCard(): JSX.Element {
   const dispatch = useDispatch();
-  const profile = useSelector(state => state.auth.profileData.profile);
+  const profile = useSelector(
+    (state: RootState) => state.auth.profileData.profile,
+  );
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [form] = Form.useForm(); // хук для библиотеки ant design
+  const [form] = Form.useForm();
 
   useEffect(() => {
     dispatch(getProfile());
