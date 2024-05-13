@@ -1,4 +1,3 @@
-
 export interface Kid {
   id: number | null;
   name: string;
