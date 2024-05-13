@@ -9,4 +9,5 @@ export interface ServicesResponse {
   category: string;
   ownerId: number;
   contacts: string;
+  rating: number;
 }

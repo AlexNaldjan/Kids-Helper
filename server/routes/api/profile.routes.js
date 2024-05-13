@@ -8,7 +8,6 @@ const { verifyAuthorizationMiddleware } = require("../../config/utils");
 
 router.put("/profile", verifyAuthorizationMiddleware, async (req, res) => {
   const { username, email } = req.body;
-  console.log("===>", req.body);
   try {
     const user = await User.findOne({ where: { email } });
     if (user) {

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
 import { ServicesResponse } from '../../api/services/type';
-import { List, Space } from 'antd';
+import { List, Rate, Space } from 'antd';
 import './main.css';
-import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
+import { LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/';
 
 interface IconTextProps {
   icon: React.ForwardRefExoticComponent<
@@ -21,7 +23,15 @@ const IconText = ({ icon, text }: IconTextProps) => (
 );
 
 function Main(): JSX.Element {
+  const isLoggedIn = useSelector(
+    (state: RootState) => !!state.auth.authData.accessToken,
+  );
   const [services, setServices] = useState<ServicesResponse[]>([]);
+
+  // const profile = useSelector(
+  //   (state: RootState) => state.auth.profileData.profile,
+  // );
+  // console.log(profile.id);
   useEffect(() => {
     async function getSocialServices() {
       const res = await api.services.getServices();
@@ -29,7 +39,9 @@ function Main(): JSX.Element {
     }
     getSocialServices();
   }, []);
-
+  function handlerRating(serviceId: number, rating: number) {
+    console.log('====', serviceId, rating);
+  }
   return (
     <>
       <List
@@ -46,11 +58,14 @@ function Main(): JSX.Element {
           <List.Item
             key={item.id}
             actions={[
-              <IconText
-                icon={StarOutlined}
-                text="156"
-                key="list-vertical-star-o"
+              <Rate
+                allowHalf
+                defaultValue={item.rating}
+                disabled={!isLoggedIn}
+                // value={rating}
+                onChange={value => handlerRating(item.id, value)}
               />,
+              <div>{item.rating}</div>,
               <IconText
                 icon={LikeOutlined}
                 text="156"

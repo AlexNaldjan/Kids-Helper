@@ -30,7 +30,6 @@ export function ProfileCard(): JSX.Element {
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
   );
-
   const [isProfileModalVisible, setIsProfileModalVisible] = useState(false);
   const [isKidsModalVisible, setIsKidsModalVisible] = useState(false);
   // const [profileState, setProfileState] = useState({});

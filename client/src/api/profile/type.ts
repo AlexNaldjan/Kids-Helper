@@ -12,5 +12,5 @@ export interface ProfileResponse {
   password: string;
   avatar: string;
   role: string;
-  kids: 
+  kids: Kid[];
 }

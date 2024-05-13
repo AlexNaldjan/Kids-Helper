@@ -42,19 +42,19 @@ export const logoutUser =
     }
   };
 
-export const getProfile =
-  () =>
-  async (dispatch: Dispatch<any>): Promise<void> => {
-    try {
-      dispatch(loadProfileStart());
+  export const getProfile =
+    () =>
+    async (dispatch: Dispatch<any>): Promise<void> => {
+      try {
+        dispatch(loadProfileStart());
 
-      const res = await api.auth.getProfile();
-      dispatch(loadProfileSuccess(res.data));
-    } catch (error: any) {
-      console.log(error);
-      dispatch(loadProfileFailure(error.message));
-    }
-  };
+        const res = await api.auth.getProfile();
+        dispatch(loadProfileSuccess(JSON.parse(JSON.stringify(res.data))));
+      } catch (error: any) {
+        console.log(error);
+        dispatch(loadProfileFailure(error.message));
+      }
+    };
 
 let refreshTokenRequest: AxiosPromise<ILoginResponse> | null = null;
 

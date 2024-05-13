@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.hasMany(models.Kid, { foreignKey: "userId" });
       this.hasMany(models.Event, { foreignKey: "userId" });
+      this.belongsToMany(models.Social_service, {
+        foreignKey: 'userId',
+        through: 'Ratings',
+      });
     }
   }
   User.init(
