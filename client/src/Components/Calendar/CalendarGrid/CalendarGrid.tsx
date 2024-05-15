@@ -9,6 +9,7 @@ interface CalendarGridProps {
   today: Moment;
   dayItem: Moment | null | undefined;
   day: Moment | null | undefined; // Типизация для startDay
+  kids: Kid[];
 }
 
 export interface FormData {
@@ -25,6 +26,12 @@ interface Event {
   description: string;
   cost: number;
   date: number;
+  kidId?: number;
+}
+
+interface Kid {
+  id: number;
+  name: string;
 }
 
 function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
@@ -39,7 +46,9 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   // Состояние для видимости модального окна
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   // Состояние для выбора дня
-  const [selectedDay, setSelectedDay] = useState<Moment | null>();
+  const [selectedDay, setSelectedDay] = useState<Moment | null>(null);
+  // Состояние для хранения списка детей
+  // Состояние для хранения выбранного ребенка
 
   const iscurrentDay = (day: Moment): boolean => moment().isSame(day, 'day');
 
@@ -54,13 +63,11 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
     }
   };
 
-  //
-
   const handleAddEvent = (
     formData: FormData,
     dayItem: Moment | null | undefined,
   ) => {
-    if (dayItem) {
+    if (dayItem !== null) {
       const event: Event = {
         title: formData.title,
         category: formData.category,
@@ -82,7 +89,7 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
       <div className="calendar-grid-wrapper">
         {/* мапим дни недели */}
         {[...Array(7)].map((_, index) => (
-          <div className="weekday-calendar-day">
+          <div className="weekday-calendar-day" key={index}>
             {moment()
               .day(index % 7)
               .format('ddd')}
@@ -95,7 +102,6 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
 
           const dayKey = dayItem.format('YYYY-MM-DD');
           const dayEvents = events[dayKey] || [];
-          // console.log(dayEvents);
 
           // Стилизация ячейки дня
           const dayStyle = {
@@ -113,12 +119,11 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
           };
 
           return (
-            <div className="calendar-num-button">
-              <div
-                className="calendar-day"
-                key={dayItem ? dayItem.unix() : undefined}
-                style={dayStyle}
-              >
+            <div
+              className="calendar-num-button"
+              key={dayItem ? dayItem.unix() : undefined}
+            >
+              <div className="calendar-day" style={dayStyle}>
                 <Button
                   type="primary"
                   onClick={() => handleModalOpen(dayItem)}
@@ -138,9 +143,9 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                           backgroundColor:
                             event.category === 'Медицина'
                               ? '#CBE5F8'
-                              : '#EFF2F7' && event.category === 'Досуг'
+                              : event.category === 'Досуг'
                               ? '#EFFF9E'
-                              : '#EFF2F7' && event.category === 'Образование'
+                              : event.category === 'Образование'
                               ? '#F9B1B1'
                               : '#EFF2F7',
                         }}
@@ -171,7 +176,10 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
         dayItem={selectedDay}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
-        handleAddEvent={handleAddEvent}
+        handleAddEvent={(
+          formData: FormData,
+          dayItem: Moment | null | undefined,
+        ) => handleAddEvent(formData, dayItem)}
       />
     </>
   );

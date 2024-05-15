@@ -93,6 +93,17 @@ export const authReducer = createSlice({
     }),
     logoutSuccess: (): AuthState => initialState,
   },
+  loadProfileFailure: (state, action: PayloadAction<string>): AuthState => ({
+    ...state,
+    profileData: {
+      ...state.profileData,
+      isLoading: false,
+      error: action.payload,
+    },
+  }),
+  logoutSuccess: (): AuthState => initialState,
+
+  // Добавление новых действий для обновления профиля
 });
 
 export const {
