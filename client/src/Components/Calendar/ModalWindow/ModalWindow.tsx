@@ -11,7 +11,10 @@ interface ModalWindowProps {
   handleAddEvent: (
     formData: FormData,
     dayItem: Moment | null | undefined,
+    kidId: number | null,
   ) => void;
+  kids: [];
+  setSelectedKid: React.Dispatch<React.SetStateAction<number | null>>; // функция для установки выбранного ребенка
 }
 
 function ModalWindow({
@@ -28,6 +31,8 @@ function ModalWindow({
     date: 0,
   });
 
+  const [selectedKid, setSelectedKidLocal] = useState<number | null>(null);
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
@@ -40,7 +45,7 @@ function ModalWindow({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleAddEvent(formData, dayItem);
+    handleAddEvent(formData, dayItem, selectedKid);
     setIsModalOpen(false);
 
     setFormData({
@@ -50,6 +55,7 @@ function ModalWindow({
       cost: 0,
       date: 0,
     });
+    setSelectedKidLocal(null);
   };
 
   const handleCancel = () => {
@@ -141,6 +147,18 @@ function ModalWindow({
               value={formData.description}
               onChange={handleInputChange}
             ></textarea>
+          </label>
+          <label className="input-label">
+            <span className="input-title">Ребенок:</span>
+            <select
+              className="input"
+              // value={selectedKid || ''}
+              // onChange={handleKidChange}
+            >
+              <option value="" disabled>
+                Выберите ребенка
+              </option>
+            </select>
           </label>
           <button type="submit">Создать Событие</button>
         </form>

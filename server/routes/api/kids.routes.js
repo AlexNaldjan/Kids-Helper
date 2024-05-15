@@ -1,80 +1,65 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable quotes */
 const router = require("express").Router();
-const { User, Kid } = require("../../db/models");
+const { Kid } = require("../../db/models");
 
-const { verifyAuthorizationMiddleware } = require("../../config/utils");
-
-router.get("/profile/kids/:id", async (req, res) => {
-  const { userId } = req.params;
+router.post("/profile/kids/:id", async (req, res) => {
+  const userId = req.params.id;
+  const { name, age } = req.body;
 
   try {
-    const kids = await Kid.findAll({
-      where: { userId },
+    const newKid = await Kid.create({
+      name,
+      age,
+      userId,
     });
-    console.log(kids);
-    res.status(200).json(kids);
+    res.status(201).json(newKid);
+    console.log({ newKid });
   } catch (error) {
+    console.error("Error adding new kid:", error);
     res.status(500).send(error.message);
   }
 });
 
-router.post(
-  "/profile/kids",
-  verifyAuthorizationMiddleware,
-  async (req, res) => {
-    const { name, age, userId } = req.body; // Предполагается, что userId передается в запросе
+router.put("/profile/kids/:id", async (req, res) => {
+  const kidId = req.params.id;
+  const { name, age } = req.body;
 
-    try {
-      const newKid = await Kid.create({
-        name,
-        age,
-        userId,
-      });
-      res.status(201).json(newKid);
-    } catch (error) {
-      console.error("Error adding new kid:", error);
-      res.status(500).send(error.message);
-    }
-  }
-);
+  console.log("srverrrrr", kidId);
 
-router.put(
-  "/profile/kids/:id",
-  verifyAuthorizationMiddleware,
-  async (req, res) => {
-    const { name, age } = req.body;
-    try {
-      const [updated] = await Kid.update(
+  try {
+    const kid = await Kid.findByPk(Number(kidId));
+
+    if (kid) {
+      console.log(name, age);
+      await Kid.update(
         {
           name,
           age,
         },
-        {
-          where: { id: req.params.id },
-        }
+        { where: { id: Number(kidId) } }
       );
-
-      if (updated) {
-        const updatedKid = await Kid.findByPk(req.params.id);
-        res.status(200).json(updatedKid);
-      } else {
-        res.status(404).send("Kid not found");
-      }
-    } catch (error) {
-      console.error("Error updating kid:", error);
-      res.status(500).send(error.message);
+      const updatedKid = await Kid.findByPk(Number(kidId));
+      res.status(200).json(updatedKid);
+    } else {
+      res.status(404).send("Kid not found");
     }
+  } catch (error) {
+    console.error("Error updating kid:", error);
+    res.status(500).send(error.message);
   }
-);
+});
 
-router.delete(
-  "/profile/kids/:id",
-  verifyAuthorizationMiddleware,
-  async (req, res) => {
-    try {
+router.delete("/profile/kids/:id", async (req, res) => {
+  const kidId = req.params.id;
+  console.log("delete", kidId);
+
+  try {
+    const kid = await Kid.findByPk(Number(kidId));
+    console.log(kid);
+    if (kid) {
       const deleted = await Kid.destroy({
-        where: { id: req.params.id },
+        where: { id: Number(kidId) },
       });
 
       if (deleted) {
@@ -82,11 +67,11 @@ router.delete(
       } else {
         res.status(404).send("Kid not found");
       }
-    } catch (error) {
-      console.error("Error deleting kid:", error);
-      res.status(500).send(error.message);
     }
+  } catch (error) {
+    console.error("Error deleting kid:", error);
+    res.status(500).send(error.message);
   }
-);
+});
 
 module.exports = router;

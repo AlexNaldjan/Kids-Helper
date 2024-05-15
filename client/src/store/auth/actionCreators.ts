@@ -49,7 +49,7 @@ export const getProfile =
       dispatch(loadProfileStart());
 
       const res = await api.auth.getProfile();
-      dispatch(loadProfileSuccess(JSON.parse(res.data)));
+      dispatch(loadProfileSuccess(JSON.parse(JSON.stringify(res.data))));
     } catch (error: any) {
       console.log(error);
       dispatch(loadProfileFailure(error.message));
