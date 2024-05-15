@@ -23,8 +23,6 @@ import { getProfile } from '../../../store/auth/actionCreators';
 import './ProfileCard.css';
 import { RootState } from '../../../store';
 
-import { Kid } from '../../../api/profile/type';
-
 export function ProfileCard(): JSX.Element {
   const dispatch = useDispatch();
   const profile = useSelector(
@@ -34,8 +32,7 @@ export function ProfileCard(): JSX.Element {
   console.log(profile);
   const [isProfileModalVisible, setIsProfileModalVisible] = useState(false);
   const [isKidsModalVisible, setIsKidsModalVisible] = useState(false);
-  // const [profileState, setProfileState] = useState({});
-  const [kids, setKids] = useState<Kid[]>([]);
+
   const [form] = Form.useForm(); // хук для библиотеки ant design
 
   useEffect(() => {
@@ -65,7 +62,6 @@ export function ProfileCard(): JSX.Element {
 
   const showKidseModalWindow = () => {
     setIsKidsModalVisible(true);
-    setKids(profile.kids || []);
     form.setFieldsValue({});
   };
 
