@@ -67,14 +67,13 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
     formData: FormData,
     dayItem: Moment | null | undefined,
   ) => {
-    if (dayItem && kidId !== null) {
+    if (dayItem !== null) {
       const event: Event = {
         title: formData.title,
         category: formData.category,
         description: formData.description,
         cost: formData.cost,
         date: formData.date,
-        kidId: kidId,
       };
 
       const dayKey = dayItem.format('YYYY-MM-DD');
