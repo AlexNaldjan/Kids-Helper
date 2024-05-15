@@ -34,7 +34,7 @@ interface Kid {
   name: string;
 }
 
-function CalendarGrid({ startDay, kids }: CalendarGridProps): JSX.Element {
+function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   const totalDays = 42;
 
   const daysArray = Array.from({ length: totalDays }, (_, index) =>
@@ -49,7 +49,6 @@ function CalendarGrid({ startDay, kids }: CalendarGridProps): JSX.Element {
   const [selectedDay, setSelectedDay] = useState<Moment | null>(null);
   // Состояние для хранения списка детей
   // Состояние для хранения выбранного ребенка
-  const [selectedKid, setSelectedKid] = useState<number | null>(null);
 
   const iscurrentDay = (day: Moment): boolean => moment().isSame(day, 'day');
 
@@ -67,7 +66,6 @@ function CalendarGrid({ startDay, kids }: CalendarGridProps): JSX.Element {
   const handleAddEvent = (
     formData: FormData,
     dayItem: Moment | null | undefined,
-    kidId: number | null,
   ) => {
     if (dayItem && kidId !== null) {
       const event: Event = {

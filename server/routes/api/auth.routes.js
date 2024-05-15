@@ -102,6 +102,7 @@ router.get("/profile", verifyAuthorizationMiddleware, async (req, res) => {
     }
     res.json({
       id: user.id,
+      id: user.id,
       email: user.email,
       username: user.username,
       kids: user.Kids,
