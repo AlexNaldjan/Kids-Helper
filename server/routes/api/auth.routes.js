@@ -1,8 +1,6 @@
-
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const cookie = require('cookie');
-
 
 const { User, Kid } = require('../../db/models/index');
 const {
@@ -89,13 +87,12 @@ router.get('/profile', verifyAuthorizationMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({
       where: { email: req.user.email },
-      attributes: ['email', 'username'],
+      attributes: ['email', 'username', 'id'],
       include: [
         {
           model: Kid,
-          attributes: ["id", "name", "age"],
+          attributes: ['id', 'name', 'age'],
           as: 'Kids',
-
         },
       ],
     });
@@ -104,6 +101,7 @@ router.get('/profile', verifyAuthorizationMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
     res.json({
+      id: user.id,
       email: user.email,
       username: user.username,
       kids: user.Kids,
