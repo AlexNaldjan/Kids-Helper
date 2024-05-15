@@ -11,10 +11,10 @@ interface ModalWindowProps {
   handleAddEvent: (
     formData: FormData,
     dayItem: Moment | null | undefined,
-    kidId: number | null,
+    // kidId: number | null,
   ) => void;
-  kids: [];
-  setSelectedKid: React.Dispatch<React.SetStateAction<number | null>>; // функция для установки выбранного ребенка
+  // kids: [];
+  // setSelectedKid: React.Dispatch<React.SetStateAction<number | null>>; // функция для установки выбранного ребенка
 }
 
 function ModalWindow({
@@ -31,7 +31,7 @@ function ModalWindow({
     date: 0,
   });
 
-  const [selectedKid, setSelectedKidLocal] = useState<number | null>(null);
+  // const [selectedKid, setSelectedKidLocal] = useState<number | null>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -45,7 +45,7 @@ function ModalWindow({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleAddEvent(formData, dayItem, selectedKid);
+    handleAddEvent(formData, dayItem);
     setIsModalOpen(false);
 
     setFormData({
