@@ -71,21 +71,6 @@ ModalWindowProps): JSX.Element {
     }
   };
 
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   handleAddEvent(formData, dayItem);
-  //   setIsModalOpen(false);
-
-  //   setFormData({
-  //     title: '',
-  //     category: '',
-  //     description: '',
-  //     cost: 0,
-  //     date: '',
-  //     kidId: 0,
-  //   });
-  // };
-
   const addEvent = async () => {
     try {
       const event = {
@@ -102,7 +87,6 @@ ModalWindowProps): JSX.Element {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Предполагаем, что у вас есть токен авторизации
         },
         body: JSON.stringify(event),
       });
