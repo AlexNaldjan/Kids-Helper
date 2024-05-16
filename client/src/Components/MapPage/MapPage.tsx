@@ -136,7 +136,7 @@ function MapPage() {
             >
               <Meta
                 title={markersData[selectedMarker].title}
-                // description={markersData[selectedMarker].description}
+                //description={markersData[selectedMarker].description}
               />
               <button type="button">Добавить в события</button>
             </Card>
@@ -147,7 +147,7 @@ function MapPage() {
             ? filteredMarkersByCategory.map(marker => (
                 <Card
                   key={marker.id}
-                  style={{ width: 200, marginBottom: 20 }}
+                  style={{ width: 300, marginBottom: 20 }}
                   cover={<img alt={marker.img} src={marker.img} />}
                 >
                   <Meta title={marker.title} description={marker.description} />

@@ -70,7 +70,7 @@ export function ProfileCard(): JSX.Element {
     });
   };
 
-  const showOneKidModalWindow = (id: number) => {
+  const showOneKidModalWindow = (id: number | null) => {
     const kid = profile.kids.find(kid => kid.id == id);
     console.log('Selected kid:', kid);
     setSelectedKid(kid); // Сохраняем выбранного ребёнка в состояние
@@ -188,7 +188,7 @@ export function ProfileCard(): JSX.Element {
     }
   };
 
-  const deleteKid = async (id: number) => {
+  const deleteKid = async (id: number | null) => {
     try {
       const response = await fetch(
         `http://localhost:3000/api/profile/kids/${id}`,
