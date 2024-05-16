@@ -22,6 +22,9 @@ module.exports = {
       description: {
         type: Sequelize.TEXT,
       },
+      category: {
+        type: Sequelize.TEXT,
+      },
       date: {
         type: Sequelize.DATE,
       },

@@ -16,7 +16,8 @@ export interface FormData {
   category: string;
   description: string;
   cost: number;
-  date: number;
+  date: string | number;
+  kidId: number;
 }
 
 interface Event {
@@ -24,12 +25,7 @@ interface Event {
   category: string;
   description: string;
   cost: number;
-  date: number;
-}
-
-interface Kid {
-  id: number;
-  name: string;
+  date: string | number | null;
 }
 
 function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
@@ -72,6 +68,7 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
         description: formData.description,
         cost: formData.cost,
         date: formData.date,
+        kidId: formData.kidId,
       };
 
       const dayKey = dayItem.format('YYYY-MM-DD');
