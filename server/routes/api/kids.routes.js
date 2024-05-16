@@ -3,6 +3,7 @@
 const router = require("express").Router();
 const { Kid } = require("../../db/models");
 
+// создать ребенка
 router.post("/profile/kids/:id", async (req, res) => {
   const userId = req.params.id;
   const { name, age } = req.body;
