@@ -44,8 +44,6 @@ ModalWindowProps): JSX.Element {
     dispatch(getProfile());
   }, [dispatch]);
 
-  console.log('=====', profile);
-
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLTextAreaElement | HTMLSelectElement | HTMLInputElement
@@ -53,11 +51,18 @@ ModalWindowProps): JSX.Element {
   ): void => {
     e.preventDefault();
     const { name, value } = e.target;
-    if (name === 'date') {
+    if (name === 'date' && dayItem) {
       // Объединяем dayItem и время из формы в одну дату
       const combinedDateTime = dayItem
-        ? moment(dayItem).format('YYYY-MM-DD') + 'T' + value + ':00'
-        : '';
+        .clone()
+        .set({
+          hour: parseInt(value.split(':')[0], 10),
+          minute: parseInt(value.split(':')[1], 10),
+        })
+        .toISOString();
+      // const combinedDateTime = dayItem
+      //   ? moment(dayItem).format('YYYY-MM-DD') + 'T' + value + ':00'
+      //   : '';
 
       setFormData(prev => ({
         ...prev,
@@ -78,7 +83,7 @@ ModalWindowProps): JSX.Element {
         title: formData.title,
         description: formData.description,
         category: formData.category,
-        date: moment(formData.date, 'HH:mm').toISOString(), // Преобразуем в формат ISO для Postgres
+        date: moment(formData.date), // Преобразуем в формат ISO для Postgres
         cost: formData.cost,
         kidId: formData.kidId,
       };
@@ -137,7 +142,7 @@ ModalWindowProps): JSX.Element {
               className="input"
               type="time"
               name="date"
-              value={formData.date}
+              value={formData.date ? moment(formData.date).format('HH:mm') : ''}
               onChange={handleInputChange}
             />
           </label>

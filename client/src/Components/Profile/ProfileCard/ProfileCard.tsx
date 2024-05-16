@@ -31,7 +31,6 @@ export function ProfileCard(): JSX.Element {
     (state: RootState) => state.auth.profileData.profile,
   );
 
-  // console.log('=====', profile);
   const [isProfileModalVisible, setIsProfileModalVisible] =
     useState<boolean>(false); // состояни для профиля
   const [isKidsModalVisible, setIsKidsModalVisible] = useState<boolean>(false); // состояние для модалки "добавить ребенка"
