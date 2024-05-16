@@ -9,7 +9,6 @@ interface CalendarGridProps {
   today: Moment;
   dayItem: Moment | null | undefined;
   day: Moment | null | undefined; // Типизация для startDay
-  kids: Kid[];
 }
 
 export interface FormData {
@@ -17,7 +16,8 @@ export interface FormData {
   category: string;
   description: string;
   cost: number;
-  date: number;
+  date: string | number;
+  kidId: number;
 }
 
 interface Event {
@@ -25,13 +25,7 @@ interface Event {
   category: string;
   description: string;
   cost: number;
-  date: number;
-  kidId?: number;
-}
-
-interface Kid {
-  id: number;
-  name: string;
+  date: string | number | null;
 }
 
 function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
@@ -74,6 +68,7 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
         description: formData.description,
         cost: formData.cost,
         date: formData.date,
+        kidId: formData.kidId,
       };
 
       const dayKey = dayItem.format('YYYY-MM-DD');
@@ -176,10 +171,7 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
         dayItem={selectedDay}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
-        handleAddEvent={(
-          formData: FormData,
-          dayItem: Moment | null | undefined,
-        ) => handleAddEvent(formData, dayItem)}
+        handleAddEvent={handleAddEvent}
       />
     </>
   );

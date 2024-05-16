@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       userId: DataTypes.INTEGER,
       title: DataTypes.TEXT,
       description: DataTypes.TEXT,
+      category: DataTypes.TEXT,
       date: DataTypes.DATE,
       cost: DataTypes.INTEGER,
       kidId: DataTypes.INTEGER,
