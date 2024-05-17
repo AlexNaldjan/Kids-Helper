@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './CalendarGrid.css';
-import { Button } from 'antd';
+import { Button, Popover } from 'antd';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import moment, { Moment } from 'moment';
 import { useSelector } from 'react-redux';
@@ -19,7 +19,7 @@ export interface FormData {
   description: string;
   cost: number;
   date: string | number;
-  kidId: number;
+  kidId: number | undefined | null;
 }
 
 interface Event {
@@ -29,7 +29,7 @@ interface Event {
   description: string;
   cost: number;
   date: string | number | null;
-  kidId: number | null;
+  kidId: number | null | undefined;
 }
 
 function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
@@ -48,13 +48,25 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   // Состояние для выбора дня
   const [selectedDay, setSelectedDay] = useState<Moment | null>(null);
-  // Состояние для хранения списка детей
-  // Состояние для хранения выбранного ребенка
+  // состояния для ховера дня
+  const [popoverVisibility, setPopoverVisibility] = useState({});
+
+  const hidePopover = () => {
+    setPopoverVisibility(false);
+  };
+
+  const handleOpenPopoverChange = (newOpen: boolean, eventId: number) => {
+    setPopoverVisibility(prev => ({
+      ...prev,
+      [eventId]: newOpen,
+    }));
+  };
 
   const iscurrentDay = (day: Moment): boolean => moment().isSame(day, 'day');
 
   const isCurrentMonth = (day: Moment): boolean =>
     moment().isSame(day, 'month');
+
   console.log('121212', events);
 
   useEffect(() => {
@@ -64,8 +76,19 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
           `http://localhost:3000/api/profile/events?userId=${profile.id}`,
         );
         const result = await response.json();
+
+        const formattedEvents = result.reduce((acc, event) => {
+          const eventDay = moment(event.date).format('YYYY-MM-DD');
+          if (!acc[eventDay]) {
+            acc[eventDay] = [];
+          }
+          acc[eventDay].push(event);
+          return acc;
+        }, {});
+        setEvents(formattedEvents);
+        console.log('formattedevents:', formattedEvents);
         console.log('events:', result);
-        setEvents(result);
+        // setEvents(result);
       } catch (error) {
         console.error('Error fetching events:', error);
       }
@@ -75,7 +98,6 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
     }
   }, [profile]);
 
-  // Создание обработчика с помощью useCallback
   const handleModalOpen = (dayItem: Moment | null | undefined) => {
     if (dayItem) {
       setSelectedDay(dayItem);
@@ -121,7 +143,6 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
         {daysArray.map(dayItem => {
           // Определение, является ли день выходным
           const isWeekend = dayItem.day() === 6 || dayItem.day() === 0;
-
           const dayKey = dayItem.format('YYYY-MM-DD');
           const dayEvents = events[dayKey] || [];
 
@@ -158,25 +179,52 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                 </Button>
                 <div className="short-events-wrapper">
                   {dayEvents.map(event => (
-                    <div key={event.id} className="short-event">
-                      <div
-                        className="short-event-container"
-                        style={{
-                          backgroundColor:
-                            event.category === 'Медицина'
-                              ? '#CBE5F8'
-                              : event.category === 'Досуг'
-                              ? '#EFFF9E'
-                              : event.category === 'Образование'
-                              ? '#F9B1B1'
-                              : '#EFF2F7',
-                        }}
-                      >
-                        <p className="short-event-time">{event.date}</p>
-                        <p className="short-event-title">{event.title}</p>
-                        <p className="short-event-category">{event.category}</p>
+                    <Popover
+                      content={
+                        <>
+                          <div>
+                            <div>{event.title}</div>
+                            <Button>Изменить</Button>
+                            <Button>Удалить</Button>
+                            <Button onClick={hidePopover}>Закрыть</Button>
+                          </div>
+                        </>
+                      }
+                      title="Title"
+                      trigger="click"
+                      open={popoverVisibility[event.id]} // Управляйте видимостью с помощью id
+                      onOpenChange={open =>
+                        handleOpenPopoverChange(open, event.id)
+                      }
+                    >
+                      <div key={event.id} className="short-event">
+                        <div
+                          className="short-event-container"
+                          style={{
+                            backgroundColor:
+                              event.category === 'Медицина'
+                                ? '#CBE5F8'
+                                : event.category === 'Досуг'
+                                ? '#EFFF9E'
+                                : event.category === 'Образование'
+                                ? '#F9B1B1'
+                                : event.category === 'Развлечения'
+                                ? '#EAC7FF'
+                                : event.category === 'Спорт'
+                                ? '#FAFAFA'
+                                : '#EFF2F7',
+                          }}
+                        >
+                          <p className="short-event-time">
+                            {moment(event.date).format('HH:mm')}
+                          </p>
+                          <p className="short-event-title">{event.title}</p>
+                          <p className="short-event-category">
+                            {event.category}
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    </Popover>
                   ))}
                 </div>
 
