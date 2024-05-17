@@ -8,6 +8,7 @@ const Endpoints = {
   PROFILE: {
     PROFILE: 'http://localhost:3000/api/profile',
     KIDS: 'http://localhost:3000/api/profile/kids',
+
   },
 };
 export default Endpoints;

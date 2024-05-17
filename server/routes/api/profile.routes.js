@@ -2,21 +2,27 @@
 /* eslint-disable import/no-unresolved */
 const router = require("express").Router();
 const { User } = require("../../db/models");
-const { verifyAuthorizationMiddleware } = require("../../config/utils");
 
 // ручка для редактирования профиля
+router.put("/profile/update/:id", async (req, res) => {
+  const { username } = req.body;
+  const userId = Number(req.params.id);
 
-router.put("/profile", verifyAuthorizationMiddleware, async (req, res) => {
-  const { username, email } = req.body;
   try {
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findByPk(userId);
     if (user) {
-      console.log(user);
-      user.username = username || user.username;
-      await user.save();
-      res.status(200).json({ message: "Profile updated successfully." });
-    } else {
-      res.status(404).json({ message: "User not found." });
+      // console.log({ user });
+      const newUser = await User.update(
+        {
+          username,
+        },
+        { where: { id: userId } }
+      );
+      console.log("====", newUser);
+      if (newUser) {
+        return res.status(204).json({ message: "success!" });
+      }
+      return res.status(500).json({ message: "error while deleting" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });

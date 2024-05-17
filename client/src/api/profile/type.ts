@@ -13,3 +13,9 @@ export interface ProfileResponse {
   role: string;
   kids: Kid[];
 }
+
+export interface IProfileUpdateRequest {
+  username?: string;
+  email?: string;
+  avatar?: string;
+}

@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Modal } from 'antd';
 import { Moment } from 'moment';
 import './ModalWindow.css';
 import { FormData } from '../CalendarGrid/CalendarGrid';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { getProfile } from '../../../store/auth/actionCreators';
+import { RootState } from '../../../store';
+import moment from 'moment';
 
 interface ModalWindowProps {
   dayItem: Moment | null | undefined;
@@ -18,38 +23,93 @@ function ModalWindow({
   dayItem,
   isModalOpen,
   setIsModalOpen,
-  handleAddEvent,
-}: ModalWindowProps): JSX.Element {
+}: // handleAddEvent,
+ModalWindowProps): JSX.Element {
   const [formData, setFormData] = useState<FormData>({
     title: '',
     description: '',
     category: '',
     cost: 0,
-    date: 0,
+    date: '',
+    kidId: 0,
   });
+  // const [kidId, setKidId] = useState<number>(0);
+
+  const dispatch = useDispatch();
+  const profile = useSelector(
+    (state: RootState) => state.auth.profileData.profile,
+  );
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ) => {
+    e: React.ChangeEvent<
+      HTMLTextAreaElement | HTMLSelectElement | HTMLInputElement
+    >,
+  ): void => {
+    e.preventDefault();
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (name === 'date' && dayItem) {
+      // Объединяем dayItem и время из формы в одну дату
+      const combinedDateTime = dayItem
+        .clone()
+        .set({
+          hour: parseInt(value.split(':')[0], 10),
+          minute: parseInt(value.split(':')[1], 10),
+        })
+        .toISOString();
+      // const combinedDateTime = dayItem
+      //   ? moment(dayItem).format('YYYY-MM-DD') + 'T' + value + ':00'
+      //   : '';
+
+      setFormData(prev => ({
+        ...prev,
+        [name]: combinedDateTime,
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  const addEvent = async () => {
+    try {
+      const event = {
+        userId: profile.id,
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        date: moment(formData.date), // Преобразуем в формат ISO для Postgres
+        cost: formData.cost,
+        kidId: formData.kidId,
+      };
+
+      const response = await fetch(`http://localhost:3000/api/profile/events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(event),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Ошибка при создании события');
+      }
+
+      setIsModalOpen(false); // Закрыть модальное окно после успешного создания
+    } catch (error) {
+      console.error('Error while creating an event:', error);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleAddEvent(formData, dayItem);
-    setIsModalOpen(false);
-
-    setFormData({
-      title: '',
-      category: '',
-      description: '',
-      cost: 0,
-      date: 0,
-    });
+    addEvent(); // Вызов функции добавления события
   };
 
   const handleCancel = () => {
@@ -61,6 +121,7 @@ function ModalWindow({
       title="Новое Событие"
       open={isModalOpen}
       onCancel={handleCancel}
+      onOk={addEvent}
       key={dayItem ? dayItem.unix() : undefined}
     >
       {dayItem && (
@@ -81,7 +142,7 @@ function ModalWindow({
               className="input"
               type="time"
               name="date"
-              value={formData.date}
+              value={formData.date ? moment(formData.date).format('HH:mm') : ''}
               onChange={handleInputChange}
             />
           </label>
@@ -141,6 +202,26 @@ function ModalWindow({
               value={formData.description}
               onChange={handleInputChange}
             ></textarea>
+          </label>
+          <label className="input-label">
+            <span className="input-title">Ребенок:</span>
+            <label className="input-label">
+              <select
+                className="input"
+                onChange={handleInputChange}
+                name="kidId"
+                value={Number(formData.kidId)}
+              >
+                <option value="" disabled>
+                  Выберите ребенка
+                </option>
+                {profile.kids.map(kid => (
+                  <option key={kid.id} value={kid.id}>
+                    {kid.name}
+                  </option>
+                ))}
+              </select>
+            </label>
           </label>
           <button type="submit">Создать Событие</button>
         </form>
