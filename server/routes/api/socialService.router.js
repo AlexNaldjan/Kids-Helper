@@ -26,4 +26,16 @@ router.get('/socialService/:id', async (req, res) => {
     res.sendStatus(404);
   }
 });
+router.get('/socialService', async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+
+  try {
+    const socialService = await Social_service.findAll();
+    res.status(200).json(socialService);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(404);
+  }
+});
 module.exports = router;
