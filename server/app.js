@@ -27,5 +27,4 @@ app.use('/api', ratingRouter);
 app.use("/api", eventRouter);
 // app.use("/api", uploadRouter);
 
-
 app.listen(PORT, () => console.log(`Server is up on ${PORT} port!`));
