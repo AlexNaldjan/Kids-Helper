@@ -31,7 +31,7 @@ ModalWindowProps): JSX.Element {
     category: '',
     cost: 0,
     date: '',
-    kidId: 0,
+    kidId: null,
   });
   // const [kidId, setKidId] = useState<number>(0);
 
@@ -43,6 +43,15 @@ ModalWindowProps): JSX.Element {
   useEffect(() => {
     dispatch(getProfile());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (profile && profile.kids.length > 0) {
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        kidId: profile.kids[0].id, // Устанавливаем kidId первого ребенка в профиле
+      }));
+    }
+  }, [profile]);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -60,9 +69,6 @@ ModalWindowProps): JSX.Element {
           minute: parseInt(value.split(':')[1], 10),
         })
         .toISOString();
-      // const combinedDateTime = dayItem
-      //   ? moment(dayItem).format('YYYY-MM-DD') + 'T' + value + ':00'
-      //   : '';
 
       setFormData(prev => ({
         ...prev,
@@ -181,6 +187,28 @@ ModalWindowProps): JSX.Element {
                   onChange={handleInputChange}
                 />
                 <span className="radio-title">Образование</span>
+              </label>
+              <label className="radio-label">
+                <input
+                  className="radio"
+                  type="radio"
+                  name="category"
+                  value="Спорт"
+                  checked={formData.category === 'Спорт'}
+                  onChange={handleInputChange}
+                />
+                <span className="radio-title">Спорт</span>
+              </label>
+              <label className="radio-label">
+                <input
+                  className="radio"
+                  type="radio"
+                  name="category"
+                  value="Развлечения"
+                  checked={formData.category === 'Развлечения'}
+                  onChange={handleInputChange}
+                />
+                <span className="radio-title">Развлечения</span>
               </label>
             </div>
           </fieldset>

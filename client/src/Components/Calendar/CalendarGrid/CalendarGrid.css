@@ -87,6 +87,13 @@
   width: 160;
   box-sizing: border-box;
   overflow: hidden;
+  cursor: pointer;
+}
+
+.short-event-on-hover {
+  width: 160;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .short-event-container {
   display: flex;
