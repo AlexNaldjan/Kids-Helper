@@ -22,12 +22,13 @@ module.exports = (sequelize, DataTypes) => {
       address: DataTypes.TEXT,
       category: DataTypes.TEXT,
       ownerId: DataTypes.INTEGER,
-      rating: DataTypes.INTEGER,
+      rating: DataTypes.FLOAT(2, 1),
       contacts: DataTypes.TEXT,
     },
     {
       sequelize,
       modelName: 'Social_service',
+      tableName: 'Social_services',
     }
   );
   return Social_service;

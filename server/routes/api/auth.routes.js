@@ -89,13 +89,12 @@ router.get('/profile', verifyAuthorizationMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({
       where: { email: req.user.email },
-      attributes: ['email', 'username'],
+      attributes: ['email', 'username', 'id'],
       include: [
         {
           model: Kid,
-          attributes: ["id", "name", "age"],
+          attributes: ['id', 'name', 'age'],
           as: 'Kids',
-
         },
       ],
     });

@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       rating: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT(2, 1),
         defaultValue: 0,
       },
       contacts: {

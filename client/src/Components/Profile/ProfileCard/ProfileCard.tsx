@@ -30,11 +30,6 @@ export function ProfileCard(): JSX.Element {
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
   );
-<<<<<<< HEAD
-=======
-
-  console.log(profile);
->>>>>>> 9c1c1074a73ffc9ec6e8f9b6ca7c16d873fb975a
   const [isProfileModalVisible, setIsProfileModalVisible] = useState(false);
   const [isKidsModalVisible, setIsKidsModalVisible] = useState(false);
   // const [profileState, setProfileState] = useState({});

@@ -5,9 +5,6 @@ const Endpoints = {
     LOGOUT: 'http://localhost:3000/api/auth/logout',
     PROFILE: 'http://localhost:3000/api/auth/profile',
   },
-  SOCIAL_SERVICES: {
-    SERVICES: 'http://localhost:3000/api/socialService',
-  },
   PROFILE: {
     PROFILE: 'http://localhost:3000/api/profile',
     KIDS: 'http://localhost:3000/api/profile/kids',

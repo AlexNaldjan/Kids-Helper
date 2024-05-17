@@ -23,8 +23,8 @@ module.exports = {
           key: 'id',
         },
       },
-      rating: {
-        type: Sequelize.INTEGER,
+      ratingUser: {
+        type: Sequelize.FLOAT(2, 1),
       },
       createdAt: {
         allowNull: false,
