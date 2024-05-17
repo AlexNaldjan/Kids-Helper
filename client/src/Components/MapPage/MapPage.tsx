@@ -12,7 +12,6 @@ import { RootState } from '../../store';
 import { setSelectedMarker } from '../../store/map/mapSlice';
 import { fetchCoordinates } from '../../store/map/mapThunks';
 import { setMarkers } from '../../store/map/markerSlice';
-import api from '../../api';
 import { Input, Select, Card } from 'antd';
 import type { SearchProps } from 'antd/es/input/Search';
 import ModalWindow from '../Calendar/ModalWindow/ModalWindow';
@@ -35,6 +34,9 @@ function MapPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const categories = [...new Set(markersData.map(marker => marker.category))];
+  const profile = useSelector(
+    (state: RootState) => state.auth.profileData.profile,
+  );
 
   const [events, setEvents] = useState<Record<string, Event[]>>({});
   // Состояние для видимости модального окна
@@ -44,11 +46,16 @@ function MapPage() {
 
   useEffect(() => {
     async function getSocialServices() {
-      const res = await api.services.getServices();
-      dispatch(setMarkers(res.data));
+      try {
+        const res = await fetch('http://localhost:3000/api/socialService');
+        const data = await res.json();
+        dispatch(setMarkers(data));
+      } catch (error) {
+        console.error('Error fetching social services:', error);
+      }
     }
     getSocialServices();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchCoordinates(markersData));
@@ -199,7 +206,7 @@ function MapPage() {
             : filteredMarkers.map(marker => (
                 <Card
                   key={marker.id}
-                  style={{ width: 200 }}
+                  style={{ width: '300px', height: '600px' }}
                   cover={<img alt={marker.img} src={marker.img} />}
                 >
                   <Meta title={marker.title} description={marker.description} />
