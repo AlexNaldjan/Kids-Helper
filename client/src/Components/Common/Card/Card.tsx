@@ -1,19 +1,52 @@
 import Meta from 'antd/es/card/Meta';
 import { ServicesResponse } from '../../../api/services/type';
-import { Card } from 'antd';
+import { Card, Rate } from 'antd';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
 
 interface OrganizationProps {
   card: ServicesResponse;
+  setServices: (props: []) => void;
+  userId: number;
 }
 
-function Organization({ card }: OrganizationProps): React.ReactElement {
-  console.log(card);
+function Organization({
+  card,
+  setServices,
+  userId,
+}: OrganizationProps): React.ReactElement {
+  const isLoggedIn = useSelector(
+    (state: RootState) => !!state.auth.authData.accessToken,
+  );
+  async function handlerRating(serviceId: number, ratingUser: number) {
+    try {
+      await fetch('http://localhost:3000/api/rating', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ serviceId, ratingUser, userId }),
+      });
+      const res = await fetch(
+        `http://localhost:3000/api/socialService/${userId}`,
+      );
+      const data = await res.json();
+      setServices(data);
+    } catch (error) {
+      console.error('Registration Error:', error);
+    }
+  }
   return (
     <Card
       style={{ width: '300px', height: '600px' }}
       cover={<img alt="img" src={card.img} />}
     >
       <Meta title={card.title} description={card.description} />
+      <Rate
+        allowHalf
+        defaultValue={card.rating}
+        disabled={!isLoggedIn || Boolean(card.Users.length)}
+        onChange={value => handlerRating(card.id, value)}
+      />
+      <div>{card.rating}</div>
     </Card>
   );
 }

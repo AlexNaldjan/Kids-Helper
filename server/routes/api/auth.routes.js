@@ -93,6 +93,7 @@ router.get("/profile", verifyAuthorizationMiddleware, async (req, res) => {
           model: Kid,
           attributes: ["id", "name", "age"],
           as: "Kids",
+ 
         },
       ],
     });
@@ -101,7 +102,6 @@ router.get("/profile", verifyAuthorizationMiddleware, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     res.json({
-      id: user.id,
       id: user.id,
       email: user.email,
       username: user.username,
