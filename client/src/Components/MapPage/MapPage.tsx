@@ -15,6 +15,8 @@ import { setMarkers } from '../../store/map/markerSlice';
 import api from '../../api';
 import { Input, Select, Card } from 'antd';
 import type { SearchProps } from 'antd/es/input/Search';
+import ModalWindow from '../Calendar/ModalWindow/ModalWindow';
+import moment, { Moment } from 'moment';
 
 const { Search } = Input;
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
@@ -33,6 +35,12 @@ function MapPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const categories = [...new Set(markersData.map(marker => marker.category))];
+
+  const [events, setEvents] = useState<Record<string, Event[]>>({});
+  // Состояние для видимости модального окна
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  // Состояние для выбора дня
+  const [selectedDay, setSelectedDay] = useState<Moment | null>(null);
 
   useEffect(() => {
     async function getSocialServices() {
@@ -64,6 +72,36 @@ function MapPage() {
 
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
+  };
+
+  const handleModalOpen = (dayItem: Moment | null | undefined) => {
+    if (dayItem) {
+      setSelectedDay(dayItem);
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleAddEvent = (
+    formData: FormData,
+    dayItem: Moment | null | undefined,
+  ) => {
+    if (dayItem !== null && dayItem !== undefined) {
+      const event: Event = {
+        title: formData.title,
+        category: formData.category,
+        description: formData.description,
+        cost: formData.cost,
+        date: formData.date,
+        kidId: formData.kidId,
+        id: null,
+      };
+
+      const dayKey = dayItem.format('YYYY-MM-DD');
+      setEvents(prevEvents => ({
+        ...prevEvents,
+        [dayKey]: [...(prevEvents[dayKey] || []), event],
+      }));
+    }
   };
 
   const filteredMarkersByCategory = selectedCategory
@@ -138,7 +176,12 @@ function MapPage() {
                 title={markersData[selectedMarker].title}
                 //description={markersData[selectedMarker].description}
               />
-              <button type="button">Добавить в события</button>
+              <button
+                type="button"
+                onClick={() => handleModalOpen(moment('2024-05-06'))}
+              >
+                Добавить в события
+              </button>
             </Card>
           </div>
         )}
@@ -164,6 +207,12 @@ function MapPage() {
               ))}
         </div>
       </div>
+      <ModalWindow
+        dayItem={selectedDay}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        handleAddEvent={handleAddEvent}
+      />
     </div>
   );
 }
