@@ -3,18 +3,24 @@ import { ServicesResponse } from '../../../api/services/type';
 import { Card, Rate } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
+import ModalWindow from '../../Calendar/ModalWindow/ModalWindow';
+import { useState } from 'react';
+import { Moment } from 'moment';
+import { FormData, Event } from '../../Calendar/CalendarGrid/CalendarGrid';
 
 interface OrganizationProps {
   card: ServicesResponse;
   setServices: (props: []) => void;
   userId: number;
+  //handleModalOpen: () => void;
 }
 
 function Organization({
   card,
   setServices,
   userId,
-}: OrganizationProps): React.ReactElement {
+}: //handleModalOpen,
+OrganizationProps): React.ReactElement {
   const isLoggedIn = useSelector(
     (state: RootState) => !!state.auth.authData.accessToken,
   );
@@ -34,20 +40,74 @@ function Organization({
       console.error('Registration Error:', error);
     }
   }
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const [events, setEvents] = useState<Record<string, Event[]>>({});
+  console.log(events);
+  const formData = {
+    title: card.title,
+    description: card.description,
+    category: card.category,
+    cost: 0,
+    time: '',
+    date: '',
+    kidId: null,
+  };
+
+  const handleAddEvent = (
+    formData: FormData,
+    dayItem: Moment | null | undefined,
+  ) => {
+    if (dayItem !== null && dayItem !== undefined) {
+      const event: Event = {
+        title: formData.title,
+        category: formData.category,
+        description: formData.description,
+        cost: formData.cost,
+        date: formData.date,
+        kidId: formData.kidId,
+        id: null,
+      };
+
+      const dayKey = dayItem.format('YYYY-MM-DD');
+      setEvents(prevEvents => ({
+        ...prevEvents,
+        [dayKey]: [...(prevEvents[dayKey] || []), event],
+      }));
+    }
+  };
+
   return (
-    <Card
-      style={{ width: '300px', height: '600px' }}
-      cover={<img alt="img" src={card.img} />}
-    >
-      <Meta title={card.title} description={card.description} />
-      <Rate
-        allowHalf
-        defaultValue={card.rating}
-        disabled={!isLoggedIn || Boolean(card.Users.length)}
-        onChange={value => handlerRating(card.id, value)}
+    <>
+      <Card
+        style={{ width: '300px', height: '600px' }}
+        cover={<img alt="img" src={card.img} />}
+      >
+        <Meta title={card.title} description={card.description} />
+        <Rate
+          allowHalf
+          defaultValue={card.rating}
+          disabled={!isLoggedIn || Boolean(card.Users.length)}
+          onChange={value => handlerRating(card.id, value)}
+        />
+        <div>{card.rating}</div>
+        <button type="button" onClick={handleModalOpen}>
+          Добавить в событие
+        </button>
+      </Card>
+      <ModalWindow
+        dayItem={null}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        handleAddEvent={handleAddEvent}
+        isCalendar={false}
+        formDataProps={formData}
       />
-      <div>{card.rating}</div>
-    </Card>
+    </>
   );
 }
 export default Organization;
