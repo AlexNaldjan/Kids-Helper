@@ -7,7 +7,9 @@ import {
   Upload,
   Descriptions,
   Modal,
+  Select,
 } from 'antd';
+const { Option } = Select;
 
 import { UploadOutlined } from '@ant-design/icons';
 
@@ -23,14 +25,16 @@ export interface Kid {
   id: number | null;
   name: string;
   age: number;
+  color: string;
 }
+type PopoverVisibilityMap = { [key: string]: boolean };
 
 export function ProfileCard(): JSX.Element {
   const dispatch = useDispatch();
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
   );
-
+  console.log(profile);
   const [isProfileModalVisible, setIsProfileModalVisible] =
     useState<boolean>(false); // состояни для профиля
   const [isKidsModalVisible, setIsKidsModalVisible] = useState<boolean>(false); // состояние для модалки "добавить ребенка"
@@ -40,6 +44,24 @@ export function ProfileCard(): JSX.Element {
   console.log(selectedKid);
   const [kidNameState, setKidNameState] = useState<string>('');
   const [kidAgeState, setKidAgeState] = useState<number>(0);
+  const [kidColor, setKidColor] = useState<string>('#00000');
+  // const markerColors = [
+  //   { value: 'red', label: 'red' },
+  //   { value: 'green', label: 'green' },
+  //   { value: 'grey', label: 'grey' },
+  //   { value: 'yellow', label: 'yellow' },
+  // ];
+
+  const markerColors = [
+    'green',
+    'orange',
+    'yellow',
+    'purple',
+    'pink',
+    'tomato',
+    'salmon',
+    'grey',
+  ];
 
   const [form] = Form.useForm(); // хук для библиотеки ant design
 
@@ -52,10 +74,12 @@ export function ProfileCard(): JSX.Element {
       form.setFieldsValue({
         name: selectedKid.name,
         age: selectedKid.age,
+        color: selectedKid.color,
       });
       // Также обновляем локальное состояние, если используете его для полей
       setKidNameState(selectedKid.name);
       setKidAgeState(selectedKid.age);
+      setKidColor(selectedKid.color);
     }
   }, [selectedKid, isOneKidModalVisible, form]);
   // функции для модалок Профиля
@@ -123,6 +147,11 @@ export function ProfileCard(): JSX.Element {
     setKidAgeState(parseInt(e.target.value));
   };
 
+  const handleKidColorChange = (e: string) => {
+    console.log(e);
+    setKidColor(e);
+  };
+
   // функции для модалки "OneKid"
 
   const handleOneKidCancel = () => {
@@ -141,6 +170,7 @@ export function ProfileCard(): JSX.Element {
           body: JSON.stringify({
             name: kidNameState,
             age: kidAgeState,
+            color: kidColor,
           }),
         },
       );
@@ -155,6 +185,7 @@ export function ProfileCard(): JSX.Element {
       console.error('Error adding children:', error);
     }
   };
+  console.log(profile.id);
 
   const updateKid = async (): Promise<void> => {
     if (!selectedKid) return;
@@ -171,6 +202,7 @@ export function ProfileCard(): JSX.Element {
           body: JSON.stringify({
             name: kidNameState,
             age: kidAgeState,
+            color: kidColor,
           }),
         },
       );
@@ -206,9 +238,13 @@ export function ProfileCard(): JSX.Element {
       console.error('Error deleting kid:', error);
     }
   };
-
+  console.log('kids', profile.kids);
   return (
-    <Card title="Личный кабинет" style={{ color: '#EFF2F7', width: 600 }}>
+    <Card
+      className="profile-card-custom"
+      title="Личный кабинет"
+      style={{ color: '#EFF2F7', width: 600 }}
+    >
       <div className="avatar-container">
         <Avatar size={100} />
         <Upload>
@@ -222,12 +258,20 @@ export function ProfileCard(): JSX.Element {
       <Button onClick={showProfileModalWindow}>
         Редактировать личные данные
       </Button>
+
       <Descriptions title="Мои Дети">
         {profile?.kids?.length > 0 && (
           <div className="kids-list-container">
             <ul className="kids-list">
               {profile.kids.map(kid => (
-                <li key={kid.id}>
+                <li
+                  className="kid-li-item"
+                  key={kid.id}
+                  style={{
+                    ...({ '--kid-color': kid.color } as React.CSSProperties),
+                    color: 'black',
+                  }}
+                >
                   {kid.name}, {kid.age} лет
                   <Button onClick={() => showOneKidModalWindow(kid.id)}>
                     Изменить
@@ -316,6 +360,25 @@ export function ProfileCard(): JSX.Element {
             rules={[{ required: true, message: 'Введите возраст ребенка' }]}
           >
             <Input value={kidAgeState} onChange={handleAgeChange} />
+          </Form.Item>
+          <Form.Item>
+            <label className="input-label">
+              <span className="input-title">Цвет маркера</span>
+
+              <Select
+                className="input"
+                onChange={e => handleKidColorChange(e)}
+                rules={[
+                  { required: true, message: 'Выберите маркер для ребенка' },
+                ]}
+              >
+                {markerColors.map((kidColor, index) => (
+                  <Option key={index} value={kidColor}>
+                    {kidColor}
+                  </Option>
+                ))}
+              </Select>
+            </label>
           </Form.Item>
         </Form>
       </Modal>

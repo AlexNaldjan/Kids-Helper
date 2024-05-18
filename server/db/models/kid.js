@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       userId: DataTypes.INTEGER,
       name: DataTypes.TEXT,
       age: DataTypes.INTEGER,
+      color: DataTypes.TEXT,
     },
     {
       sequelize,

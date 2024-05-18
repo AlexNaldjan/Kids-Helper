@@ -1,4 +1,4 @@
-.profile-card {
+.profile-card-custom {
   min-width: 600px;
   border-style: solid;
   border-width: 1px;
@@ -7,18 +7,20 @@
   border-radius: 12px;
 }
 
-.user-data-container {
+.user-data-container .profile-card-custom {
   color: black;
 }
-
-.ant-card-body {
+.ant-card .ant-card-bordered .profile-card-custom {
+  min-height: 600px;
+}
+.ant-card-body .profile-card-custom {
   background-color: #eff2f7;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.avatar-container {
+.avatar-container .profile-card-custom {
   display: flex;
   gap: 20px;
   align-items: center;
@@ -31,14 +33,28 @@
   background-color: #eac7ff;
 }
 
-.ant-form .ant-form-vertical {
+.ant-form .ant-form-vertical .profile-card-custom {
   width: 600px;
 }
 
-.ant-form-item .ant-form-item-label > label {
-  color: #fafafa; /* Задаем новый цвет текста */
+.ant-form-item .ant-form-item-label > label .profile-card-custom {
+  color: #fafafa;
+}
+.kids-list {
+  list-style: none;
 }
 
-.kids-list {
-  margin-left: 20px;
+.kid-li-item {
+  position: relative;
+  padding-left: 20px;
+}
+
+.kid-li-item::before {
+  content: '•';
+  color: var(--kid-color);
+  position: absolute;
+  left: 0;
+  font-size: 40px;
+  top: 50%;
+  transform: translateY(-50%);
 }

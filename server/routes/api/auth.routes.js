@@ -1,26 +1,26 @@
-const router = require('express').Router();
-const bcrypt = require('bcrypt');
-const cookie = require('cookie');
+const router = require("express").Router();
+const bcrypt = require("bcrypt");
+const cookie = require("cookie");
 
-const { User, Kid } = require('../../db/models/index');
+const { User, Kid } = require("../../db/models/index");
 const {
   getTokens,
   refreshTokenAge,
   verifyAuthorizationMiddleware,
   verifyRefreshTokenMiddleware,
-} = require('../../config/utils');
+} = require("../../config/utils");
 
-router.post('/register', async (req, res) => {
+router.post("/register", async (req, res) => {
   const { email, username, passwordHash } = req.body;
   try {
     if (!email || !username || !passwordHash) {
-      return res.status(401).json({ message: 'Need all fields' });
+      return res.status(401).json({ message: "Need all fields" });
     }
     const user = await User.findOne({ where: { email } });
     if (user) {
       return res
         .status(409)
-        .json({ message: 'User with that login already exist' });
+        .json({ message: "User with that login already exist" });
     }
     if (!user) {
       const hashedPassword = await bcrypt.hash(passwordHash, 10);
@@ -29,17 +29,17 @@ router.post('/register', async (req, res) => {
         username,
         password: hashedPassword,
       });
-      return res.status(200).json({ text: 'OK' });
+      return res.status(200).json({ text: "OK" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(400).json({ message: 'Need all fields' });
+      return res.status(400).json({ message: "Need all fields" });
     }
     const user = await User.findOne({ where: { email } });
 
@@ -47,31 +47,31 @@ router.post('/login', async (req, res) => {
 
     if (user && isSamePassword) {
       const { accessToken, refreshToken } = getTokens(email);
-      res.cookie('refreshToken', refreshToken, {
+      res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: refreshTokenAge,
       });
       res.setHeader(
-        'Set-Token',
-        cookie.serialize('refreshToken', refreshToken, {
+        "Set-Token",
+        cookie.serialize("refreshToken", refreshToken, {
           httpOnly: true,
           maxAge: refreshTokenAge,
         })
       );
       return res.status(200).send({ accessToken, refreshToken });
     }
-    return res.status(401).send('Login fail');
+    return res.status(401).send("Login fail");
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error.message });
   }
 });
 
-router.get('/logout', (req, res) => {
+router.get("/logout", (req, res) => {
   res
     .setHeader(
-      'Set-cookie',
-      cookie.serialize('refreshToken', '', {
+      "Set-cookie",
+      cookie.serialize("refreshToken", "", {
         httpOnly: true,
         maxAge: 0,
       })
@@ -79,26 +79,26 @@ router.get('/logout', (req, res) => {
     .sendStatus(200);
 });
 
-router.get('/profile', verifyAuthorizationMiddleware, async (req, res) => {
+router.get("/profile", verifyAuthorizationMiddleware, async (req, res) => {
   if (!req.user || !req.user.email) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: "Unauthorized" });
   }
 
   try {
     const user = await User.findOne({
       where: { email: req.user.email },
-      attributes: ['id', 'email', 'username'],
+      attributes: ["id", "email", "username"],
       include: [
         {
           model: Kid,
-          attributes: ['id', 'name', 'age'],
-          as: 'Kids',
+          attributes: ["id", "name", "age", "color"],
+          as: "Kids",
         },
       ],
     });
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
     res.json({
       id: user.id,
@@ -112,12 +112,12 @@ router.get('/profile', verifyAuthorizationMiddleware, async (req, res) => {
   }
 });
 
-router.post('/refresh', verifyRefreshTokenMiddleware, (req, res) => {
+router.post("/refresh", verifyRefreshTokenMiddleware, (req, res) => {
   const { accessToken, refreshToken } = getTokens(req.user.email);
 
   res.setHeader(
-    'Set-Cookie',
-    cookie.serialize('refreshToken', refreshToken, {
+    "Set-Cookie",
+    cookie.serialize("refreshToken", refreshToken, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60,
     })
