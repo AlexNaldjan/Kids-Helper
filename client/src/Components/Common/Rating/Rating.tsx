@@ -1,9 +1,7 @@
-import Meta from 'antd/es/card/Meta';
 import { ServicesResponse } from '../../../api/services/type';
-import { Card, Rate } from 'antd';
+import { Rate } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
-import Comments from '../Comment/Comment/Comment';
 
 interface OrganizationProps {
   card: ServicesResponse;
@@ -11,7 +9,7 @@ interface OrganizationProps {
   userId: number;
 }
 
-function Organization({
+function Rating({
   card,
   setServices,
   userId,
@@ -36,11 +34,7 @@ function Organization({
     }
   }
   return (
-    <Card
-      style={{ width: '300px', height: '600px' }}
-      cover={<img alt="img" src={card.img} />}
-    >
-      <Meta title={card.title} description={card.description} />
+    <>
       <Rate
         allowHalf
         defaultValue={card.rating}
@@ -48,8 +42,7 @@ function Organization({
         onChange={value => handlerRating(card.id, value)}
       />
       <div>{card.rating}</div>
-      <Comments props={card.id} />
-    </Card>
+    </>
   );
 }
-export default Organization;
+export default Rating;

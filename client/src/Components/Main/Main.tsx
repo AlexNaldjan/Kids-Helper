@@ -35,7 +35,7 @@ function Main(): JSX.Element {
   return (
     <>
       <List
-        itemLayout="vertical"
+        itemLayout="horizontal"
         size="large"
         pagination={{
           onChange: page => {
