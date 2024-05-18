@@ -3,6 +3,7 @@ import { ServicesResponse } from '../../../api/services/type';
 import { Card, Rate } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
+import Comments from '../Comment/Comment/Comment';
 import ModalWindow from '../../Calendar/ModalWindow/ModalWindow';
 import { useState } from 'react';
 import { Moment } from 'moment';
@@ -99,6 +100,8 @@ OrganizationProps): React.ReactElement {
         <button type="button" onClick={handleModalOpen}>
           Добавить в событие
         </button>
+        <div>{card.rating}</div>
+      <Comments props={card.id} />
       </Card>
       <ModalWindow
         dayItem={null}
@@ -108,7 +111,11 @@ OrganizationProps): React.ReactElement {
         isCalendar={false}
         formDataProps={formData}
       />
+
+    
+
     </div>
+
   );
 }
 export default Organization;
