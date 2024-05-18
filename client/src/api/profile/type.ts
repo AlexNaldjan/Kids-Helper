@@ -1,4 +1,5 @@
 export interface Kid {
+  color: string;
   id: number | null;
   name: string;
   age: number;

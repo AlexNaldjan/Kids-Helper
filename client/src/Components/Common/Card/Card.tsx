@@ -35,19 +35,23 @@ function Organization({
     }
   }
   return (
-    <Card
-      style={{ width: '300px', height: '600px' }}
-      cover={<img alt="img" src={card.img} />}
-    >
-      <Meta title={card.title} description={card.description} />
-      <Rate
-        allowHalf
-        defaultValue={card.rating}
-        disabled={!isLoggedIn || Boolean(card.Users.length)}
-        onChange={value => handlerRating(card.id, value)}
-      />
-      <div>{card.rating}</div>
-    </Card>
+    <div className="main-page-card-container">
+      <Card
+        style={{ width: '500px', height: '500px' }}
+        cover={<img alt="img" src={card.img} />}
+      >
+        <Meta title={card.title} description={card.description} />
+        <div className="main-card-content-container">
+          <Rate
+            allowHalf
+            defaultValue={card.rating}
+            disabled={!isLoggedIn || Boolean(card.Users.length)}
+            onChange={value => handlerRating(card.id, value)}
+          />
+          {card.rating}
+        </div>
+      </Card>
+    </div>
   );
 }
 export default Organization;

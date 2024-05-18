@@ -51,6 +51,11 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   // состояния для ховера дня
   const [popoverVisibility, setPopoverVisibility] = useState({});
 
+  const findKidColor = kidId => {
+    const kid = profile.kids.find(kid => kid.id === kidId);
+    return kid ? kid.color : 'transparent'; // возвращаем прозрачный цвет, если ребенок не найден
+  };
+
   const hidePopover = () => {
     setPopoverVisibility(false);
   };
@@ -86,6 +91,9 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
           return acc;
         }, {});
         setEvents(formattedEvents);
+        console.log('formattedevents:', formattedEvents);
+        console.log('events:', result);
+        // setEvents(result);
       } catch (error) {
         console.error('Error fetching events:', error);
       }
@@ -99,6 +107,41 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
     if (dayItem) {
       setSelectedDay(dayItem);
       setIsModalOpen(true);
+    }
+  };
+
+  const deleteEvent = async (id: number | null) => {
+    if (!window.confirm('Вы уверены, что хотите удалить это событие?')) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/profile/events/${id}`,
+        {
+          method: 'DELETE',
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error('Не удалось удалить событие');
+      }
+      console.log('Событие успешно удалено', response);
+
+      const newEvents = await fetch(
+        `http://localhost:3000/api/profile/events?userId=${profile.id}`,
+      );
+      const result = await newEvents.json();
+
+      const formattedEvents = result.reduce((acc, event) => {
+        const eventDay = moment(event.date).format('YYYY-MM-DD');
+        if (!acc[eventDay]) {
+          acc[eventDay] = [];
+        }
+        acc[eventDay].push(event);
+        return acc;
+      }, {});
+      setEvents(formattedEvents);
+    } catch (error) {
+      console.error('Ошибка при удалении события:', error);
     }
   };
 
@@ -181,13 +224,22 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                         <>
                           <div>
                             <div>{event.title}</div>
-                            <Button>Изменить</Button>
-                            <Button>Удалить</Button>
+                            <div>{event.date}</div>
+                            <div>
+                              {profile.kids.find(kid => kid.id === event.kidId)
+                                ?.name || 'Не указан'}
+                            </div>
+                            <div>{event.category}</div>
+                            <div>{event.description}</div>
+
+                            <Button onClick={() => deleteEvent(event.id)}>
+                              Удалить
+                            </Button>
                             <Button onClick={hidePopover}>Закрыть</Button>
                           </div>
                         </>
                       }
-                      title="Title"
+                      title="Детали события"
                       trigger="click"
                       open={popoverVisibility[event.id]} // Управляйте видимостью с помощью id
                       onOpenChange={open =>
@@ -210,6 +262,7 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                                 : event.category === 'Спорт'
                                 ? '#FAFAFA'
                                 : '#EFF2F7',
+                            border: `3px solid ${findKidColor(event.kidId)}`,
                           }}
                         >
                           <p className="short-event-time">
