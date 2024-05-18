@@ -16,6 +16,7 @@ import { Input, Select, Card } from 'antd';
 import type { SearchProps } from 'antd/es/input/Search';
 import ModalWindow from '../Calendar/ModalWindow/ModalWindow';
 import moment, { Moment } from 'moment';
+import { FormData, Event } from '../Calendar/CalendarGrid/CalendarGrid';
 
 const { Search } = Input;
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
@@ -34,15 +35,13 @@ function MapPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const categories = [...new Set(markersData.map(marker => marker.category))];
-  const profile = useSelector(
-    (state: RootState) => state.auth.profileData.profile,
-  );
 
   const [events, setEvents] = useState<Record<string, Event[]>>({});
   // Состояние для видимости модального окна
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   // Состояние для выбора дня
   const [selectedDay, setSelectedDay] = useState<Moment | null>(null);
+  console.log(events);
 
   useEffect(() => {
     async function getSocialServices() {
@@ -185,9 +184,9 @@ function MapPage() {
               />
               <button
                 type="button"
-                onClick={() => handleModalOpen(moment('2024-05-06'))}
+                onClick={() => handleModalOpen(moment('2024-05-23'))}
               >
-                Добавить в события
+                Добавить в событие
               </button>
             </Card>
           </div>
