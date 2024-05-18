@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ServicesResponse } from '../../api/services/type';
 import { List } from 'antd';
 import './main.css';

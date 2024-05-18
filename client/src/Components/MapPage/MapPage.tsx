@@ -12,23 +12,25 @@ import { RootState } from '../../store';
 import { setSelectedMarker } from '../../store/map/mapSlice';
 import { fetchCoordinates } from '../../store/map/mapThunks';
 import { setMarkers } from '../../store/map/markerSlice';
-import { Input, Select, Card } from 'antd';
+import { Input, Select } from 'antd';
 import type { SearchProps } from 'antd/es/input/Search';
-import ModalWindow from '../Calendar/ModalWindow/ModalWindow';
-import moment, { Moment } from 'moment';
-import { FormData, Event } from '../Calendar/CalendarGrid/CalendarGrid';
+
+import Organization from '../Common/Card/Card';
+import { ServicesResponse } from '../../api/services/type';
 
 const { Search } = Input;
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
   console.log(info?.source, value);
-
-const { Meta } = Card;
 
 function MapPage() {
   const markersData = useSelector((state: RootState) => state.markers.markers);
   const selectedMarker = useSelector(
     (state: RootState) => state.map.selectedMarker,
   );
+  const profile = useSelector(
+    (state: RootState) => state.auth.profileData.profile,
+  );
+  const [services, setServices] = useState<ServicesResponse[]>([]);
   const coordinates = useSelector((state: RootState) => state.map.coordinates);
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState<string>('');
@@ -36,12 +38,23 @@ function MapPage() {
 
   const categories = [...new Set(markersData.map(marker => marker.category))];
 
-  const [events, setEvents] = useState<Record<string, Event[]>>({});
-  // Состояние для видимости модального окна
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // Состояние для выбора дня
-  const [selectedDay, setSelectedDay] = useState<Moment | null>(null);
-  console.log(events);
+  useEffect(() => {
+    if (profile) {
+      // eslint-disable-next-line no-inner-declarations
+      async function getSocialServices() {
+        try {
+          const res = await fetch(
+            `http://localhost:3000/api/socialService/${profile.id}`,
+          );
+          const data = await res.json();
+          setServices(data);
+        } catch (error) {
+          console.error('Error fetching social services:', error);
+        }
+      }
+      getSocialServices();
+    }
+  }, [profile]);
 
   useEffect(() => {
     async function getSocialServices() {
@@ -72,7 +85,7 @@ function MapPage() {
     setSelectedCategory(null);
     setInputValue(e.target.value);
   };
-  const filteredMarkers = markersData.filter(marker =>
+  const filteredMarkers = services.filter(marker =>
     marker.title.toLowerCase().includes(inputValue.toLowerCase()),
   );
 
@@ -80,39 +93,9 @@ function MapPage() {
     setSelectedCategory(value);
   };
 
-  const handleModalOpen = (dayItem: Moment | null | undefined) => {
-    if (dayItem) {
-      setSelectedDay(dayItem);
-      setIsModalOpen(true);
-    }
-  };
-
-  const handleAddEvent = (
-    formData: FormData,
-    dayItem: Moment | null | undefined,
-  ) => {
-    if (dayItem !== null && dayItem !== undefined) {
-      const event: Event = {
-        title: formData.title,
-        category: formData.category,
-        description: formData.description,
-        cost: formData.cost,
-        date: formData.date,
-        kidId: formData.kidId,
-        id: null,
-      };
-
-      const dayKey = dayItem.format('YYYY-MM-DD');
-      setEvents(prevEvents => ({
-        ...prevEvents,
-        [dayKey]: [...(prevEvents[dayKey] || []), event],
-      }));
-    }
-  };
-
   const filteredMarkersByCategory = selectedCategory
-    ? markersData.filter(marker => marker.category === selectedCategory)
-    : markersData;
+    ? services.filter(marker => marker.category === selectedCategory)
+    : services;
 
   return (
     <div className="map">
@@ -169,56 +152,34 @@ function MapPage() {
         </div>
         {selectedMarker !== null && (
           <div className="marker-info">
-            <Card
-              style={{ width: 200 }}
-              cover={
-                <img
-                  alt={markersData[selectedMarker].img}
-                  src={markersData[selectedMarker].img}
-                />
-              }
-            >
-              <Meta
-                title={markersData[selectedMarker].title}
-                //description={markersData[selectedMarker].description}
-              />
-              <button
-                type="button"
-                onClick={() => handleModalOpen(moment('2024-05-23'))}
-              >
-                Добавить в событие
-              </button>
-            </Card>
+            <Organization
+              key={markersData[selectedMarker].id}
+              card={markersData[selectedMarker]}
+              setServices={setServices}
+              userId={profile.id}
+            />
           </div>
         )}
         <div className="marker-wrap">
           {selectedCategory !== null
             ? filteredMarkersByCategory.map(marker => (
-                <Card
+                <Organization
                   key={marker.id}
-                  style={{ width: 300, marginBottom: 20 }}
-                  cover={<img alt={marker.img} src={marker.img} />}
-                >
-                  <Meta title={marker.title} description={marker.description} />
-                </Card>
+                  card={marker}
+                  setServices={setServices}
+                  userId={profile.id}
+                />
               ))
             : filteredMarkers.map(marker => (
-                <Card
+                <Organization
                   key={marker.id}
-                  style={{ width: '300px', height: '600px' }}
-                  cover={<img alt={marker.img} src={marker.img} />}
-                >
-                  <Meta title={marker.title} description={marker.description} />
-                </Card>
+                  card={marker}
+                  setServices={setServices}
+                  userId={profile.id}
+                />
               ))}
         </div>
       </div>
-      <ModalWindow
-        dayItem={selectedDay}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        handleAddEvent={handleAddEvent}
-      />
     </div>
   );
 }

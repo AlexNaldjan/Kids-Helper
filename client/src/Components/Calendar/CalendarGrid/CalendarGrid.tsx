@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
 import './CalendarGrid.css';
 import { Button, Popover } from 'antd';
@@ -18,6 +19,7 @@ export interface FormData {
   category: string;
   description: string;
   cost: number;
+  time: string;
   date: string | number;
   kidId: number | undefined | null;
 }
@@ -34,6 +36,7 @@ export interface Event {
 
 function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   const totalDays = 42;
+  const isCalendar = true;
 
   const daysArray = Array.from({ length: totalDays }, (_, index) =>
     startDay.clone().add(index, 'days'),
@@ -49,24 +52,24 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   // Состояние для выбора дня
   const [selectedDay, setSelectedDay] = useState<Moment | null>(null);
   // состояния для ховера дня
-  const [popoverVisibility, setPopoverVisibility] = useState({});
+  const [popoverVisibility, setPopoverVisibility] = useState<
+    Record<number, boolean>
+  >({});
 
   const findKidColor = kidId => {
     const kid = profile.kids.find(kid => kid.id === kidId);
     return kid ? kid.color : 'transparent'; // возвращаем прозрачный цвет, если ребенок не найден
   };
 
-  const hidePopover = () => {
-    setPopoverVisibility(false);
+  const hidePopover = (eventId: number) => {
+    setPopoverVisibility(prev => ({ ...prev, [eventId]: false }));
   };
 
   const handleOpenPopoverChange = (newOpen: boolean, eventId: number) => {
-    if (eventId) {
-      setPopoverVisibility(prev => ({
-        ...prev,
-        [eventId]: newOpen,
-      }));
-    }
+    setPopoverVisibility(prev => ({
+      ...prev,
+      [eventId]: newOpen,
+    }));
   };
 
   const iscurrentDay = (day: Moment): boolean => moment().isSame(day, 'day');
@@ -82,7 +85,7 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
         );
         const result = await response.json();
 
-        const formattedEvents = result.reduce((acc, event) => {
+        const formattedEvents = result.reduce((acc: any, event: any) => {
           const eventDay = moment(event.date).format('YYYY-MM-DD');
           if (!acc[eventDay]) {
             acc[eventDay] = [];
@@ -91,9 +94,6 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
           return acc;
         }, {});
         setEvents(formattedEvents);
-        console.log('formattedevents:', formattedEvents);
-        console.log('events:', result);
-        // setEvents(result);
       } catch (error) {
         console.error('Error fetching events:', error);
       }
@@ -155,7 +155,10 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
         category: formData.category,
         description: formData.description,
         cost: formData.cost,
-        date: formData.date,
+        date: moment(
+          `${formData.date} ${formData.time}`,
+          'YYYY-MM-DD HH:mm',
+        ).toISOString(),
         kidId: formData.kidId,
         id: null,
       };
@@ -218,64 +221,69 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                   ></img>
                 </Button>
                 <div className="short-events-wrapper">
-                  {dayEvents.map(event => (
-                    <Popover
-                      content={
-                        <>
-                          <div>
-                            <div>{event.title}</div>
-                            <div>{event.date}</div>
+                  {dayEvents.map(event => {
+                    const eventId =
+                      event.id !== null ? event.id : dayItem.unix();
+                    return (
+                      <Popover
+                        key={eventId}
+                        content={
+                          <>
                             <div>
-                              {profile.kids.find(kid => kid.id === event.kidId)
-                                ?.name || 'Не указан'}
+                              <div>{event.title}</div>
+                              <div>{event.date}</div>
+                              <div>
+                                {profile.kids.find(
+                                  kid => kid.id === event.kidId,
+                                )?.name || 'Не указан'}
+                              </div>
+                              <div>{event.category}</div>
+                              <div>{event.description}</div>
+                              <Button>Удалить</Button>
+                              <Button onClick={() => hidePopover(eventId)}>
+                                Закрыть
+                              </Button>
                             </div>
-                            <div>{event.category}</div>
-                            <div>{event.description}</div>
-
-                            <Button onClick={() => deleteEvent(event.id)}>
-                              Удалить
-                            </Button>
-                            <Button onClick={hidePopover}>Закрыть</Button>
+                          </>
+                        }
+                        title="Title"
+                        trigger="click"
+                        open={popoverVisibility[eventId]} // Управляйте видимостью с помощью id
+                        onOpenChange={open =>
+                          handleOpenPopoverChange(open, eventId)
+                        }
+                      >
+                        <div key={event.id} className="short-event">
+                          <div
+                            className="short-event-container"
+                            style={{
+                              backgroundColor:
+                                event.category === 'Медицина'
+                                  ? '#CBE5F8'
+                                  : event.category === 'Досуг'
+                                  ? '#EFFF9E'
+                                  : event.category === 'Образование'
+                                  ? '#F9B1B1'
+                                  : event.category === 'Развлечения'
+                                  ? '#EAC7FF'
+                                  : event.category === 'Спорт'
+                                  ? '#FAFAFA'
+                                  : '#EFF2F7',
+                              border: `3px solid ${findKidColor(event.kidId)}`,
+                            }}
+                          >
+                            <p className="short-event-time">
+                              {moment(event.time).format('HH:mm')}
+                            </p>
+                            <p className="short-event-title">{event.title}</p>
+                            <p className="short-event-category">
+                              {event.category}
+                            </p>
                           </div>
-                        </>
-                      }
-                      title="Детали события"
-                      trigger="click"
-                      open={popoverVisibility[event.id]} // Управляйте видимостью с помощью id
-                      onOpenChange={open =>
-                        handleOpenPopoverChange(open, event.id)
-                      }
-                    >
-                      <div key={event.id} className="short-event">
-                        <div
-                          className="short-event-container"
-                          style={{
-                            backgroundColor:
-                              event.category === 'Медицина'
-                                ? '#CBE5F8'
-                                : event.category === 'Досуг'
-                                ? '#EFFF9E'
-                                : event.category === 'Образование'
-                                ? '#F9B1B1'
-                                : event.category === 'Развлечения'
-                                ? '#EAC7FF'
-                                : event.category === 'Спорт'
-                                ? '#FAFAFA'
-                                : '#EFF2F7',
-                            border: `3px solid ${findKidColor(event.kidId)}`,
-                          }}
-                        >
-                          <p className="short-event-time">
-                            {moment(event.date).format('HH:mm')}
-                          </p>
-                          <p className="short-event-title">{event.title}</p>
-                          <p className="short-event-category">
-                            {event.category}
-                          </p>
                         </div>
-                      </div>
-                    </Popover>
-                  ))}
+                      </Popover>
+                    );
+                  })}
                 </div>
 
                 {!iscurrentDay(dayItem) && (
@@ -297,6 +305,8 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         handleAddEvent={handleAddEvent}
+        isCalendar={isCalendar}
+        formDataProps={null}
       />
     </>
   );
