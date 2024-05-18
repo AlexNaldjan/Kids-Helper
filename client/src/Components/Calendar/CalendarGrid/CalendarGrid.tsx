@@ -22,7 +22,7 @@ export interface FormData {
   kidId: number | undefined | null;
 }
 
-interface Event {
+export interface Event {
   id: number | null;
   title: string;
   category: string;
@@ -56,18 +56,18 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   };
 
   const handleOpenPopoverChange = (newOpen: boolean, eventId: number) => {
-    setPopoverVisibility(prev => ({
-      ...prev,
-      [eventId]: newOpen,
-    }));
+    if (eventId) {
+      setPopoverVisibility(prev => ({
+        ...prev,
+        [eventId]: newOpen,
+      }));
+    }
   };
 
   const iscurrentDay = (day: Moment): boolean => moment().isSame(day, 'day');
 
   const isCurrentMonth = (day: Moment): boolean =>
     moment().isSame(day, 'month');
-
-  console.log('121212', events);
 
   useEffect(() => {
     async function fetchData() {
@@ -86,9 +86,6 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
           return acc;
         }, {});
         setEvents(formattedEvents);
-        console.log('formattedevents:', formattedEvents);
-        console.log('events:', result);
-        // setEvents(result);
       } catch (error) {
         console.error('Error fetching events:', error);
       }

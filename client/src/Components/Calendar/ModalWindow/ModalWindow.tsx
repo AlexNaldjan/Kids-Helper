@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Modal } from 'antd';
+import { Modal, DatePicker, TimePicker, Select } from 'antd';
 import { Moment } from 'moment';
 import './ModalWindow.css';
 import { FormData } from '../CalendarGrid/CalendarGrid';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { getProfile } from '../../../store/auth/actionCreators';
 import { RootState } from '../../../store';
 import moment from 'moment';
+
+const { Option } = Select;
 
 interface ModalWindowProps {
   dayItem: Moment | null | undefined;
@@ -23,8 +24,8 @@ function ModalWindow({
   dayItem,
   isModalOpen,
   setIsModalOpen,
-}: // handleAddEvent,
-ModalWindowProps): JSX.Element {
+  handleAddEvent,
+}: ModalWindowProps): JSX.Element {
   const [formData, setFormData] = useState<FormData>({
     title: '',
     description: '',
@@ -33,7 +34,6 @@ ModalWindowProps): JSX.Element {
     date: '',
     kidId: null,
   });
-  // const [kidId, setKidId] = useState<number>(0);
 
   const dispatch = useDispatch();
   const profile = useSelector(
@@ -48,7 +48,7 @@ ModalWindowProps): JSX.Element {
     if (profile && profile.kids.length > 0) {
       setFormData(prevFormData => ({
         ...prevFormData,
-        kidId: profile.kids[0].id, // Устанавливаем kidId первого ребенка в профиле
+        kidId: profile.kids[0].id,
       }));
     }
   }, [profile]);
@@ -58,26 +58,46 @@ ModalWindowProps): JSX.Element {
       HTMLTextAreaElement | HTMLSelectElement | HTMLInputElement
     >,
   ): void => {
-    e.preventDefault();
     const { name, value } = e.target;
-    if (name === 'date' && dayItem) {
-      // Объединяем dayItem и время из формы в одну дату
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleDateChange = (date: Moment | null) => {
+    setFormData(prev => ({
+      ...prev,
+      date: date ? date.toISOString() : '',
+    }));
+  };
+
+  const handleTimeChange = (time: Moment | null) => {
+    if (time && dayItem) {
       const combinedDateTime = dayItem
         .clone()
         .set({
-          hour: parseInt(value.split(':')[0], 10),
-          minute: parseInt(value.split(':')[1], 10),
+          hour: time.hour(),
+          minute: time.minute(),
         })
         .toISOString();
 
       setFormData(prev => ({
         ...prev,
-        [name]: combinedDateTime,
+        date: combinedDateTime,
       }));
-    } else {
+    } else if (time) {
+      const currentDate = moment();
+      const combinedDateTime = currentDate
+        .set({
+          hour: time.hour(),
+          minute: time.minute(),
+        })
+        .toISOString();
+
       setFormData(prev => ({
         ...prev,
-        [name]: value,
+        date: combinedDateTime,
       }));
     }
   };
@@ -106,7 +126,8 @@ ModalWindowProps): JSX.Element {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Ошибка при создании события');
       }
-
+      const newEvent = await response.json();
+      handleAddEvent(newEvent, dayItem);
       setIsModalOpen(false); // Закрыть модальное окно после успешного создания
     } catch (error) {
       console.error('Error while creating an event:', error);
@@ -115,7 +136,7 @@ ModalWindowProps): JSX.Element {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addEvent(); // Вызов функции добавления события
+    addEvent();
   };
 
   const handleCancel = () => {
@@ -130,130 +151,132 @@ ModalWindowProps): JSX.Element {
       onOk={addEvent}
       key={dayItem ? dayItem.unix() : undefined}
     >
-      {dayItem && (
-        <form className="event-form" onSubmit={handleSubmit}>
+      <form className="event-form" onSubmit={handleSubmit}>
+        <label className="input-label">
+          <span className="input-title">Название:</span>
+          <input
+            className="input"
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleInputChange}
+          />
+        </label>
+        <label className="input-label">
+          <span className="input-title">Время:</span>
+          <TimePicker
+            value={formData.date ? moment(formData.date) : null}
+            onChange={handleTimeChange}
+            format="HH:mm"
+          />
+        </label>
+        {!dayItem && (
           <label className="input-label">
-            <span className="input-title">Название:</span>
-            <input
-              className="input"
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleInputChange}
+            <span className="input-title">Дата:</span>
+            <DatePicker
+              value={formData.date ? moment(formData.date) : null}
+              onChange={handleDateChange}
+              format="YYYY-MM-DD"
             />
           </label>
-          <label className="input-label">
-            <span className="input-title">Время:</span>
-            <input
-              className="input"
-              type="time"
-              name="date"
-              value={formData.date ? moment(formData.date).format('HH:mm') : ''}
-              onChange={handleInputChange}
-            />
-          </label>
-          <fieldset className="radio-set">
-            <legend className="visually-hidden">Категории:</legend>
-            <div className="radio-container">
-              <label className="radio-label">
-                <input
-                  className="radio"
-                  type="radio"
-                  name="category"
-                  value="Медицина"
-                  checked={formData.category === 'Медицина'}
-                  onChange={handleInputChange}
-                />
-                <span className="radio-title">Медицина</span>
-              </label>
-              <label className="radio-label">
-                <input
-                  className="radio"
-                  type="radio"
-                  name="category"
-                  value="Досуг"
-                  checked={formData.category === 'Досуг'}
-                  onChange={handleInputChange}
-                />
-                <span className="radio-title">Досуг</span>
-              </label>
-              <label className="radio-label">
-                <input
-                  className="radio"
-                  type="radio"
-                  name="category"
-                  value="Образование"
-                  checked={formData.category === 'Образование'}
-                  onChange={handleInputChange}
-                />
-                <span className="radio-title">Образование</span>
-              </label>
-              <label className="radio-label">
-                <input
-                  className="radio"
-                  type="radio"
-                  name="category"
-                  value="Спорт"
-                  checked={formData.category === 'Спорт'}
-                  onChange={handleInputChange}
-                />
-                <span className="radio-title">Спорт</span>
-              </label>
-              <label className="radio-label">
-                <input
-                  className="radio"
-                  type="radio"
-                  name="category"
-                  value="Развлечения"
-                  checked={formData.category === 'Развлечения'}
-                  onChange={handleInputChange}
-                />
-                <span className="radio-title">Развлечения</span>
-              </label>
-            </div>
-          </fieldset>
-          <label className="input-label">
-            <span className="input-title">Стоимость:</span>
-            <input
-              className="input"
-              type="number"
-              name="cost"
-              value={formData.cost}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label className="input-label">
-            <span className="input-title">Описание:</span>
-            <textarea
-              className="input input-textarea"
-              name="description"
-              value={formData.description}
-              onChange={handleInputChange}
-            ></textarea>
-          </label>
-          <label className="input-label">
-            <span className="input-title">Ребенок:</span>
-            <label className="input-label">
-              <select
-                className="input"
+        )}
+        <fieldset className="radio-set">
+          <legend className="visually-hidden">Категории:</legend>
+          <div className="radio-container">
+            <label className="radio-label">
+              <input
+                className="radio"
+                type="radio"
+                name="category"
+                value="Медицина"
+                checked={formData.category === 'Медицина'}
                 onChange={handleInputChange}
-                name="kidId"
-                value={Number(formData.kidId)}
-              >
-                <option value="" disabled>
-                  Выберите ребенка
-                </option>
-                {profile.kids.map(kid => (
-                  <option key={kid.id} value={kid.id}>
-                    {kid.name}
-                  </option>
-                ))}
-              </select>
+              />
+              <span className="radio-title">Медицина</span>
             </label>
-          </label>
-          <button type="submit">Создать Событие</button>
-        </form>
-      )}
+            <label className="radio-label">
+              <input
+                className="radio"
+                type="radio"
+                name="category"
+                value="Досуг"
+                checked={formData.category === 'Досуг'}
+                onChange={handleInputChange}
+              />
+              <span className="radio-title">Досуг</span>
+            </label>
+            <label className="radio-label">
+              <input
+                className="radio"
+                type="radio"
+                name="category"
+                value="Образование"
+                checked={formData.category === 'Образование'}
+                onChange={handleInputChange}
+              />
+              <span className="radio-title">Образование</span>
+            </label>
+            <label className="radio-label">
+              <input
+                className="radio"
+                type="radio"
+                name="category"
+                value="Спорт"
+                checked={formData.category === 'Спорт'}
+                onChange={handleInputChange}
+              />
+              <span className="radio-title">Спорт</span>
+            </label>
+            <label className="radio-label">
+              <input
+                className="radio"
+                type="radio"
+                name="category"
+                value="Развлечения"
+                checked={formData.category === 'Развлечения'}
+                onChange={handleInputChange}
+              />
+              <span className="radio-title">Развлечения</span>
+            </label>
+          </div>
+        </fieldset>
+        <label className="input-label">
+          <span className="input-title">Стоимость:</span>
+          <input
+            className="input"
+            type="number"
+            name="cost"
+            value={formData.cost}
+            onChange={handleInputChange}
+          />
+        </label>
+        <label className="input-label">
+          <span className="input-title">Описание:</span>
+          <textarea
+            className="input input-textarea"
+            name="description"
+            value={formData.description}
+            onChange={handleInputChange}
+          ></textarea>
+        </label>
+        <label className="input-label">
+          <span className="input-title">Ребенок:</span>
+          <Select
+            className="input"
+            onChange={(value: number) =>
+              setFormData(prev => ({ ...prev, kidId: value }))
+            }
+            value={formData.kidId}
+          >
+            {profile.kids.map(kid => (
+              <Option key={kid.id} value={kid.id}>
+                {kid.name}
+              </Option>
+            ))}
+          </Select>
+        </label>
+        <button type="submit">Создать Событие</button>
+      </form>
     </Modal>
   );
 }
