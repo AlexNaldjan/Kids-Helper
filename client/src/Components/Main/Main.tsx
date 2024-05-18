@@ -33,27 +33,30 @@ function Main(): JSX.Element {
   }, [profile]);
 
   return (
-    <List
-      itemLayout="vertical"
-      size="large"
-      pagination={{
-        onChange: page => {
-          console.log(page);
-        },
-        pageSize: 3,
-      }}
-      dataSource={services}
-      renderItem={item => (
-        <>
-          <Organization
-            key={item.id}
-            card={item}
-            setServices={setServices}
-            userId={userId}
-          />
-        </>
-      )}
-    />
+    <>
+      <List
+        className="card-row-container"
+        itemLayout="vertical"
+        size="large"
+        pagination={{
+          onChange: page => {
+            console.log(page);
+          },
+          pageSize: 3,
+        }}
+        dataSource={services}
+        renderItem={item => (
+          <>
+            <Organization
+              key={item.id}
+              card={item}
+              setServices={setServices}
+              userId={userId}
+            />
+          </>
+        )}
+      />
+    </>
   );
 }
 

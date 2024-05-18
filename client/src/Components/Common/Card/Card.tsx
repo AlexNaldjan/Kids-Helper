@@ -82,12 +82,13 @@ OrganizationProps): React.ReactElement {
   };
 
   return (
-    <>
+    <div className="main-page-card-container">
       <Card
         style={{ width: '300px', height: '600px' }}
         cover={<img alt="img" src={card.img} />}
       >
         <Meta title={card.title} description={card.description} />
+        <div className="main-card-content-container"></div>
         <Rate
           allowHalf
           defaultValue={card.rating}
@@ -107,7 +108,7 @@ OrganizationProps): React.ReactElement {
         isCalendar={false}
         formDataProps={formData}
       />
-    </>
+    </div>
   );
 }
 export default Organization;

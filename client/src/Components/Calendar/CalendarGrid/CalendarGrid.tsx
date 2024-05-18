@@ -56,6 +56,11 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
     Record<number, boolean>
   >({});
 
+  const findKidColor = kidId => {
+    const kid = profile.kids.find(kid => kid.id === kidId);
+    return kid ? kid.color : 'transparent'; // возвращаем прозрачный цвет, если ребенок не найден
+  };
+
   const hidePopover = (eventId: number) => {
     setPopoverVisibility(prev => ({ ...prev, [eventId]: false }));
   };
@@ -102,6 +107,41 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
     if (dayItem) {
       setSelectedDay(dayItem);
       setIsModalOpen(true);
+    }
+  };
+
+  const deleteEvent = async (id: number | null) => {
+    if (!window.confirm('Вы уверены, что хотите удалить это событие?')) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/profile/events/${id}`,
+        {
+          method: 'DELETE',
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error('Не удалось удалить событие');
+      }
+      console.log('Событие успешно удалено', response);
+
+      const newEvents = await fetch(
+        `http://localhost:3000/api/profile/events?userId=${profile.id}`,
+      );
+      const result = await newEvents.json();
+
+      const formattedEvents = result.reduce((acc, event) => {
+        const eventDay = moment(event.date).format('YYYY-MM-DD');
+        if (!acc[eventDay]) {
+          acc[eventDay] = [];
+        }
+        acc[eventDay].push(event);
+        return acc;
+      }, {});
+      setEvents(formattedEvents);
+    } catch (error) {
+      console.error('Ошибка при удалении события:', error);
     }
   };
 
@@ -191,6 +231,14 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                           <>
                             <div>
                               <div>{event.title}</div>
+                              <div>{event.date}</div>
+                              <div>
+                                {profile.kids.find(
+                                  kid => kid.id === event.kidId,
+                                )?.name || 'Не указан'}
+                              </div>
+                              <div>{event.category}</div>
+                              <div>{event.description}</div>
                               <Button>Удалить</Button>
                               <Button onClick={() => hidePopover(eventId)}>
                                 Закрыть
@@ -221,10 +269,11 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                                   : event.category === 'Спорт'
                                   ? '#FAFAFA'
                                   : '#EFF2F7',
+                              border: `3px solid ${findKidColor(event.kidId)}`,
                             }}
                           >
                             <p className="short-event-time">
-                              {moment(event.date).format('HH:mm')}
+                              {moment(event.time).format('HH:mm')}
                             </p>
                             <p className="short-event-title">{event.title}</p>
                             <p className="short-event-category">

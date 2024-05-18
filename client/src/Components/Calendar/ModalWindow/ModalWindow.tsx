@@ -272,6 +272,7 @@ function ModalWindow({
             onChange={handleInputChange}
           ></textarea>
         </label>
+
         <label className="input-label">
           <span className="input-title">Ребенок:</span>
           <Select
@@ -288,6 +289,7 @@ function ModalWindow({
             ))}
           </Select>
         </label>
+
         <button type="submit">Создать Событие</button>
       </form>
     </Modal>
