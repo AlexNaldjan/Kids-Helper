@@ -7,34 +7,67 @@ import {
 
 import './MapPage.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { RootState } from '../../store';
-import { Card } from 'antd';
 import { setSelectedMarker } from '../../store/map/mapSlice';
 import { fetchCoordinates } from '../../store/map/mapThunks';
 import { setMarkers } from '../../store/map/markerSlice';
-import api from '../../api';
-import { Flex, Layout } from 'antd';
+import { Input, Select } from 'antd';
+import type { SearchProps } from 'antd/es/input/Search';
 
-const { Sider, Content } = Layout;
+import Organization from '../Common/Card/Card';
+import { ServicesResponse } from '../../api/services/type';
 
-const { Meta } = Card;
+const { Search } = Input;
+const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
+  console.log(info?.source, value);
 
 function MapPage() {
   const markersData = useSelector((state: RootState) => state.markers.markers);
   const selectedMarker = useSelector(
     (state: RootState) => state.map.selectedMarker,
   );
+  const profile = useSelector(
+    (state: RootState) => state.auth.profileData.profile,
+  );
+  const [services, setServices] = useState<ServicesResponse[]>([]);
   const coordinates = useSelector((state: RootState) => state.map.coordinates);
   const dispatch = useDispatch();
+  const [inputValue, setInputValue] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const categories = [...new Set(markersData.map(marker => marker.category))];
+
+  useEffect(() => {
+    if (profile) {
+      // eslint-disable-next-line no-inner-declarations
+      async function getSocialServices() {
+        try {
+          const res = await fetch(
+            `http://localhost:3000/api/socialService/${profile.id}`,
+          );
+          const data = await res.json();
+          setServices(data);
+        } catch (error) {
+          console.error('Error fetching social services:', error);
+        }
+      }
+      getSocialServices();
+    }
+  }, [profile]);
 
   useEffect(() => {
     async function getSocialServices() {
-      const res = await api.services.getServices();
-      dispatch(setMarkers(res.data));
+      try {
+        const res = await fetch('http://localhost:3000/api/socialService');
+        const data = await res.json();
+        dispatch(setMarkers(data));
+      } catch (error) {
+        console.error('Error fetching social services:', error);
+      }
     }
     getSocialServices();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchCoordinates(markersData));
@@ -48,60 +81,106 @@ function MapPage() {
     dispatch(setSelectedMarker(null));
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedCategory(null);
+    setInputValue(e.target.value);
+  };
+  const filteredMarkers = services.filter(marker =>
+    marker.title.toLowerCase().includes(inputValue.toLowerCase()),
+  );
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
+  };
+
+  const filteredMarkersByCategory = selectedCategory
+    ? services.filter(marker => marker.category === selectedCategory)
+    : services;
+
   return (
-    <Flex gap="middle" wrap>
-      <Content>
-        <div className="map-page">
-          <div className="map-container">
-            <YMaps query={{ lang: 'ru_RU' }}>
-              <div style={{ width: '600px', height: '600px' }}>
-                <Map
-                  defaultState={{
-                    center: [55.796, 37.541],
-                    zoom: 9,
-                    controls: [],
-                  }}
-                  style={{ width: '100%', height: '600px' }}
-                  onClick={handleMapClick}
-                >
-                  {coordinates.map((coordinate, index) => (
-                    <Placemark
-                      key={markersData[index].id}
-                      geometry={coordinate}
-                      options={{
-                        preset: 'islands#icon',
-                        iconColor: '#ff0000',
-                      }}
-                      onClick={() => handleMarkerClick(index)}
-                    />
-                  ))}
-                  <FullscreenControl />
-                </Map>
-              </div>
-            </YMaps>
-          </div>
-          {selectedMarker !== null && (
-            <div className="marker-info">
-              <Card
-                style={{ width: 300 }}
-                cover={
-                  <img
-                    alt={markersData[selectedMarker].img}
-                    src={markersData[selectedMarker].img}
-                  />
-                }
+    <div className="map">
+      <div className="search">
+        <Select
+          placeholder="Выберите категорию"
+          style={{ width: 200, marginRight: 10 }}
+          onChange={handleCategoryChange}
+        >
+          {categories.map(category => (
+            <Select.Option key={category} value={category}>
+              {category}
+            </Select.Option>
+          ))}
+        </Select>
+
+        <Search
+          placeholder="input search text"
+          allowClear
+          enterButton="Search"
+          size="large"
+          onSearch={onSearch}
+          onChange={handleSearchChange}
+        />
+      </div>
+      <div className="map-page">
+        <div className="map-container">
+          <YMaps query={{ lang: 'ru_RU' }}>
+            <div style={{ width: '800px', height: '600px' }}>
+              <Map
+                defaultState={{
+                  center: [55.796, 37.541],
+                  zoom: 9,
+                  controls: [],
+                }}
+                style={{ width: '100%', height: '600px' }}
+                onClick={handleMapClick}
               >
-                <Meta
-                  title={markersData[selectedMarker].title}
-                  description={markersData[selectedMarker].description}
-                />
-              </Card>
+                {coordinates.map((coordinate, index) => (
+                  <Placemark
+                    key={markersData[index].id}
+                    geometry={coordinate}
+                    options={{
+                      preset: 'islands#icon',
+                      iconColor: '#ff0000',
+                    }}
+                    onClick={() => handleMarkerClick(index)}
+                  />
+                ))}
+                <FullscreenControl />
+              </Map>
             </div>
-          )}
+          </YMaps>
         </div>
-      </Content>
-      <Sider>Sider</Sider>
-    </Flex>
+        {selectedMarker !== null && (
+          <div className="marker-info">
+            <Organization
+              key={markersData[selectedMarker].id}
+              card={markersData[selectedMarker]}
+              setServices={setServices}
+              userId={profile.id}
+            />
+          </div>
+        )}
+        <div className="marker-wrap">
+          {selectedCategory !== null
+            ? filteredMarkersByCategory.map(marker => (
+                <Organization
+                  key={marker.id}
+                  card={marker}
+                  setServices={setServices}
+                  userId={profile.id}
+                />
+              ))
+            : filteredMarkers.map(marker => (
+                <Organization
+                  key={marker.id}
+                  card={marker}
+                  setServices={setServices}
+                  userId={profile.id}
+                />
+              ))}
+        </div>
+      </div>
+    </div>
   );
 }
 

@@ -1,8 +1,11 @@
-import { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect } from 'react';
 import './CalendarGrid.css';
-import { Button } from 'antd';
+import { Button, Popover } from 'antd';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import moment, { Moment } from 'moment';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
 
 interface CalendarGridProps {
   startDay: Moment;
@@ -16,22 +19,30 @@ export interface FormData {
   category: string;
   description: string;
   cost: number;
-  date: number;
+  time: string;
+  date: string | number;
+  kidId: number | undefined | null;
 }
 
-interface Event {
+export interface Event {
+  id: number | null;
   title: string;
   category: string;
   description: string;
   cost: number;
-  date: number;
+  date: string | number | null;
+  kidId: number | null | undefined;
 }
 
 function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   const totalDays = 42;
+  const isCalendar = true;
 
   const daysArray = Array.from({ length: totalDays }, (_, index) =>
     startDay.clone().add(index, 'days'),
+  );
+  const profile = useSelector(
+    (state: RootState) => state.auth.profileData.profile,
   );
 
   // Состояние для массива событий
@@ -39,14 +50,54 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   // Состояние для видимости модального окна
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   // Состояние для выбора дня
-  const [selectedDay, setSelectedDay] = useState<Moment | null>();
+  const [selectedDay, setSelectedDay] = useState<Moment | null>(null);
+  // состояния для ховера дня
+  const [popoverVisibility, setPopoverVisibility] = useState<
+    Record<number, boolean>
+  >({});
+
+  const hidePopover = (eventId: number) => {
+    setPopoverVisibility(prev => ({ ...prev, [eventId]: false }));
+  };
+
+  const handleOpenPopoverChange = (newOpen: boolean, eventId: number) => {
+    setPopoverVisibility(prev => ({
+      ...prev,
+      [eventId]: newOpen,
+    }));
+  };
 
   const iscurrentDay = (day: Moment): boolean => moment().isSame(day, 'day');
 
   const isCurrentMonth = (day: Moment): boolean =>
     moment().isSame(day, 'month');
 
-  // Создание обработчика с помощью useCallback
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/profile/events?userId=${profile.id}`,
+        );
+        const result = await response.json();
+
+        const formattedEvents = result.reduce((acc: any, event: any) => {
+          const eventDay = moment(event.date).format('YYYY-MM-DD');
+          if (!acc[eventDay]) {
+            acc[eventDay] = [];
+          }
+          acc[eventDay].push(event);
+          return acc;
+        }, {});
+        setEvents(formattedEvents);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    }
+    if (profile && profile.id) {
+      fetchData();
+    }
+  }, [profile]);
+
   const handleModalOpen = (dayItem: Moment | null | undefined) => {
     if (dayItem) {
       setSelectedDay(dayItem);
@@ -54,19 +105,22 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
     }
   };
 
-  //
-
   const handleAddEvent = (
     formData: FormData,
     dayItem: Moment | null | undefined,
   ) => {
-    if (dayItem) {
+    if (dayItem !== null && dayItem !== undefined) {
       const event: Event = {
         title: formData.title,
         category: formData.category,
         description: formData.description,
         cost: formData.cost,
-        date: formData.date,
+        date: moment(
+          `${formData.date} ${formData.time}`,
+          'YYYY-MM-DD HH:mm',
+        ).toISOString(),
+        kidId: formData.kidId,
+        id: null,
       };
 
       const dayKey = dayItem.format('YYYY-MM-DD');
@@ -82,7 +136,7 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
       <div className="calendar-grid-wrapper">
         {/* мапим дни недели */}
         {[...Array(7)].map((_, index) => (
-          <div className="weekday-calendar-day">
+          <div className="weekday-calendar-day" key={index}>
             {moment()
               .day(index % 7)
               .format('ddd')}
@@ -92,10 +146,8 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
         {daysArray.map(dayItem => {
           // Определение, является ли день выходным
           const isWeekend = dayItem.day() === 6 || dayItem.day() === 0;
-
           const dayKey = dayItem.format('YYYY-MM-DD');
           const dayEvents = events[dayKey] || [];
-          // console.log(dayEvents);
 
           // Стилизация ячейки дня
           const dayStyle = {
@@ -113,12 +165,11 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
           };
 
           return (
-            <div className="calendar-num-button">
-              <div
-                className="calendar-day"
-                key={dayItem ? dayItem.unix() : undefined}
-                style={dayStyle}
-              >
+            <div
+              className="calendar-num-button"
+              key={dayItem ? dayItem.unix() : undefined}
+            >
+              <div className="calendar-day" style={dayStyle}>
                 <Button
                   type="primary"
                   onClick={() => handleModalOpen(dayItem)}
@@ -130,27 +181,60 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                   ></img>
                 </Button>
                 <div className="short-events-wrapper">
-                  {dayEvents.map((event, index) => (
-                    <div key={index} className="short-event">
-                      <div
-                        className="short-event-container"
-                        style={{
-                          backgroundColor:
-                            event.category === 'Медицина'
-                              ? '#CBE5F8'
-                              : '#EFF2F7' && event.category === 'Досуг'
-                              ? '#EFFF9E'
-                              : '#EFF2F7' && event.category === 'Образование'
-                              ? '#F9B1B1'
-                              : '#EFF2F7',
-                        }}
+                  {dayEvents.map(event => {
+                    const eventId =
+                      event.id !== null ? event.id : dayItem.unix();
+                    return (
+                      <Popover
+                        key={eventId}
+                        content={
+                          <>
+                            <div>
+                              <div>{event.title}</div>
+                              <Button>Удалить</Button>
+                              <Button onClick={() => hidePopover(eventId)}>
+                                Закрыть
+                              </Button>
+                            </div>
+                          </>
+                        }
+                        title="Title"
+                        trigger="click"
+                        open={popoverVisibility[eventId]} // Управляйте видимостью с помощью id
+                        onOpenChange={open =>
+                          handleOpenPopoverChange(open, eventId)
+                        }
                       >
-                        <p className="short-event-time">{event.date}</p>
-                        <p className="short-event-title">{event.title}</p>
-                        <p className="short-event-category">{event.category}</p>
-                      </div>
-                    </div>
-                  ))}
+                        <div key={event.id} className="short-event">
+                          <div
+                            className="short-event-container"
+                            style={{
+                              backgroundColor:
+                                event.category === 'Медицина'
+                                  ? '#CBE5F8'
+                                  : event.category === 'Досуг'
+                                  ? '#EFFF9E'
+                                  : event.category === 'Образование'
+                                  ? '#F9B1B1'
+                                  : event.category === 'Развлечения'
+                                  ? '#EAC7FF'
+                                  : event.category === 'Спорт'
+                                  ? '#FAFAFA'
+                                  : '#EFF2F7',
+                            }}
+                          >
+                            <p className="short-event-time">
+                              {moment(event.date).format('HH:mm')}
+                            </p>
+                            <p className="short-event-title">{event.title}</p>
+                            <p className="short-event-category">
+                              {event.category}
+                            </p>
+                          </div>
+                        </div>
+                      </Popover>
+                    );
+                  })}
                 </div>
 
                 {!iscurrentDay(dayItem) && (
@@ -172,6 +256,8 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         handleAddEvent={handleAddEvent}
+        isCalendar={isCalendar}
+        formDataProps={null}
       />
     </>
   );

@@ -9,7 +9,7 @@ export const fetchCoordinates = createAsyncThunk(
     try {
       const promises = markersData.map(async marker => {
         const response = await fetch(
-          `https://geocode-maps.yandex.ru/1.x/?format=json&apikey=8f323294-5a36-460a-aac7-0c48872e5ed7&geocode=${encodeURIComponent(
+          `https://geocode-maps.yandex.ru/1.x/?format=json&apikey=525c0eeb-3d8f-4ebb-887e-a20f932c3662&geocode=${encodeURIComponent(
             marker.address,
           )}`,
         );

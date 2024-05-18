@@ -114,11 +114,11 @@ function Header(): React.ReactElement {
                 Главная
               </Link>
             </li>
-            {/* <li className="headerNavItem">
-              <Link className="headerNavLink" to="/profile">
-                Личный кабинет
+            <li className="headerNavItem">
+              <Link className="headerNavLink" to="/test">
+                Карусель
               </Link>
-            </li> */}
+            </li>
             <div className="nav">
               {!isLoggedIn ? (
                 <>

@@ -1,75 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import api from '../../api';
+import { useEffect, useState } from 'react';
 import { ServicesResponse } from '../../api/services/type';
-import { List, Space } from 'antd';
+import { List } from 'antd';
 import './main.css';
-import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
-import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon';
-
-interface IconTextProps {
-  icon: React.ForwardRefExoticComponent<
-    Omit<AntdIconProps, 'ref'> & React.RefAttributes<HTMLSpanElement>
-  >;
-  text: string;
-}
-
-const IconText = ({ icon, text }: IconTextProps) => (
-  <Space>
-    {React.createElement(icon)}
-    {text}
-  </Space>
-);
+import Organization from '../Common/Card/Card';
+import { RootState } from '../../store';
+import { useSelector } from 'react-redux';
 
 function Main(): JSX.Element {
   const [services, setServices] = useState<ServicesResponse[]>([]);
+  const profile = useSelector(
+    (state: RootState) => state.auth.profileData.profile,
+  );
+
+  const userId = profile.id;
+
   useEffect(() => {
-    async function getSocialServices() {
-      const res = await api.services.getServices();
-      setServices(res.data);
+    if (profile) {
+      // eslint-disable-next-line no-inner-declarations
+      async function getSocialServices() {
+        try {
+          const res = await fetch(
+            `http://localhost:3000/api/socialService/${profile.id}`,
+          );
+          const data = await res.json();
+          setServices(data);
+        } catch (error) {
+          console.error('Error fetching social services:', error);
+        }
+      }
+      getSocialServices();
     }
-    getSocialServices();
-  }, []);
+  }, [profile]);
 
   return (
-    <>
-      <List
-        itemLayout="vertical"
-        size="large"
-        pagination={{
-          onChange: page => {
-            console.log(page);
-          },
-          pageSize: 3,
-        }}
-        dataSource={services}
-        renderItem={item => (
-          <List.Item
+    <List
+      itemLayout="vertical"
+      size="large"
+      pagination={{
+        onChange: page => {
+          console.log(page);
+        },
+        pageSize: 3,
+      }}
+      dataSource={services}
+      renderItem={item => (
+        <>
+          <Organization
             key={item.id}
-            actions={[
-              <IconText
-                icon={StarOutlined}
-                text="156"
-                key="list-vertical-star-o"
-              />,
-              <IconText
-                icon={LikeOutlined}
-                text="156"
-                key="list-vertical-like-o"
-              />,
-              <IconText
-                icon={MessageOutlined}
-                text="2"
-                key="list-vertical-message"
-              />,
-            ]}
-            extra={<img width={250} alt="logo" src={item.img} />}
-          >
-            <List.Item.Meta title={item.title} />
-            {item.description}
-          </List.Item>
-        )}
-      />
-    </>
+            card={item}
+            setServices={setServices}
+            userId={userId}
+          />
+        </>
+      )}
+    />
   );
 }
 
