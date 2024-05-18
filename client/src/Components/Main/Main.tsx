@@ -35,6 +35,7 @@ function Main(): JSX.Element {
   return (
     <>
       <List
+        className="card-row-container"
         itemLayout="vertical"
         size="large"
         pagination={{

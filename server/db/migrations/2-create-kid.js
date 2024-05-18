@@ -22,6 +22,10 @@ module.exports = {
       age: {
         type: Sequelize.INTEGER,
       },
+      color: {
+        type: Sequelize.TEXT,
+      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
