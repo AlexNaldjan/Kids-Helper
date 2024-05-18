@@ -88,7 +88,6 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
         setEvents(formattedEvents);
         console.log('formattedevents:', formattedEvents);
         console.log('events:', result);
-        // setEvents(result);
       } catch (error) {
         console.error('Error fetching events:', error);
       }
@@ -102,6 +101,28 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
     if (dayItem) {
       setSelectedDay(dayItem);
       setIsModalOpen(true);
+    }
+  };
+
+  const deleteEvent = async (id: number) => {
+    if (!window.confirm('Вы уверены, что хотите удалить это событие?')) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/profile/events/${id}`,
+        {
+          method: 'DELETE',
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error('Не удалось удалить событие');
+      }
+      console.log('Событие успешно удалено', response);
+
+      // setEvents();
+    } catch (error) {
+      console.error('Ошибка при удалении события:', error);
     }
   };
 
@@ -184,13 +205,20 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                         <>
                           <div>
                             <div>{event.title}</div>
-                            <Button>Изменить</Button>
-                            <Button>Удалить</Button>
+                            <div>{event.date}</div>
+                            <div>
+                              {profile.kids.find(kid => kid.id === event.kidId)
+                                ?.name || 'Не указан'}
+                            </div>
+                            <div>{event.category}</div>
+                            <div>{event.description}</div>
+
+                            <Button onClick={deleteEvent}>Удалить</Button>
                             <Button onClick={hidePopover}>Закрыть</Button>
                           </div>
                         </>
                       }
-                      title="Title"
+                      title="Детали события"
                       trigger="click"
                       open={popoverVisibility[event.id]} // Управляйте видимостью с помощью id
                       onOpenChange={open =>
