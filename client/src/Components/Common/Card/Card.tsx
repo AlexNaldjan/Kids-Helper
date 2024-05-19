@@ -70,7 +70,7 @@ OrganizationProps): React.ReactElement {
         cost: formData.cost,
         date: formData.date,
         kidId: formData.kidId,
-        id: null,
+        id: Math.floor(Math.random() * 100),
       };
 
       const dayKey = dayItem.format('YYYY-MM-DD');
@@ -85,7 +85,7 @@ OrganizationProps): React.ReactElement {
     <div className="main-page-card-container">
       <Card
         style={{ width: '300px', height: '600px' }}
-        cover={<img alt="img" src={card.img} />}
+        cover={<div> {card.title} </div>}
       >
         <Meta title={card.title} description={card.description} />
         <div className="main-card-content-container"></div>

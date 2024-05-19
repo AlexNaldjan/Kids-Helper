@@ -7,7 +7,7 @@ import {
 
 import './MapPage.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { RootState } from '../../store';
 import { setSelectedMarker } from '../../store/map/mapSlice';
 import { fetchCoordinates } from '../../store/map/mapThunks';
@@ -73,13 +73,16 @@ function MapPage() {
     dispatch(fetchCoordinates(markersData));
   }, [dispatch, markersData]);
 
-  const handleMarkerClick = (index: number) => {
-    dispatch(setSelectedMarker(index));
-  };
+  const handleMarkerClick = useCallback(
+    (index: number) => {
+      dispatch(setSelectedMarker(index));
+    },
+    [dispatch],
+  );
 
-  const handleMapClick = () => {
+  const handleMapClick = useCallback(() => {
     dispatch(setSelectedMarker(null));
-  };
+  }, [dispatch]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedCategory(null);
@@ -152,12 +155,13 @@ function MapPage() {
         </div>
         {selectedMarker !== null && (
           <div className="marker-info">
-            <Organization
+            {markersData[selectedMarker].title}
+            {/* <Organization
               key={markersData[selectedMarker].id}
               card={markersData[selectedMarker]}
               setServices={setServices}
               userId={profile.id}
-            />
+            /> */}
           </div>
         )}
         <div className="marker-wrap">
