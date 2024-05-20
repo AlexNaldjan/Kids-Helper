@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react';
 import { ServicesResponse } from '../../api/services/type';
-import { List } from 'antd';
-import './main.css';
-import Organization from '../Common/Card/Card';
+import { Button, List, Rate } from 'antd';
+
+// import './main.css';
+// import Organization from '../Common/Card/Card';
 import { RootState } from '../../store';
 import { useSelector } from 'react-redux';
+import Comments from '../Common/Comment/Comment/Comment';
+import Favorites from '../Common/Favorites/Favorites';
 
 function Main(): JSX.Element {
+  const isLoggedIn = useSelector(
+    (state: RootState) => !!state.auth.authData.accessToken,
+  );
   const [services, setServices] = useState<ServicesResponse[]>([]);
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
@@ -32,6 +38,23 @@ function Main(): JSX.Element {
     }
   }, [profile]);
 
+  async function handlerRating(serviceId: number, ratingUser: number) {
+    try {
+      await fetch('http://localhost:3000/api/rating', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ serviceId, ratingUser, userId }),
+      });
+      const res = await fetch(
+        `http://localhost:3000/api/socialService/${userId}`,
+      );
+      const data = await res.json();
+      setServices(data);
+    } catch (error) {
+      console.error('Registration Error:', error);
+    }
+  }
+
   return (
     <>
       <List
@@ -47,12 +70,23 @@ function Main(): JSX.Element {
         dataSource={services}
         renderItem={item => (
           <>
-            <Organization
+            <List.Item
               key={item.id}
-              card={item}
-              setServices={setServices}
-              userId={userId}
-            />
+              actions={[
+                <Rate
+                  allowHalf
+                  defaultValue={item.rating}
+                  disabled={!isLoggedIn || Boolean(item.Users.length)}
+                  onChange={value => handlerRating(item.id, value)}
+                />,
+                <div>{item.rating}</div>,
+                <Comments props={item.id} />,
+                <Favorites props={item.id} />,
+              ]}
+              extra={<img width={200} alt="logo" src={item.img} />}
+            >
+              {item.description}
+            </List.Item>
           </>
         )}
       />

@@ -1,23 +1,31 @@
-import { Button, Input, List } from 'antd';
+import { Button, Input, List, Modal, Space } from 'antd';
 import { FormEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
 import { CommentsResponse, Props } from '../../Card/type';
+import { CommentOutlined, MessageOutlined } from '@ant-design/icons';
+import React from 'react';
 
 const { TextArea } = Input;
 
+const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
+  <Space>
+    {React.createElement(icon)}
+    {text}
+  </Space>
+);
+
 function Comments({ props }: Props): React.ReactElement {
+  const [isCommentVisible, setIsCommentVisible] = useState<boolean>(false);
+
   const [comment, setComment] = useState<string>('');
   const [comments, setComments] = useState<CommentsResponse[]>([]);
-
   const isLoggedIn = useSelector(
     (state: RootState) => !!state.auth.authData.accessToken,
   );
-
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
   );
-
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
@@ -37,7 +45,6 @@ function Comments({ props }: Props): React.ReactElement {
       console.log(error);
     }
   };
-
   useEffect(() => {
     async function getComments() {
       try {
@@ -50,49 +57,71 @@ function Comments({ props }: Props): React.ReactElement {
     }
     getComments();
   }, []);
+
+  const showCommentModal = () => {
+    setIsCommentVisible(true);
+  };
+
+  const cancelCommentModal = () => {
+    setIsCommentVisible(false);
+  };
+
   return (
     <>
-      {comments.length > 0 ? (
-        <List
-          className="comment-list"
-          header={`${comments.length} replies`}
-          itemLayout="horizontal"
-          dataSource={comments}
-          renderItem={item => (
-            <li>
-              <img
-                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                style={{ width: '30px' }}
+      <Button onClick={showCommentModal}>
+        <CommentOutlined />
+        {`${comments.length}`}
+      </Button>
+      <Modal
+        title="Все комментарии"
+        open={isCommentVisible}
+        onCancel={cancelCommentModal}
+        onOk={cancelCommentModal}
+      >
+        {comments.length > 0 ? (
+          <List
+            className="comment-list"
+            header={`${comments.length} replies`}
+            itemLayout="horizontal"
+            dataSource={comments}
+            renderItem={item => (
+              <li>
+                <img
+                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                  style={{ width: '30px' }}
+                />
+                <div>{item.userName}</div>
+                <div>{item.comment}</div>
+              </li>
+            )}
+          />
+        ) : (
+          <div> </div>
+        )}
+        ,
+        {isLoggedIn ? (
+          <>
+            <form onSubmit={handleSubmit}>
+              <TextArea
+                showCount
+                maxLength={100}
+                value={comment}
+                onChange={e => setComment(e.target.value)}
+                autoSize={true}
+                placeholder="Оставьте комминтарий"
               />
-              <div>{item.userName}</div>
-              <div>{item.comment}</div>
-            </li>
-          )}
-        />
-      ) : (
-        <div> </div>
-      )}
-      ,
-      {isLoggedIn ? (
-        <>
-          <form onSubmit={handleSubmit}>
-            <TextArea
-              showCount
-              maxLength={100}
-              value={comment}
-              onChange={e => setComment(e.target.value)}
-              autoSize={true}
-              placeholder="Оставьте комминтарий"
-            />
 
-            <Button type="primary" htmlType="submit">
-              Отправить
-            </Button>
-          </form>
-        </>
-      ) : (
-        <div>Что бы оставить комментарий Вам необходимо зарегистрироваться</div>
-      )}
+              <Button type="primary" htmlType="submit">
+                Отправить
+              </Button>
+            </form>
+          </>
+        ) : (
+          <div>
+            Что бы оставить комментарий Вам необходимо зарегистрироваться
+          </div>
+        )}
+      </Modal>
     </>
   );
 }
