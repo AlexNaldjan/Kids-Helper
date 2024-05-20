@@ -1,6 +1,11 @@
 const router = require('express').Router();
 
-const { Social_service, Rating, User } = require('../../db/models/index');
+const {
+  Social_service,
+  Rating,
+  User,
+  Comment,
+} = require('../../db/models/index');
 
 router.get('/socialService/:id', async (req, res) => {
   const { id } = req.params;

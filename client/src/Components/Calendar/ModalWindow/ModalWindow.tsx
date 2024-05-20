@@ -11,26 +11,29 @@ import moment from 'moment';
 const { Option } = Select;
 
 interface ModalWindowProps {
-  dayItem: Moment | null | undefined;
+  dayItem: Moment | null;
   isModalOpen: boolean;
+  isCalendar: boolean;
+  formDataProps: FormData | null;
+
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleAddEvent: (
-    formData: FormData,
-    dayItem: Moment | null | undefined,
-  ) => void;
+  handleAddEvent: (formData: FormData, dayItem: Moment | null) => void;
 }
 
 function ModalWindow({
   dayItem,
   isModalOpen,
+  isCalendar,
   setIsModalOpen,
   handleAddEvent,
+  formDataProps,
 }: ModalWindowProps): JSX.Element {
   const [formData, setFormData] = useState<FormData>({
     title: '',
     description: '',
     category: '',
     cost: 0,
+    time: '',
     date: '',
     kidId: null,
   });
@@ -39,6 +42,12 @@ function ModalWindow({
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
   );
+
+  useEffect(() => {
+    if (formDataProps) {
+      setFormData(formDataProps);
+    }
+  }, [formDataProps]);
 
   useEffect(() => {
     dispatch(getProfile());
@@ -52,6 +61,16 @@ function ModalWindow({
       }));
     }
   }, [profile]);
+
+  useEffect(() => {
+    if (dayItem) {
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        date: dayItem.format('YYYY-MM-DD'),
+        time: dayItem.format('HH:mm'),
+      }));
+    }
+  }, [dayItem]);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -68,38 +87,16 @@ function ModalWindow({
   const handleDateChange = (date: Moment | null) => {
     setFormData(prev => ({
       ...prev,
-      date: date ? date.toISOString() : '',
+      date: date ? date.format('YYYY-MM-DD') : '',
     }));
+    //}
   };
 
   const handleTimeChange = (time: Moment | null) => {
-    if (time && dayItem) {
-      const combinedDateTime = dayItem
-        .clone()
-        .set({
-          hour: time.hour(),
-          minute: time.minute(),
-        })
-        .toISOString();
-
-      setFormData(prev => ({
-        ...prev,
-        date: combinedDateTime,
-      }));
-    } else if (time) {
-      const currentDate = moment();
-      const combinedDateTime = currentDate
-        .set({
-          hour: time.hour(),
-          minute: time.minute(),
-        })
-        .toISOString();
-
-      setFormData(prev => ({
-        ...prev,
-        date: combinedDateTime,
-      }));
-    }
+    setFormData(prev => ({
+      ...prev,
+      time: time ? time.format('HH:mm') : '',
+    }));
   };
 
   const addEvent = async () => {
@@ -109,12 +106,15 @@ function ModalWindow({
         title: formData.title,
         description: formData.description,
         category: formData.category,
-        date: moment(formData.date), // Преобразуем в формат ISO для Postgres
+        date: moment(
+          `${formData.date} ${formData.time}`,
+          'YYYY-MM-DD HH:mm',
+        ).toISOString(),
         cost: formData.cost,
         kidId: formData.kidId,
       };
 
-      const response = await fetch(`http://localhost:3000/api/profile/events`, {
+      const response = await fetch('http://localhost:3000/api/profile/events', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ function ModalWindow({
       }
       const newEvent = await response.json();
       handleAddEvent(newEvent, dayItem);
-      setIsModalOpen(false); // Закрыть модальное окно после успешного создания
+      setIsModalOpen(false);
     } catch (error) {
       console.error('Error while creating an event:', error);
     }
@@ -162,23 +162,35 @@ function ModalWindow({
             onChange={handleInputChange}
           />
         </label>
-        <label className="input-label">
-          <span className="input-title">Время:</span>
-          <TimePicker
-            value={formData.date ? moment(formData.date) : null}
-            onChange={handleTimeChange}
-            format="HH:mm"
-          />
-        </label>
-        {!dayItem && (
+
+        {isCalendar ? (
           <label className="input-label">
-            <span className="input-title">Дата:</span>
-            <DatePicker
-              value={formData.date ? moment(formData.date) : null}
-              onChange={handleDateChange}
-              format="YYYY-MM-DD"
+            <span className="input-title">Время:</span>
+            <TimePicker
+              value={formData.time ? moment(formData.time, 'HH:mm') : null}
+              onChange={handleTimeChange}
+              format="HH:mm"
             />
           </label>
+        ) : (
+          <>
+            <label className="input-label">
+              <span className="input-title">Дата:</span>
+              <DatePicker
+                value={formData.date ? moment(formData.date) : null}
+                onChange={handleDateChange}
+                format="YYYY-MM-DD"
+              />
+            </label>
+            <label className="input-label">
+              <span className="input-title">Время:</span>
+              <TimePicker
+                value={formData.time ? moment(formData.time, 'HH:mm') : null}
+                onChange={handleTimeChange}
+                format="HH:mm"
+              />
+            </label>
+          </>
         )}
         <fieldset className="radio-set">
           <legend className="visually-hidden">Категории:</legend>

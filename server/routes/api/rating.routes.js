@@ -25,16 +25,4 @@ router.post('/rating', async (req, res) => {
   }
 });
 
-// router.post('/rating/grade', async (req, res) => {
-//   try {
-//     const { userId, serviceId } = req.body;
-//     const ratingStars = await Rating.findOne({ where: { userId, serviceId } });
-//     if (ratingStars) {
-//       return res.status(200).json({ text: 'OK' });
-//     }
-//     return res.status(401).json({ text: 'NO' });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
 module.exports = router;
