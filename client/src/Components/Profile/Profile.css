@@ -1,27 +1,25 @@
-.profile-big-event-container {
-  margin: 20px;
-}
-
-.profile-container {
+.profile-page-container {
+  margin: 0 auto;
+  max-width: 1440px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  gap: 20px;
+  justify-content: center;
+  min-height: 100vh; /* Минимальная высота контейнера — полная высота вьюпорта */
+}
+
+.profile-big-container {
+  margin: 40px 20px 20px 20px;
+  margin-left: 20px;
+  flex: 1;
 }
 
 .calendar-placeholder {
-  margin: 20px;
+  margin: 40px 20px 20px 20px;
+
   border-radius: 12px;
   box-sizing: border-box;
   overflow: hidden;
-  border-color: #364351;
-  border-width: 1px;
-  border-style: solid;
-  box-shadow: #364351;
-}
-
-.profile-card {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border: 1px solid #364351; /* Упрощенная запись для стиля границы */
+  box-shadow: 0px 0px 10px 0px #364351; /* Уточненные параметры тени */
+  height: 815px;
 }

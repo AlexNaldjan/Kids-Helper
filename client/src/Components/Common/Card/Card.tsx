@@ -37,6 +37,7 @@ function Organization({
   return (
     <div className="main-page-card-container">
       <Card
+        className="organisation-card"
         style={{ width: '500px', height: '500px' }}
         cover={<img alt="img" src={card.img} />}
       >

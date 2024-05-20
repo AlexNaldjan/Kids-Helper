@@ -1,3 +1,8 @@
+.card-row-container {
+  margin: 0px auto;
+  max-width: 1046px;
+}
+
 .ant-list-items {
   display: flex;
   flex-direction: row;
@@ -12,6 +17,11 @@
 .ant-spin-container {
   height: 800px;
   width: 100%;
+}
+
+.main-page-card-container .ant-card-body {
+  max-height: 300px;
+  display: flex;
 }
 
 .ant-list {
@@ -46,10 +56,10 @@
 }
 
 .ant-card-body {
-  height: 300px;
+  height: 500px;
   overflow: scroll;
 }
 
-.ant-card-meta-description {
+.ant-card-meta {
   overflow: scroll;
 }

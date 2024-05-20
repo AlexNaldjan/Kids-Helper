@@ -5,6 +5,7 @@ import './main.css';
 import Organization from '../Common/Card/Card';
 import { RootState } from '../../store';
 import { useSelector } from 'react-redux';
+import WelcomeComponent from './WelcomeComponent/WelcomeComponent';
 
 function Main(): JSX.Element {
   const [services, setServices] = useState<ServicesResponse[]>([]);
@@ -56,6 +57,7 @@ function Main(): JSX.Element {
           </>
         )}
       />
+      <WelcomeComponent />
     </>
   );
 }

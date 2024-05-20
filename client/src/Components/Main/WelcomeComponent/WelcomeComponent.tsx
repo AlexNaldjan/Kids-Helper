@@ -1,27 +1,55 @@
 import React from 'react';
-// import Header from '../Header/Header';
-import WelcomeBanner from '../WelcomeBanner/WelcomeBanner';
-const bannerImage = '/src/components/WelcomeBanner/roe-deer-2634729_1280.jpeg';
+import './WelcomeComponent.css';
 
 function Home(): React.ReactElement {
   return (
     <>
-      <WelcomeBanner backgroundImage={bannerImage} />
-      <div className="welcomeContainer">
-        <div className="cityImageContainer">
-          <img className="cityImage" src="/558668.jpeg" />
-        </div>
-        <div className="welcomeText">
-          <p>
-            l Погрузитесь в удивительный мир Урюписнского зоопарка, где
-            экзотические и редкие животные со всех уголков планеты ждут вас!
-            Здесь вы станете частью нашей большой зоопарковой семьи, наслаждаясь
-            близостью к природе и узнавая множество интересных фактов о наших
-            обитателях. Мы стремимся создать для животных условия, максимально
-            приближенные к их естественной среде обитания, чтобы и вам, и им
-            было комфортно. Приходите за незабываемыми впечатлениями и новыми
-            знаниями!
-          </p>
+      <div className="welcome-container">
+        <div className="welcome-wrapper">
+          <div id="welcome-bullit-1" className="welcome-bullit-wraper">
+            <div className="welcome-bullit-img">
+              <img src="/src/Components/Main/WelcomeComponent/иллюстрация на роликах.svg" />
+            </div>
+            <div>
+              <p className="welcome-bullit-text">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Aperiam, tempore.
+              </p>
+            </div>
+          </div>
+          <div id="welcome-bullit-2" className="welcome-bullit-wraper">
+            <div className="welcome-bullit-img">
+              <img src="/src/Components/Main/WelcomeComponent/Иллюстрация футбольная.svg" />
+            </div>
+            <div>
+              <p className="welcome-bullit-text">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Aperiam, tempore.
+              </p>
+            </div>
+          </div>
+          <div id="welcome-bullit-3" className="welcome-bullit-wraper">
+            <div className="welcome-bullit-img">
+              <img src="/src/Components/Main/WelcomeComponent/иллюстрация часы.svg" />
+            </div>
+            <div>
+              <p className="welcome-bullit-text">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Aperiam, tempore.
+              </p>
+            </div>
+          </div>
+          <div id="welcome-bullit-4" className="welcome-bullit-wraper">
+            <div className="welcome-bullit-img">
+              <img src="/src/Components/Main/WelcomeComponent/иллюстрация с чеком.svg" />
+            </div>
+            <div>
+              <p className="welcome-bullit-text">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Aperiam, tempore.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </>

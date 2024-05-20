@@ -6,17 +6,62 @@
   font-style: normal;
 }
 
-body {
+::before,
+::after {
+  padding: 0;
   margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
+  border: 0;
+  box-sizing: border-box;
+}
+
+img {
+  vertical-align: top;
 }
 
 body,
 html {
-  margin: 0;
+  margin: 0px auto;
   padding: 0;
   font-family: 'Onest Regular';
   background-color: #fafafa;
   color: #333;
+}
+
+.ant-modal .ant-modal-content {
+  border-style: solid;
+  border-bottom: #364351;
+  border-width: 1px;
+  background-color: white;
+}
+.ant-modal .ant-modal-header {
+  height: 40px;
+  background-color: #eac7ff;
+  margin: -20px -24px 20px -24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ant-modal-title {
+  padding-left: 5px;
+}
+.ant-modal-close {
+  justify-content: flex-end;
+}
+
+.ant-modal .ant-modal-close {
+  box-sizing: border-box;
+  justify-content: center;
+  line-height: 1.5;
+  background-color: #eff2f7;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  right: 8px;
+  top: 8px;
+}
+.ant-modal .ant-modal-close:hover {
+  background-color: #f9b1b1;
+}
+.event-form {
+  background-color: white;
 }
