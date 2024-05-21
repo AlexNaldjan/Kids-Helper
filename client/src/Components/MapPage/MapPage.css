@@ -4,19 +4,64 @@
   gap: 20px;
   margin-top: 20px;
   position: relative;
+  max-width: 1160px;
+  margin: auto;
+}
+
+.search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
 .marker-info {
   margin-top: 40px;
   position: absolute;
 }
+
 .ant-input-group-wrapper {
   width: 500px;
   margin: auto;
 }
+
 .marker-wrap {
+  margin-top: 40px;
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
+  gap: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 640px;
+  height: 500px; /* Устанавливаем фиксированную высоту */
+  overflow-y: auto; /* Добавляем вертикальный скролл */
+  padding: 10px;
+  box-sizing: border-box; /* Опционально, чтобы визуально отделить контейнер */
+  border: 1px solid #ddd; /* Опционально, для визуальной границы */
+}
+
+.organization-card {
+  width: calc(50% - 10px); /* Устанавливаем ширину для двух колонок */
+  box-sizing: border-box;
+}
+
+.main-page-card-container {
   height: 600px;
+  width: 300px;
+}
+
+.main-page-card-container .ant-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 260px;
+  height: 450px;
 }

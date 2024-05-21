@@ -85,9 +85,9 @@ OrganizationProps): React.ReactElement {
   return (
     <div className="main-page-card-container">
       <Card
-        style={{ width: '300px', height: '600px' }}
-        cover={<div> {card.title} </div>}
-        style={{ width: '500px', height: '500px' }}
+        // style={{ width: '300px', height: '600px' }}
+        // cover={<div> {card.title} </div>}
+        // style={{ width: '500px', height: '500px' }}
         cover={<img alt="img" src={card.img} />}
       >
         <Meta title={card.title} description={card.description} />

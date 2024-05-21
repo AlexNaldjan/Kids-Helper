@@ -49,7 +49,7 @@ function Header(): React.ReactElement {
       >
         <header className="lower-header">
           {' '}
-          <div className="headerNavItem">
+          <div className="headerNavItem" id="tel">
             <p className="telephone">
               <img
                 className="tel-image"
@@ -118,12 +118,6 @@ function Header(): React.ReactElement {
                     </div>
                   </>
                 )}
-
-                <li className="headerNavItem">
-                  <Link className="headerNavLink" to="/test">
-                    Карусель
-                  </Link>
-                </li>
               </div>
             </ul>
           </nav>

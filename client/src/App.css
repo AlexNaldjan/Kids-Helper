@@ -19,11 +19,12 @@ img {
 }
 
 body,
+main,
 html {
   margin: 0px auto;
+  height: 100%;
   padding: 0;
   font-family: 'Onest Regular';
-  background-color: #fafafa;
   color: #333;
 }
 
@@ -55,7 +56,6 @@ html {
   background-color: #eff2f7;
   height: 24px;
   width: 24px;
-  border-radius: 50%;
   right: 8px;
   top: 8px;
 }
@@ -64,4 +64,8 @@ html {
 }
 .event-form {
   background-color: white;
+}
+
+.hide-cancel .ant-modal-footer button:not(:first-child) {
+  display: none;
 }

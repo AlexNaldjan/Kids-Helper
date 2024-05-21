@@ -1,5 +1,5 @@
 .calendar-placeholder {
-  min-width: 1050px;
+  min-width: 840px;
 }
 
 .calendar-grid-wrapper {
@@ -9,13 +9,13 @@
   box-sizing: border-box;
   overflow: auto;
   background-color: #364351;
-  max-width: 1540px; /* Общая максимальная ширина: 220px * 7 дней */
+  max-width: 840px; /* Общая максимальная ширина: 220px * 7 дней */
   max-height: 880px; /* Общая максимальная высота: 160px * 5 недель + 40px для заголовка */
 }
 
 .calendar-day {
-  height: 120px;
-  width: 150px;
+  height: 100px;
+  width: 120px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -42,7 +42,7 @@
 
 .weekday-calendar-day {
   height: 40px;
-  width: 150px;
+  width: 120px;
   display: flex;
   justify-content: flex-end;
   color: #eff2f7;

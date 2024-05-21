@@ -253,9 +253,7 @@ export function ProfileCard(): JSX.Element {
           </div>
         </Descriptions>
         <div className="profile-edit-nickname-btn">
-          <Button onClick={showProfileModalWindow}>
-            Редактировать личные данные
-          </Button>
+          <Button onClick={showProfileModalWindow}>Изменить псевдоним</Button>
         </div>
 
         <Descriptions title="Мои Дети">
@@ -338,6 +336,7 @@ export function ProfileCard(): JSX.Element {
           open={isOneKidModalVisible}
           onCancel={handleOneKidCancel}
           onOk={updateKid}
+          cancelButtonProps={{ style: { display: 'none' } }}
         >
           {selectedKid && (
             <Form
@@ -373,13 +372,14 @@ export function ProfileCard(): JSX.Element {
         </Modal>
 
         <Modal
-          title="Редактировать профиль"
+          title="Изменить псевдоним"
           open={isProfileModalVisible}
           onCancel={handleProfileCancel}
           onOk={updateProfile}
-          className="add-kid-modal-wrapper"
+          className="change-login-modal"
+          cancelButtonProps={{ style: { display: 'none' } }}
         >
-          <Form form={form} className="add-kid-modal-from">
+          <Form form={form} className="change-login-modal-from" cancel="hide">
             <Form.Item
               name="username"
               label="Псевдоним"
@@ -397,6 +397,7 @@ export function ProfileCard(): JSX.Element {
           open={isKidsModalVisible}
           onCancel={handleKidsCancel}
           onOk={addKids}
+          cancelButtonProps={{ style: { display: 'none' } }}
         >
           <Form form={form}>
             <Form.Item

@@ -1,25 +1,27 @@
 .profile-card-custom {
   display: flex;
   flex-direction: column;
-  min-width: 500px;
+  min-width: 300px;
   min-height: 600px;
   border-style: solid;
   border-width: 1px;
   border-color: #364351;
   overflow: hidden;
   border-radius: 12px;
+  max-height: 695.5px;
 }
-.profile-card-custom {
-  box-shadow: 0px 0px 10px 0px #364351;
-}
+
 .profile-card-custom .user-data-container {
   color: black;
+  max-height: 760px;
 }
-.profile-card-custom .ant-card {
-  min-height: 600px;
-  min-width: 500px;
+.profile-card-custom .ant-card .ant-card-bordered {
+  min-width: 300px;
+  max-height: 760px;
 }
 .profile-card-custom .ant-card-body {
+  min-width: 300px;
+  max-height: 760px;
   height: 100%;
   display: flex;
   gap: 20px;
@@ -27,6 +29,7 @@
 }
 
 .profile-card-custom .avatar-container {
+  margin-top: -20px;
   display: flex;
   align-items: center;
 }
@@ -42,7 +45,7 @@
   outline: none;
   box-shadow: none;
   background-color: #fafafa;
-  width: 165px;
+  width: 170px;
   height: 40px;
   border: #364351;
   border-style: solid;
@@ -68,8 +71,24 @@
 }
 .profile-card-custom .kids-list {
   list-style: none;
-  min-width: 450px;
+  min-width: 300px;
+  max-height: 100px;
+  overflow-y: auto;
+  overflow-wrap: normal;
+  margin-top: -20px;
 }
+
+.profile-card-custom .kids-list::-webkit-scrollbar {
+  width: 4px;
+  height: 3px;
+}
+
+.profile-card-custom .kids-list::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  border-radius: 25px;
+  height: 3px;
+}
+
 .profile-data-wrapper {
   position: relative;
   padding-left: 20px;
@@ -91,6 +110,7 @@
   gap: 20px;
 }
 .kid-li-item {
+  width: 300px;
   position: relative;
   padding-left: 20px;
   display: flex;
@@ -130,7 +150,7 @@
 .profile-edit-nickname-btn .ant-btn {
   outline: none;
   box-shadow: none;
-  width: 265px;
+  width: 200px;
   height: 40px;
   display: flex;
   justify-content: center;
@@ -157,7 +177,7 @@
 .profile-add-kids-btn .ant-btn {
   outline: none;
   box-shadow: none;
-  width: 265px;
+  width: 200px;
   height: 40px;
   display: flex;
   justify-content: center;
@@ -244,4 +264,19 @@
   border-radius: 50%;
   right: 8px;
   top: 8px;
+}
+
+/* ФОРМЫ */
+.change-login-modal-from {
+  background-color: #cbe5f8;
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.change-login-modal-from .ant-form-item {
+  display: inline;
+  justify-content: center;
+  margin-top: 20px;
 }

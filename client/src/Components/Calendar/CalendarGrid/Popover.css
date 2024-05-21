@@ -1,0 +1,43 @@
+.ant-popover-title {
+  padding: 10px 15px;
+  background-color: #364351; /* Темный фон для заголовка */
+  color: white;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+}
+
+.ant-popover-inner-content {
+  font-family: 'Arial', sans-serif;
+  background-color: #ffffff; /* Светлый фон для контента */
+  padding: 15px;
+}
+
+/* Стили для кнопок */
+.ant-btn {
+  margin: 5px;
+  border-radius: 5px; /* Скругленные углы */
+}
+
+/* Кастомная стилизация для кнопок */
+.delete-btn {
+  background-color: #ff4d4f; /* Красный цвет для кнопки "Удалить" */
+  color: white;
+}
+
+.close-btn {
+  background-color: #eac7ff; /* Светло-фиолетовый цвет для кнопки "Закрыть" */
+  color: white;
+}
+
+/* Стили для даты, времени и категорий */
+.event-date,
+.event-category {
+  color: #364351; /* Темно-синий цвет для текста */
+  margin-bottom: 5px;
+}
+
+.event-description {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
