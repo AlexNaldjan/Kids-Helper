@@ -16,7 +16,7 @@ export const MessageBlock = ({ socket }: any) => {
       socket.emit('message', {
         text: message,
         name: profile.username,
-        id: `${socket.id} - ${Math.floor(Math.random() * 10000)}`,
+        id: `${socket.id} - ${Math.floor(Math.random() * 100000)}`,
         socketID: socket.id,
       });
     }
