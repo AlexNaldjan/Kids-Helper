@@ -10,6 +10,9 @@ const authRouter = require('./routes/api/auth.routes');
 const profileRouter = require('./routes/api/profile.routes');
 const socialServiceRouter = require('./routes/api/socialService.router');
 const ratingRouter = require('./routes/api/rating.routes');
+const eventRouter = require("./routes/api/event.routes");
+const commentRouter = require('./routes/api/comment.router');
+const likedRouter = require('./routes/api/favorites.router');
 const eventRouter = require('./routes/api/event.routes');
 const commentRouter = require('./routes/api/comment.router');
 // const uploadRouter = require("./routes/api/upload.routes");
@@ -33,6 +36,8 @@ app.use('/api', socialServiceRouter);
 app.use('/api', ratingRouter);
 app.use('/api', eventRouter);
 app.use('/api', commentRouter);
+app.use('/api', likedRouter);
+
 // app.use("/api", uploadRouter);
 
 socketIO.on('connection', (socket) => {

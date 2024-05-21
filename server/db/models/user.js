@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
         through: 'Comments',
       });
+      this.belongsToMany(models.Social_service, {
+        foreignKey: 'userId',
+        through: 'Likeds',
+      });
     }
   }
   User.init(
