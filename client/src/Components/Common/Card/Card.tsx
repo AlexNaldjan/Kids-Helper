@@ -85,8 +85,10 @@ OrganizationProps): React.ReactElement {
   return (
     <div className="main-page-card-container">
       <Card
-        style={{ width: '300px', height: '600px' }}
-        cover={<div> {card.title} </div>}
+        // style={{ width: '300px', height: '600px' }}
+        // cover={<div> {card.title} </div>}
+        // style={{ width: '500px', height: '500px' }}
+        cover={<img alt="img" src={card.img} />}
       >
         <Meta title={card.title} description={card.description} />
         <div className="main-card-content-container"></div>
@@ -101,7 +103,7 @@ OrganizationProps): React.ReactElement {
           Добавить в событие
         </button>
         <div>{card.rating}</div>
-      <Comments props={card.id} />
+        <Comments props={card.id} />
       </Card>
       <ModalWindow
         dayItem={null}
@@ -111,11 +113,7 @@ OrganizationProps): React.ReactElement {
         isCalendar={false}
         formDataProps={formData}
       />
-
-    
-
     </div>
-
   );
 }
 export default Organization;

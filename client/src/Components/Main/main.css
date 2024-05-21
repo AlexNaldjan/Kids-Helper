@@ -1,17 +1,55 @@
+.card-list-container {
+  margin: 0px auto;
+  max-width: 1160px;
+}
+
 .ant-list-items {
   display: flex;
-  flex-direction: row;
-  gap: 100px;
-  flex-wrap: nowrap;
-  justify-content: space-around;
+  flex-direction: column;
+  gap: 60px;
 }
 .ant-spin-nested-loading {
   height: 800px;
 }
 
 .ant-spin-container {
-  height: 800px;
-  width: 100%;
+  max-height: 860px;
+  max-width: 1160px;
+}
+
+.main-page-card-container .ant-card-body {
+  max-height: 300px;
+  display: flex;
+}
+
+.ant-list-item {
+  max-width: 1080px;
+  height: 240px;
+  border-radius: 25px;
+  background-color: white;
+}
+
+/* / ТЕЛО КАРТОЧКИ / */
+.card-list-container .ant-list-item-main {
+  display: flex;
+  flex-direction: column;
+}
+
+/* текст с описанием */
+.card-list-container .description-text {
+  padding: 5px;
+  height: 150px;
+  width: 600px;
+  text-wrap: pretty;
+  overflow-y: auto;
+  word-wrap: break-word;
+}
+
+.ant-list-item-extra img {
+  width: 240px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 25px;
 }
 
 .ant-list {
@@ -46,10 +84,10 @@
 }
 
 .ant-card-body {
-  height: 300px;
+  height: 500px;
   overflow: scroll;
 }
 
-.ant-card-meta-description {
+.ant-card-meta {
   overflow: scroll;
 }

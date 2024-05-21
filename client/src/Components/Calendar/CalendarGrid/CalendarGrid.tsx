@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
 import './CalendarGrid.css';
+import './Popover.css';
 import { Button, Popover } from 'antd';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import moment, { Moment } from 'moment';
@@ -220,8 +221,7 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                         content={
                           <>
                             <div>
-                              <div>{event.title}</div>
-                              <div>
+                              <div className="event-date">
                                 {moment(event.date).format('YYYY-MM-DD HH:mm')}
                               </div>
                               <div>
@@ -229,13 +229,23 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                                   kid => kid.id === event.kidId,
                                 )?.name || 'Не указан'}
                               </div>
-                              <div>{event.category}</div>
-                              <div>{event.description}</div>
+                              <div className="event-category">
+                                {event.category}
+                              </div>
+                              <div className="event-description">
+                                {event.description}
+                              </div>
 
-                              <Button onClick={() => deleteEvent(event.id)}>
+                              <Button
+                                className="delete-btn"
+                                onClick={() => deleteEvent(event.id)}
+                              >
                                 Удалить
                               </Button>
-                              <Button onClick={() => hidePopover(eventId)}>
+                              <Button
+                                className="close-btn"
+                                onClick={() => hidePopover(eventId)}
+                              >
                                 Закрыть
                               </Button>
                             </div>

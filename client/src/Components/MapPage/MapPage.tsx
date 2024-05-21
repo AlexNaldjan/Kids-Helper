@@ -127,7 +127,7 @@ function MapPage() {
       <div className="map-page">
         <div className="map-container">
           <YMaps query={{ lang: 'ru_RU' }}>
-            <div style={{ width: '800px', height: '600px' }}>
+            <div style={{ width: '1160px', height: '1000px' }}>
               <Map
                 defaultState={{
                   center: [55.796, 37.541],
@@ -164,24 +164,28 @@ function MapPage() {
             /> */}
           </div>
         )}
-        <div className="marker-wrap">
-          {selectedCategory !== null
-            ? filteredMarkersByCategory.map(marker => (
-                <Organization
-                  key={marker.id}
-                  card={marker}
-                  setServices={setServices}
-                  userId={profile.id}
-                />
-              ))
-            : filteredMarkers.map(marker => (
-                <Organization
-                  key={marker.id}
-                  card={marker}
-                  setServices={setServices}
-                  userId={profile.id}
-                />
-              ))}
+        <div className="markers-container">
+          <div className="marker-wrap">
+            {selectedCategory !== null
+              ? filteredMarkersByCategory.map(marker => (
+                  <Organization
+                    key={marker.id}
+                    card={marker}
+                    setServices={setServices}
+                    userId={profile.id}
+                    className="organization-card"
+                  />
+                ))
+              : filteredMarkers.map(marker => (
+                  <Organization
+                    key={marker.id}
+                    card={marker}
+                    setServices={setServices}
+                    userId={profile.id}
+                    className="organization-card"
+                  />
+                ))}
+          </div>
         </div>
       </div>
     </div>

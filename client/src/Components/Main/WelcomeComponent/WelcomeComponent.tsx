@@ -1,31 +1,38 @@
 import React from 'react';
-// import Header from '../Header/Header';
-import WelcomeBanner from '../WelcomeBanner/WelcomeBanner';
-const bannerImage = '/src/components/WelcomeBanner/roe-deer-2634729_1280.jpeg';
+import './WelcomeComponent.css';
 
-function Home(): React.ReactElement {
+function WelcomeComponent() {
   return (
-    <>
-      <WelcomeBanner backgroundImage={bannerImage} />
-      <div className="welcomeContainer">
-        <div className="cityImageContainer">
-          <img className="cityImage" src="/558668.jpeg" />
+    <div className="welcome-component-container">
+      <div className="welcome-component-wrapper">
+        <div className="left-welcome-component-container">
+          <div className="left-welcome-component-wrapper">
+            <p>Lorem, ipsum dolor.</p>
+            <h1>Lorem, ipsum.</h1>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Voluptatem doloremque ab est?
+            </p>
+            <button id="get-started-btn-main">Начать</button>
+          </div>
         </div>
-        <div className="welcomeText">
-          <p>
-            l Погрузитесь в удивительный мир Урюписнского зоопарка, где
-            экзотические и редкие животные со всех уголков планеты ждут вас!
-            Здесь вы станете частью нашей большой зоопарковой семьи, наслаждаясь
-            близостью к природе и узнавая множество интересных фактов о наших
-            обитателях. Мы стремимся создать для животных условия, максимально
-            приближенные к их естественной среде обитания, чтобы и вам, и им
-            было комфортно. Приходите за незабываемыми впечатлениями и новыми
-            знаниями!
-          </p>
+        <div className="right-welcome-component-container">
+          <div className="right-welcome-component-wrapper">
+            <div className="photo-column-left">
+              <img src="https://educhess.ru/assets/images/index/index-1.webp" />
+              <img src="https://mosmuseum.ru/wp/wp-content/uploads/2022/01/photo_2022-03-21-09.47.02.jpeg" />
+              <img src="https://avatars.mds.yandex.net/get-altay/13581124/2a0000018f1150dfc475528c1b3fce02b730/L_height" />
+            </div>
+            <div className="photo-column-right">
+              <img src="https://avatars.mds.yandex.net/get-altay/11368589/2a0000018bc8b0d1c17d062c596ffd947dda/L_height" />
+              <img src="https://avatars.mds.yandex.net/get-altay/1880524/2a0000016b40a7619ad4ecfd6e1aded0b1d7/L_height" />
+              <img src="https://avatars.mds.yandex.net/get-altay/13212052/2a0000018f4e8b831869f2fc4e9fe5d41380/L_height" />
+            </div>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
-export default Home;
+export default WelcomeComponent;
