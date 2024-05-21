@@ -7,7 +7,7 @@ import {
 
 import './MapPage.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { RootState } from '../../store';
 import { setSelectedMarker } from '../../store/map/mapSlice';
 import { fetchCoordinates } from '../../store/map/mapThunks';
@@ -73,13 +73,16 @@ function MapPage() {
     dispatch(fetchCoordinates(markersData));
   }, [dispatch, markersData]);
 
-  const handleMarkerClick = (index: number) => {
-    dispatch(setSelectedMarker(index));
-  };
+  const handleMarkerClick = useCallback(
+    (index: number) => {
+      dispatch(setSelectedMarker(index));
+    },
+    [dispatch],
+  );
 
-  const handleMapClick = () => {
+  const handleMapClick = useCallback(() => {
     dispatch(setSelectedMarker(null));
-  };
+  }, [dispatch]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedCategory(null);
@@ -124,7 +127,7 @@ function MapPage() {
       <div className="map-page">
         <div className="map-container">
           <YMaps query={{ lang: 'ru_RU' }}>
-            <div style={{ width: '800px', height: '600px' }}>
+            <div style={{ width: '1160px', height: '1000px' }}>
               <Map
                 defaultState={{
                   center: [55.796, 37.541],
@@ -152,32 +155,37 @@ function MapPage() {
         </div>
         {selectedMarker !== null && (
           <div className="marker-info">
-            <Organization
+            {markersData[selectedMarker].title}
+            {/* <Organization
               key={markersData[selectedMarker].id}
               card={markersData[selectedMarker]}
               setServices={setServices}
               userId={profile.id}
-            />
+            /> */}
           </div>
         )}
-        <div className="marker-wrap">
-          {selectedCategory !== null
-            ? filteredMarkersByCategory.map(marker => (
-                <Organization
-                  key={marker.id}
-                  card={marker}
-                  setServices={setServices}
-                  userId={profile.id}
-                />
-              ))
-            : filteredMarkers.map(marker => (
-                <Organization
-                  key={marker.id}
-                  card={marker}
-                  setServices={setServices}
-                  userId={profile.id}
-                />
-              ))}
+        <div className="markers-container">
+          <div className="marker-wrap">
+            {selectedCategory !== null
+              ? filteredMarkersByCategory.map(marker => (
+                  <Organization
+                    key={marker.id}
+                    card={marker}
+                    setServices={setServices}
+                    userId={profile.id}
+                    className="organization-card"
+                  />
+                ))
+              : filteredMarkers.map(marker => (
+                  <Organization
+                    key={marker.id}
+                    card={marker}
+                    setServices={setServices}
+                    userId={profile.id}
+                    className="organization-card"
+                  />
+                ))}
+          </div>
         </div>
       </div>
     </div>

@@ -2,12 +2,16 @@ import { useEffect, useState } from 'react';
 import { ServicesResponse } from '../../api/services/type';
 import { List, Rate } from 'antd';
 
-// import './main.css';
+import './main.css';
 // import Organization from '../Common/Card/Card';
 import { RootState } from '../../store';
 import { useSelector } from 'react-redux';
 import Comments from '../Common/Comment/Comment/Comment';
 import Favorites from '../Common/Favorites/Favorites';
+// import Carousel from '../Carousel/Carousel';
+import BulletsComponent from './BulletsComponent/BulletsComponent';
+import WelcomeComponent from './WelcomeComponent/WelcomeComponent';
+import FeaturesComponent from './FeaturesComponent/FeaturesComponent';
 
 function Main(): JSX.Element {
   const isLoggedIn = useSelector(
@@ -57,7 +61,11 @@ function Main(): JSX.Element {
 
   return (
     <>
-      <List
+      <WelcomeComponent />
+      <FeaturesComponent />
+      <BulletsComponent />
+      <div className="card-list-container">
+         <List
         className="card-row-container"
         itemLayout="vertical"
         size="large"
@@ -83,7 +91,7 @@ function Main(): JSX.Element {
                 <Comments props={item.id} />,
                 <Favorites props={item.id} />,
               ]}
-              extra={<img width={200} alt="logo" src={item.img} />}
+              extra={<img width={250} height={200} alt="logo" src={item.img} />}
             >
               <List.Item.Meta description={item.title} />
               {item.description}
@@ -91,6 +99,8 @@ function Main(): JSX.Element {
           </>
         )}
       />
+      </div>
+
     </>
   );
 }

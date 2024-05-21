@@ -4,4 +4,5 @@
   overflow: hidden;
   border-color: #eff2f7;
   border-width: 1px;
+  min-width: 840px;
 }

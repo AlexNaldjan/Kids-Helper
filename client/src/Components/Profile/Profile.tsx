@@ -4,16 +4,12 @@ import { ProfileCard } from '../Profile/ProfileCard/ProfileCard';
 
 function Profile(): JSX.Element {
   return (
-    <div className="profile-container">
+    <div className="profile-page-container">
       <div className="calendar-placeholder">
         <CalendarMain />
       </div>
-      <div className="profile-big-event-container">
-        <div className="profile-card">
-          <ProfileCard />
-        </div>
-
-        <div className="long-event-card"></div>
+      <div className="profile-big-container">
+        <ProfileCard />
       </div>
     </div>
   );

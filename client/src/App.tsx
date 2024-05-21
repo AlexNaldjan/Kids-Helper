@@ -14,6 +14,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { getProfile } from './store/auth/actionCreators';
 import Carousel from './Components/Carousel/Carousel';
+import ChatPage from './Components/ChatPage/ChatPage';
 
 function App() {
   const isLoggedIn = useSelector(
@@ -29,6 +30,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/test" element={<Carousel />} />
+        <Route path="/chat" element={<ChatPage />} />
         <Route
           path="/map"
           element={isLoggedIn ? <MapPage /> : <Navigate to="/" />}

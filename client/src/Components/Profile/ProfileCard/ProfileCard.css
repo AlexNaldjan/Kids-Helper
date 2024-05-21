@@ -1,52 +1,127 @@
 .profile-card-custom {
-  min-width: 600px;
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  min-height: 600px;
   border-style: solid;
   border-width: 1px;
   border-color: #364351;
   overflow: hidden;
   border-radius: 12px;
+  max-height: 695.5px;
 }
 
-.user-data-container .profile-card-custom {
+.profile-card-custom .user-data-container {
   color: black;
+  max-height: 760px;
 }
-.ant-card .ant-card-bordered .profile-card-custom {
-  min-height: 600px;
+.profile-card-custom .ant-card .ant-card-bordered {
+  min-width: 300px;
+  max-height: 760px;
 }
-.ant-card-body .profile-card-custom {
-  background-color: #eff2f7;
+.profile-card-custom .ant-card-body {
+  min-width: 300px;
+  max-height: 760px;
+  height: 100%;
   display: flex;
-  flex-direction: column;
   gap: 20px;
+  flex-direction: column;
 }
 
-.avatar-container .profile-card-custom {
+.profile-card-custom .avatar-container {
+  margin-top: -20px;
   display: flex;
-  gap: 20px;
   align-items: center;
 }
-.ant-avatar .ant-avatar-circle {
+.profile-card-custom .ant-avatar .ant-avatar-circle {
   width: 100px;
   height: 100px;
 }
-.ant-card .ant-card-head {
+.profile-card-custom .ant-card .ant-card-head {
   background-color: #eac7ff;
 }
 
-.ant-form .ant-form-vertical .profile-card-custom {
+.avatar-container .ant-btn {
+  outline: none;
+  box-shadow: none;
+  background-color: #fafafa;
+  width: 170px;
+  height: 40px;
+  border: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+  border-radius: 12px;
+}
+
+.avatar-container:hover .ant-btn:hover {
+  outline: none;
+  border-color: #364351;
+  transform: scale(1.1);
+  background-color: #cbe5f8;
+  color: #364351;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.profile-card-custom .ant-form .ant-form-vertical {
   width: 600px;
 }
 
-.ant-form-item .ant-form-item-label > label .profile-card-custom {
+.profile-card-custom .ant-form-item .ant-form-item-label > label {
   color: #fafafa;
 }
-.kids-list {
+.profile-card-custom .kids-list {
   list-style: none;
+  min-width: 300px;
+  max-height: 100px;
+  overflow-y: auto;
+  overflow-wrap: normal;
+  margin-top: -20px;
 }
 
-.kid-li-item {
+.profile-card-custom .kids-list::-webkit-scrollbar {
+  width: 4px;
+  height: 3px;
+}
+
+.profile-card-custom .kids-list::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  border-radius: 25px;
+  height: 3px;
+}
+
+.profile-data-wrapper {
   position: relative;
   padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  border-width: 0.5px;
+  border-radius: 25px;
+  margin-bottom: 10px;
+  background-color: #fafafa;
+  padding-left: 25px;
+  box-shadow: 0px 0.5px 1px 0px rgba(0, 0, 0, 0.5);
+}
+
+.ant-descriptions-item-content {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+.kid-li-item {
+  width: 300px;
+  position: relative;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-width: 0.5px;
+  border-radius: 25px;
+  margin-bottom: 10px;
+  background-color: #fafafa;
+  padding-left: 25px;
+  box-shadow: 0px 0.5px 1px 0px rgba(0, 0, 0, 0.5);
 }
 
 .kid-li-item::before {
@@ -54,7 +129,154 @@
   color: var(--kid-color);
   position: absolute;
   left: 0;
-  font-size: 40px;
+  font-size: 40px; /* Убедитесь, что размер адекватен */
+  line-height: 1; /* Устанавливаем line-height */
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-55%);
+  padding-left: 5px;
+}
+
+.kid-info-wrapper {
+  text-align: center;
+}
+
+/* кнопки профиля */
+.profile-edit-nickname-btn,
+.profile-add-kids-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.profile-edit-nickname-btn .ant-btn {
+  outline: none;
+  box-shadow: none;
+  width: 200px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 16px;
+  border: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+  border-radius: 25px;
+  background-color: #fafafa;
+  color: #364351;
+}
+
+.profile-edit-nickname-btn:hover .ant-btn:hover {
+  outline: none;
+  border-color: #364351;
+  box-shadow: none;
+  transform: scale(1.1);
+  background-color: #efff9e;
+  color: #364351;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.profile-add-kids-btn .ant-btn {
+  outline: none;
+  box-shadow: none;
+  width: 200px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 16px;
+  border: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+  border-radius: 25px;
+  background-color: #fafafa;
+  color: #364351;
+}
+
+.profile-add-kids-btn:hover .ant-btn:hover {
+  outline: none;
+  border-color: #364351;
+  box-shadow: none;
+  transform: scale(1.1);
+  background-color: #efff9e;
+  color: #364351;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.kid-info-btns-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: 3px;
+}
+#profile-change-btn,
+#profile-del-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: 0.1s;
+}
+
+.svg-del-icon {
+  transition: fill 0.3s;
+}
+
+#profile-del-btn:hover .svg-del-icon circle,
+#profile-del-btn:hover .svg-del-icon path {
+  fill: #f9b1b1;
+}
+
+#profile-del-btn:hover {
+  transform: scale(1.1);
+}
+#profile-change-btn {
+  width: 90px;
+  transition: fill 0.3s;
+}
+
+#profile-change-btn:hover {
+  background-color: #cbe5f8;
+  border-radius: 12px;
+  height: 20px;
+  border: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+  display: flex;
+  justify-content: center;
+  transform: scale(1.1);
+}
+
+.small-btn-text {
+  color: #364351;
+  font-size: small;
+}
+/* стили модалок: */
+.profile-card-custom .ant-modal-content {
+  background-color: #efff9e;
+}
+
+.ant-modal .ant-modal-close {
+  box-sizing: border-box;
+  justify-content: center;
+  line-height: 1.5;
+  background-color: #eff2f7;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  right: 8px;
+  top: 8px;
+}
+
+/* ФОРМЫ */
+.change-login-modal-from {
+  background-color: #cbe5f8;
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.change-login-modal-from .ant-form-item {
+  display: inline;
+  justify-content: center;
+  margin-top: 20px;
 }
