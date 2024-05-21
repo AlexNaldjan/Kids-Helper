@@ -22,6 +22,7 @@ router.post('/rating', async (req, res) => {
     return res.status(200).json({ text: 'OK' });
   } catch (error) {
     console.log(error);
+    return res.status(401).json({ text: 'NO' });
   }
 });
 

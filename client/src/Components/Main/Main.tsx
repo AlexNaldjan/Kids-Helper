@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ServicesResponse } from '../../api/services/type';
-import { Button, List, Rate } from 'antd';
+import { List, Rate } from 'antd';
 
 // import './main.css';
 // import Organization from '../Common/Card/Card';
@@ -85,6 +85,7 @@ function Main(): JSX.Element {
               ]}
               extra={<img width={200} alt="logo" src={item.img} />}
             >
+              <List.Item.Meta description={item.title} />
               {item.description}
             </List.Item>
           </>
