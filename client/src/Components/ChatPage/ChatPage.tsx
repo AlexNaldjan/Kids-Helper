@@ -1,22 +1,28 @@
-import socketIO from 'socket.io-client';
-import { Sidebar } from './components/sidebar/sidebar';
+import io from 'socket.io-client';
+
 import { Body } from './components/body/body';
 import { MessageBlock } from './components/message-block/message-block';
 import styles from './style.module.css';
 import { useEffect, useState } from 'react';
 
-const socket = socketIO.connect('http://localhost:3000');
+const socket = io('http://localhost:3000');
+
+export interface Message {
+  id: number;
+  content: string;
+  user: string;
+}
+
 function ChatPage() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
     socket.on('response', data => {
       setMessages([...messages, data]);
     });
-  }, [socket, messages]);
+  }, [messages]);
   return (
     <div className={styles.chat}>
-      <Sidebar socket={socket} />
       <main className={styles.main}>
         <Body messages={messages} />
         <MessageBlock socket={socket} />

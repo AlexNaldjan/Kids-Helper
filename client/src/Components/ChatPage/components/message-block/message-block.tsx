@@ -1,15 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import styles from './style.module.css';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
 
-export const MessageBlock = ({ socket }) => {
+export const MessageBlock = ({ socket }: any) => {
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
   );
   const [message, setMessage] = useState<string>('');
 
-  const handleSend = e => {
+  const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     if (message.trim() && profile) {
       socket.emit('message', {
