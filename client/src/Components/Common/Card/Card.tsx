@@ -13,15 +13,13 @@ interface OrganizationProps {
   card: ServicesResponse;
   setServices: (props: []) => void;
   userId: number;
-  //handleModalOpen: () => void;
 }
 
 function Organization({
   card,
   setServices,
   userId,
-}: //handleModalOpen,
-OrganizationProps): React.ReactElement {
+}: OrganizationProps): React.ReactElement {
   const isLoggedIn = useSelector(
     (state: RootState) => !!state.auth.authData.accessToken,
   );
