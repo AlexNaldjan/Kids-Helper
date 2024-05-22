@@ -379,7 +379,7 @@ export function ProfileCard(): JSX.Element {
           className="change-login-modal"
           cancelButtonProps={{ style: { display: 'none' } }}
         >
-          <Form form={form} className="change-login-modal-from" cancel="hide">
+          <Form form={form} className="change-login-modal-from">
             <Form.Item
               name="username"
               label="Псевдоним"
@@ -414,27 +414,36 @@ export function ProfileCard(): JSX.Element {
             >
               <Input value={kidAgeState} onChange={handleAgeChange} />
             </Form.Item>
-            <Form.Item>
-              <label className="input-label">
-                <span className="input-title">Цвет маркера</span>
+            <Form.Item
+              label="Цвет маркера"
+              name="color"
+              rules={[
+                {
+                  required: true,
+                  message: 'Выберите маркер для ребенка',
+                },
+              ]}
+            >
+              {/* <label className="input-label">
+                <span className="input-title">Цвет маркера</span> */}
 
-                <Select
-                  className="input"
-                  onChange={e => handleKidColorChange(e)}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Выберите маркер для ребенка',
-                    },
-                  ]}
-                >
-                  {markerColors.map((kidColor, index) => (
-                    <Option key={index} value={kidColor}>
-                      {kidColor}
-                    </Option>
-                  ))}
-                </Select>
-              </label>
+              <Select
+                className="input"
+                onChange={e => handleKidColorChange(e)}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: 'Выберите маркер для ребенка',
+                //   },
+                // ]}
+              >
+                {markerColors.map((kidColor, index) => (
+                  <Option key={index} value={kidColor}>
+                    {kidColor}
+                  </Option>
+                ))}
+              </Select>
+              {/* </label> */}
             </Form.Item>
           </Form>
         </Modal>

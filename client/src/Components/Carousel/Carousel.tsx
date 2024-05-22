@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Virtual, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperInstance from 'swiper';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -18,12 +19,8 @@ type slideType = {
   description: string;
 };
 
-type swiperType = {
-  slideTo: (arg: number) => void;
-};
-
 export default function Carousel() {
-  const [swiperRef, setSwiperRef] = useState<swiperType>(undefined);
+  const [swiperRef, setSwiperRef] = useState<SwiperInstance | null>(null);
   const markersData = useSelector((state: RootState) => state.markers.markers);
 
   // Create array with 500 slides
@@ -50,7 +47,7 @@ export default function Carousel() {
   }, [markersData]);
 
   const slideTo = (id: number) => {
-    swiperRef.slideTo(id);
+    swiperRef?.slideTo(id);
   };
 
   return (

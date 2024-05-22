@@ -173,7 +173,6 @@ function MapPage() {
                     card={marker}
                     setServices={setServices}
                     userId={profile.id}
-                    className="organization-card"
                   />
                 ))
               : filteredMarkers.map(marker => (
@@ -182,7 +181,6 @@ function MapPage() {
                     card={marker}
                     setServices={setServices}
                     userId={profile.id}
-                    className="organization-card"
                   />
                 ))}
           </div>
