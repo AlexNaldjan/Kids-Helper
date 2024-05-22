@@ -1,15 +1,27 @@
-.ant-popover-title {
-  padding: 10px 15px;
-  background-color: #364351; /* Темный фон для заголовка */
-  color: white;
-  font-weight: bold;
-  border-bottom: 1px solid #eee;
+.ant-popover-content {
+  padding: 0px;
+  border-radius: 15px;
 }
 
+.ant-popover-title {
+  padding: 10px 15px;
+  background-color: #efff9e; /* Темный фон для заголовка */
+  color: white;
+  font-size: 14pt;
+  font-weight: bold;
+  margin-left: 0px;
+  border-bottom: 1px solid #eee;
+  margin: -12px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+.ant-popover .ant-popover-inner {
+  border-radius: 12px;
+}
 .ant-popover-inner-content {
   font-family: 'Arial', sans-serif;
   background-color: #ffffff; /* Светлый фон для контента */
-  padding: 15px;
+  padding: 12px;
 }
 
 /* Стили для кнопок */
@@ -27,6 +39,39 @@
 .close-btn {
   background-color: #eac7ff; /* Светло-фиолетовый цвет для кнопки "Закрыть" */
   color: white;
+}
+
+.popover-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.popover-delete-btn {
+  outline: none;
+  box-shadow: none;
+  width: 80px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 16px;
+  border: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+  border-radius: 25px;
+  background-color: #fafafa;
+  color: #364351;
+}
+
+.popover-delete-btn:hover {
+  outline: none;
+  border-color: #364351;
+  box-shadow: none;
+  transform: scale(1.1);
+  background-color: #efff9e;
+  color: #364351;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
 /* Стили для даты, времени и категорий */

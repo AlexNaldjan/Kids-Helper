@@ -41,7 +41,7 @@ function Rating({
         disabled={!isLoggedIn || Boolean(card.Users.length)}
         onChange={value => handlerRating(card.id, value)}
       />
-      <div>{card.rating}</div>
+      <div id="rating">{card.rating}</div>
     </>
   );
 }

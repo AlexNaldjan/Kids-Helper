@@ -217,6 +217,7 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                       event.id !== null ? event.id : dayItem.unix();
                     return (
                       <Popover
+                        className="calendar-popover"
                         key={eventId}
                         content={
                           <>
@@ -236,22 +237,24 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                                 {event.description}
                               </div>
 
-                              <Button
-                                className="delete-btn"
-                                onClick={() => deleteEvent(event.id)}
-                              >
-                                Удалить
-                              </Button>
-                              <Button
-                                className="close-btn"
-                                onClick={() => hidePopover(eventId)}
-                              >
-                                Закрыть
-                              </Button>
+                              <div className="popover-button-container">
+                                <Button
+                                  className="popover-delete-btn"
+                                  onClick={() => deleteEvent(event.id)}
+                                >
+                                  Удалить
+                                </Button>
+                                <Button
+                                  className="popover-close-btn"
+                                  onClick={() => hidePopover(eventId)}
+                                >
+                                  Закрыть
+                                </Button>
+                              </div>
                             </div>
                           </>
                         }
-                        title="Title"
+                        title={event.title}
                         trigger="click"
                         open={popoverVisibility[eventId]}
                         onOpenChange={open =>

@@ -66,8 +66,8 @@ function Favorites({ props }: Props): React.ReactElement {
       <Button onClick={handlerFavorites}>
         {favorites ? (
           <svg
-            width="30"
-            height="26"
+            width="16"
+            height="16"
             fill="currentColor"
             color="red"
             viewBox="0 0 1024 1024"
@@ -76,8 +76,8 @@ function Favorites({ props }: Props): React.ReactElement {
           </svg>
         ) : (
           <svg
-            width="26"
-            height="19"
+            width="16"
+            height="16"
             viewBox="0 0 56 49"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

@@ -1,25 +1,75 @@
+.map {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  height: 100%; /* Заполняет всю высоту экрана */
+  overflow: hidden;
+}
+
+.map-wrapper {
+  width: 1200px;
+  max-height: 700px;
+  background-color: #cbe5f8;
+  border-radius: 25px;
+  border: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+  margin-top: 40px;
+  overflow: hidden;
+}
 .map-page {
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  margin-top: 20px;
   position: relative;
   max-width: 1160px;
   margin: auto;
+  margin-bottom: 20px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  border-radius: 12px;
+}
+.map-search-placeholder .ant-input-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.ant-input-group-addon .ant-btn {
+  border-radius: 50px;
+  width: 100px;
+  background-color: #eac7ff;
+  color: #364351;
+  border-color: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+}
+.ant-input-group-addon:hover .ant-btn:hover {
+  color: #364351;
+  background-color: #efff9e;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.map-filter-placeholder {
+  margin-bottom: 2px;
 }
 
 .search {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  margin-bottom: 20px;
 }
 
 .map-container {
   width: 100%;
   height: 100%;
   position: relative;
+  border-radius: 12px;
 }
 
 .marker-info {
@@ -41,20 +91,23 @@
   top: 0;
   right: 0;
   width: 640px;
-  height: 500px; /* Устанавливаем фиксированную высоту */
-  overflow-y: auto; /* Добавляем вертикальный скролл */
+  height: 500px;
+  overflow-y: auto;
   padding: 10px;
-  box-sizing: border-box; /* Опционально, чтобы визуально отделить контейнер */
-  border: 1px solid #ddd; /* Опционально, для визуальной границы */
+  box-sizing: border-box;
 }
 
 .organization-card {
-  width: calc(50% - 10px); /* Устанавливаем ширину для двух колонок */
+  width: calc(50% - 10px);
   box-sizing: border-box;
 }
 
 .main-page-card-container {
-  height: 600px;
+  border-radius: 12px;
+  border-style: solid;
+  border-color: #364351;
+  border-width: 1px;
+  height: 500px;
   width: 300px;
 }
 
@@ -63,5 +116,166 @@
   flex-direction: column;
   justify-content: space-between;
   width: 260px;
-  height: 450px;
+  height: 330px;
+  border-radius: 12px;
+}
+
+.main-page-card-container .ant-card {
+  height: 498px;
+  border-radius: 12px;
+}
+
+.main-page-card-container .ant-card-cover img {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  width: 298px;
+}
+.main-card-content-container {
+  max-height: 250px;
+}
+
+.ant-card-cover img {
+  max-height: 200px;
+}
+.ant-card-meta-description {
+  overflow: scroll;
+  max-height: 100px;
+  min-height: 100px;
+}
+
+.ant-card-meta-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+/* Стили для всплывающего окна */
+.ant-card-meta-title:hover {
+  content: attr(data-full-title);
+  white-space: normal;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(234, 199, 255, 0.9);
+  padding: 5px;
+  border-radius: 12px;
+  border-style: solid;
+  border-width: 0.5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  width: 100%;
+  max-width: none;
+  overflow: visible;
+  transition: opacity 0.3s ease-in-out;
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.map-organisation-card .ant-btn {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* ФОН */
+.map-background {
+  position: absolute;
+  opacity: 0.3;
+
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: url('/src/Components/MapPage/assets/illustrations (1).svg');
+  background-size: cover;
+  background-repeat: space;
+  background-color: white;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80;
+  height: 80%;
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный серый фон */
+  z-index: 0;
+}
+
+/* Маленький маркер на карте */
+.marker-info {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  max-width: 200px;
+  min-height: 200px;
+  background-color: white;
+  margin: 10px;
+  border-radius: 12px;
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: #364351;
+}
+
+.org-title-small,
+.org-address-small,
+.org-contacts-small,
+.org-rating-small {
+  max-width: 230px;
+  max-height: 40px;
+  margin: 10px;
+  overflow: scroll;
+}
+.org-title-small {
+  background-color: #eac7ff;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  margin: 0px;
+  min-height: 40px;
+  max-height: 90px;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.org-title-small-text-wrapper {
+  max-width: 200px;
+  max-height: 90px;
+  margin: 10px;
+}
+
+.org-img-small {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.org-img-small img {
+  border-radius: 12px;
+  max-width: 190px;
+  max-height: 95px;
+}
+
+.org-description-small {
+  display: none;
+}
+
+.add-event-map-small {
+  outline: none;
+  box-shadow: none;
+  width: 100px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 16px;
+  border: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+  border-radius: 25px;
+  background-color: #fafafa;
+  color: #364351;
 }
