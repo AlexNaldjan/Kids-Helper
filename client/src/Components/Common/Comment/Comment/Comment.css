@@ -1,0 +1,34 @@
+.user {
+  display: flex;
+  justify-content: space-around;
+  width: 300px;
+}
+
+.comment-list {
+  background-color: blue;
+  display: flex;
+}
+.comment-item {
+  background-color: green;
+  min-width: 450px;
+  max-height: 80px;
+  display: flex;
+  justify-content: space-between;
+}
+.comment-list {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: brown;
+  max-height: 400px;
+  max-width: 520px;
+  overflow: scroll;
+}
+
+.ava-name {
+  display: flex;
+}
+.user {
+  display: flex;
+  justify-content: space-between;
+}

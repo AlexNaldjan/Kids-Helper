@@ -50,13 +50,9 @@ function Header(): React.ReactElement {
         <header className="lower-header">
           {' '}
           <div className="headerNavItem" id="tel">
-            <p className="telephone">
-              <img
-                className="tel-image"
-                src="/src/Components/Common/Header/telephone_2qhu40a3zzul.svg"
-              />
-              <span className="tel">+ 7 - 777 - 77 - 77</span>
-            </p>
+            <Link to="/chat" id="map-link" className="headerNavLink">
+              Где спросить?
+            </Link>
           </div>
           <nav>
             <ul className="headerNav">
@@ -106,12 +102,12 @@ function Header(): React.ReactElement {
                             className="headerNavLink"
                             to="/map"
                           >
-                            Карта
+                            Где поискать?
                           </Link>
                         </li>
                         <li className="headerNavItem">
                           <Link id="main-link" className="headerNavLink" to="/">
-                            Главная
+                            Что поискать?
                           </Link>
                         </li>
                       </ul>

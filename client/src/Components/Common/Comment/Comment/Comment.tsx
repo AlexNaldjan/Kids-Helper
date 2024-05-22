@@ -1,19 +1,21 @@
-import { Button, Input, List, Modal, Space } from 'antd';
+import { Button, Input, List, Modal } from 'antd';
 import { FormEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
 import { CommentsResponse, Props } from '../../Card/type';
-import { CommentOutlined, MessageOutlined } from '@ant-design/icons';
+import { CommentOutlined } from '@ant-design/icons';
 import React from 'react';
+import './Comment.css';
+import CommentItem from '../CommentItem/CommentItem';
 
 const { TextArea } = Input;
 
-const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
-  <Space>
-    {React.createElement(icon)}
-    {text}
-  </Space>
-);
+// const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
+//   <Space>
+//     {React.createElement(icon)}
+//     {text}
+//   </Space>
+// );
 
 function Comments({ props }: Props): React.ReactElement {
   const [isCommentVisible, setIsCommentVisible] = useState<boolean>(false);
@@ -68,7 +70,7 @@ function Comments({ props }: Props): React.ReactElement {
 
   return (
     <>
-      <Button onClick={showCommentModal}>
+      <Button onClick={showCommentModal} className="comment-button">
         <CommentOutlined />
         {`${comments.length}`}
       </Button>
@@ -81,24 +83,28 @@ function Comments({ props }: Props): React.ReactElement {
         {comments.length > 0 ? (
           <List
             className="comment-list"
-            header={`${comments.length} replies`}
+            //header={`${comments.length} replies`}
             itemLayout="horizontal"
             dataSource={comments}
             renderItem={item => (
-              <li>
-                <img
-                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                  style={{ width: '30px' }}
-                />
-                <div>{item.userName}</div>
-                <div>{item.comment}</div>
+              <li className="comment-item">
+                <div className=" user">
+                  <CommentItem item={item} />
+                  {/* <img
+                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                    style={{ width: '30px' }}
+                  />
+
+                  <div>{item.userName}</div>
+                  <div>{item.comment}</div> */}
+                </div>
               </li>
             )}
           />
         ) : (
           <div> </div>
         )}
-        ,
+
         {isLoggedIn ? (
           <>
             <form onSubmit={handleSubmit}>
