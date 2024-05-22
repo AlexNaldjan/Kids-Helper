@@ -62,12 +62,37 @@
   box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
-.profile-card-custom .ant-form .ant-form-vertical {
-  width: 600px;
+.ant-form {
+  font: 18px;
+  min-width: 545px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
-.profile-card-custom .ant-form-item .ant-form-item-label > label {
-  color: #fafafa;
+.ant-form-item-control-input {
+  margin-top: 20px;
+}
+
+.profile-card-custom .ant-form .ant-form-horizontal {
+  width: 600px;
+  background-color: none;
+}
+
+.ant-form-item .ant-form-item-label > label {
+  font-weight: 600;
+  font-size: 18px;
+  margin-left: 20px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  background-color: white;
 }
 .profile-card-custom .kids-list {
   list-style: none;

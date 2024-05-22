@@ -150,7 +150,7 @@
 .card-list-container {
   width: 100%;
   background-color: #cbe5f8;
-  height: 100%;
+  height: 100vh;
 }
 .card-list-big-wrapper {
   margin: 0px auto;

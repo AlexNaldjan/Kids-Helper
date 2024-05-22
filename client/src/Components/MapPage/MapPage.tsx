@@ -4,7 +4,6 @@ import {
   Placemark,
   FullscreenControl,
 } from '@pbe/react-yandex-maps';
-import styled from 'styled-components';
 
 import './MapPage.css';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,6 +14,7 @@ import { fetchCoordinates } from '../../store/map/mapThunks';
 import { setMarkers } from '../../store/map/markerSlice';
 import { Input, Select } from 'antd';
 import type { SearchProps } from 'antd/es/input/Search';
+import ModalWindow from '../../Components/Calendar/ModalWindow/ModalWindow';
 
 import Organization from '../Common/Card/Card';
 import { ServicesResponse } from '../../api/services/type';
@@ -28,6 +28,7 @@ function MapPage() {
   const selectedMarker = useSelector(
     (state: RootState) => state.map.selectedMarker,
   );
+  console.log('=======>', markersData);
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
   );
@@ -36,6 +37,11 @@ function MapPage() {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  // const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  // const handleModalOpen = () => {
+  //   setIsModalOpen(true);
+  // };
 
   const categories = [...new Set(markersData.map(marker => marker.category))];
 
@@ -103,8 +109,9 @@ function MapPage() {
 
   return (
     <div className="map">
+      <div className="map-background" />
+      <div className="overlay" />
       <div className="map-wrapper">
-        <div className="map-background" />
         <div className="search-container">
           <div className="map-filter-placeholder">
             <Select
@@ -163,13 +170,29 @@ function MapPage() {
           </div>
           {selectedMarker !== null && (
             <div className="marker-info">
-              {markersData[selectedMarker].title}
-              {/* <Organization
-              key={markersData[selectedMarker].id}
-              card={markersData[selectedMarker]}
-              setServices={setServices}
-              userId={profile.id}
-            /> */}
+              <div className="org-title-small">
+                <div className="org-title-small-text-wrapper">
+                  {markersData[selectedMarker].title}
+                </div>
+              </div>
+              <div className="org-img-small">
+                <img src={markersData[selectedMarker].img} />
+              </div>
+              <div className="org-address-small">
+                Адрес: {markersData[selectedMarker].address}
+              </div>
+              <div className="org-description-small">
+                {markersData[selectedMarker].description}
+              </div>
+              <div className="org-contacts-small">
+                Контакты: {markersData[selectedMarker].contacts}
+              </div>
+              <div className="org-rating-small">
+                Оценки пользователей: {markersData[selectedMarker].rating}
+              </div>
+              <button className="add-event-map-small" type="button">
+                Добавить в событие
+              </button>
             </div>
           )}
           <div className="markers-container">

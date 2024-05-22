@@ -3,7 +3,8 @@ import { FormEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
 import { CommentsResponse, Props } from '../../Card/type';
-import { CommentOutlined, MessageOutlined } from '@ant-design/icons';
+import { CommentOutlined } from '@ant-design/icons';
+import './Comment.css';
 import React from 'react';
 import styled from 'styled-components';
 
