@@ -10,7 +10,6 @@ import {
   Select,
 } from 'antd';
 const { Option } = Select;
-
 import { UploadOutlined } from '@ant-design/icons';
 
 import { useState, useEffect, FormEvent } from 'react';
@@ -238,7 +237,9 @@ export function ProfileCard(): JSX.Element {
         <div className="avatar-container" style={{ gap: '40px' }}>
           <Avatar size={100} />
           <Upload>
-            <Button icon={<UploadOutlined />}>Изменить аватар</Button>
+            <Button className="change-avatar" icon={<UploadOutlined />}>
+              Изменить аватар
+            </Button>
           </Upload>
         </div>
         <Descriptions title="Данные профиля">

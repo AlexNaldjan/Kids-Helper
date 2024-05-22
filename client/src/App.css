@@ -27,12 +27,36 @@ html {
   font-family: 'Onest Regular';
   color: #333;
 }
+.ant-modal-body {
+  max-height: 600px;
+}
+.ant-modal-footer .ant-btn {
+  background-color: #fafafa;
+  color: #364351;
+  width: 50px;
+  border: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+  display: flex;
+  border-radius: 25px;
+}
+
+.ant-modal-footer:hover .ant-btn:hover {
+  outline: none;
+  border-color: #364351;
+  box-shadow: none;
+  transform: scale(1.1);
+  background-color: #efff9e;
+  color: #364351;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+}
 
 .ant-modal .ant-modal-content {
   border-style: solid;
   border-bottom: #364351;
   border-width: 1px;
   background-color: white;
+  min-width: 600px;
 }
 .ant-modal .ant-modal-header {
   height: 40px;
@@ -47,6 +71,10 @@ html {
 }
 .ant-modal-close {
   justify-content: flex-end;
+}
+
+.form {
+  background-color: none;
 }
 
 .ant-modal .ant-modal-close {

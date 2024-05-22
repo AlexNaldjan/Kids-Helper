@@ -8,6 +8,7 @@ import ModalWindow from '../../Calendar/ModalWindow/ModalWindow';
 import { useState } from 'react';
 import { Moment } from 'moment';
 import { FormData, Event } from '../../Calendar/CalendarGrid/CalendarGrid';
+import './Card.css';
 
 interface OrganizationProps {
   card: ServicesResponse;
@@ -90,20 +91,28 @@ OrganizationProps): React.ReactElement {
         // style={{ width: '500px', height: '500px' }}
         cover={<img alt="img" src={card.img} />}
       >
-        <Meta title={card.title} description={card.description} />
-        <div className="main-card-content-container"></div>
-        <Rate
-          allowHalf
-          defaultValue={card.rating}
-          disabled={!isLoggedIn || Boolean(card.Users.length)}
-          onChange={value => handlerRating(card.id, value)}
-        />
-        <div>{card.rating}</div>
-        <button type="button" onClick={handleModalOpen}>
-          Добавить в событие
-        </button>
-        <div>{card.rating}</div>
-        <Comments props={card.id} />
+        <div className="main-card-content-container">
+          <Meta title={card.title} description={card.description} />
+          <div className="rate-comment-main-page-card-wrapper">
+            <div className="rating-wrapper">
+              <Rate
+                allowHalf
+                defaultValue={card.rating}
+                disabled={!isLoggedIn || Boolean(card.Users.length)}
+                onChange={value => handlerRating(card.id, value)}
+              />
+              <div>{card.rating}</div>
+            </div>
+            <Comments props={card.id} />
+          </div>
+          <button
+            className="add-event-main"
+            type="button"
+            onClick={handleModalOpen}
+          >
+            Добавить в событие
+          </button>
+        </div>
       </Card>
       <ModalWindow
         dayItem={null}

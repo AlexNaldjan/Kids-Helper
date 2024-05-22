@@ -109,7 +109,7 @@
   justify-content: center;
   gap: 20px;
 }
-.kid-li-item {
+.profile-card-custom .kid-li-item {
   width: 300px;
   position: relative;
   padding-left: 20px;
@@ -249,6 +249,12 @@
   color: #364351;
   font-size: small;
 }
+
+.ant-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* стили модалок: */
 .profile-card-custom .ant-modal-content {
   background-color: #efff9e;
@@ -267,7 +273,7 @@
 }
 
 /* ФОРМЫ */
-.change-login-modal-from {
+.change-login-modal-form {
   background-color: #cbe5f8;
   margin: 20px;
   display: flex;
@@ -275,7 +281,7 @@
   align-items: center;
 }
 
-.change-login-modal-from .ant-form-item {
+.change-login-modal-form .ant-form-item {
   display: inline;
   justify-content: center;
   margin-top: 20px;

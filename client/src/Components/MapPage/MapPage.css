@@ -1,3 +1,20 @@
+.map {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.map-wrapper {
+  width: 1200px;
+  max-height: 700px;
+  margin-top: 40px;
+  background-color: #cbe5f8;
+  border-radius: 25px;
+  border: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+  margin-top: 60px;
+}
 .map-page {
   display: flex;
   justify-content: space-between;
@@ -8,12 +25,41 @@
   margin: auto;
 }
 
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.map-search-placeholder .ant-input-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.ant-input-group-addon .ant-btn {
+  border-radius: 50px;
+  width: 100px;
+  background-color: #eac7ff;
+  color: #364351;
+  border-color: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+}
+.ant-input-group-addon:hover .ant-btn:hover {
+  color: #364351;
+  background-color: #efff9e;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.map-filter-placeholder {
+  margin-bottom: 2px;
+}
+
 .search {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  margin-bottom: 20px;
 }
 
 .map-container {
@@ -41,19 +87,22 @@
   top: 0;
   right: 0;
   width: 640px;
-  height: 500px; /* Устанавливаем фиксированную высоту */
-  overflow-y: auto; /* Добавляем вертикальный скролл */
+  height: 500px;
+  overflow-y: auto;
   padding: 10px;
-  box-sizing: border-box; /* Опционально, чтобы визуально отделить контейнер */
-  border: 1px solid #ddd; /* Опционально, для визуальной границы */
+  box-sizing: border-box;
 }
 
 .organization-card {
-  width: calc(50% - 10px); /* Устанавливаем ширину для двух колонок */
+  width: calc(50% - 10px);
   box-sizing: border-box;
 }
 
 .main-page-card-container {
+  border-radius: 12px;
+  border-style: solid;
+  border-color: #364351;
+  border-width: 1px;
   height: 600px;
   width: 300px;
 }
@@ -63,5 +112,52 @@
   flex-direction: column;
   justify-content: space-between;
   width: 260px;
-  height: 450px;
+  height: 300px;
+  border-radius: 12px;
+}
+
+.main-page-card-container .ant-card {
+  height: 598px;
+  border-radius: 12px;
+}
+
+.main-page-card-container .ant-card-cover img {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  width: 298px;
+}
+
+.ant-card-meta-description {
+  overflow: scroll;
+  max-height: 100px;
+  min-height: 100px;
+}
+
+.map-organisation-card .ant-btn {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* В вашем CSS файле */
+.map-background {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: url('/src/Components/MapPage/assets/illustrations (1).svg');
+  background-size: cover;
+  background-repeat: space;
+  /* background-color: white; */
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80;
+  height: 80%;
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный серый фон */
+  z-index: 0;
 }

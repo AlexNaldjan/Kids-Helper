@@ -150,6 +150,7 @@ function ModalWindow({
       onCancel={handleCancel}
       onOk={addEvent}
       key={dayItem ? dayItem.unix() : undefined}
+      cancelButtonProps={{ style: { display: 'none' } }}
     >
       <form className="event-form" onSubmit={handleSubmit}>
         <label className="input-label">
