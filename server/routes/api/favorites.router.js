@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { Liked } = require('../../db/models/index');
+const { Liked, Social_service } = require('../../db/models/index');
 
 router.post('/liked/:id', async (req, res) => {
   const { id } = req.params;
@@ -46,6 +46,28 @@ router.delete('/liked/:id', async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.sendStatus(401);
+  }
+});
+
+router.get('/liked/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const favoritesData = await Liked.findAll({
+      where: { userId: Number(id) },
+      include: [
+        {
+          model: Social_service,
+          as: 'socialService',
+        },
+      ],
+    });
+    const favorites = favoritesData.map((item) => item.socialService);
+    res.json(favorites);
+  } catch (error) {
+    console.error('Error fetching favorites:', error);
+    res
+      .status(500)
+      .json({ error: 'An error occurred while fetching favorites' });
   }
 });
 

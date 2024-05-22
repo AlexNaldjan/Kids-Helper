@@ -1,6 +1,5 @@
 import { Button } from 'antd';
 import { Props } from '../Card/type';
-import { HeartOutlined, HeartTwoTone } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
