@@ -168,6 +168,7 @@ function MapPage() {
               </div>
             </YMaps>
           </div>
+
           {selectedMarker !== null && (
             <div className="marker-info">
               <div className="org-title-small">
@@ -219,6 +220,7 @@ function MapPage() {
                     </div>
                   ))}
             </div>
+
           </div>
         </div>
       </div>
