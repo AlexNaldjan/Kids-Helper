@@ -3,6 +3,7 @@
   justify-content: space-around;
   width: 300px;
 }
+
 .comment-list {
   background-color: blue;
   display: flex;
@@ -23,10 +24,15 @@
   max-width: 520px;
   overflow: scroll;
 }
+
 .ava-name {
   display: flex;
 }
 .user {
   display: flex;
   justify-content: space-between;
+}
+
+.ant-spin-nested-loading {
+  height: auto;
 }
