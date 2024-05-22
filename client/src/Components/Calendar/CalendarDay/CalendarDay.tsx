@@ -102,6 +102,7 @@ export const CalendarDay = (dayItem: moment.Moment, dayStyle: any) => {
               open={isModalOpen}
               onCancel={handleCancel}
               key={dayItem.unix()} // Добавляем ключ для каждого модального окна
+              cancelButtonProps={{ style: { display: 'none' } }}
             >
               <label className="input-label">
                 <span className="input-title">Название:</span>

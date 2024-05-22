@@ -65,42 +65,49 @@ function Main(): JSX.Element {
       <FeaturesComponent />
       <BulletsComponent />
       <div className="card-list-container">
-         <List
-        className="card-row-container"
-        itemLayout="vertical"
-        size="large"
-        pagination={{
-          onChange: page => {
-            console.log(page);
-          },
-          pageSize: 3,
-        }}
-        dataSource={services}
-        renderItem={item => (
-          <>
-            <List.Item
-              key={item.id}
-              actions={[
-                <Rate
-                  allowHalf
-                  defaultValue={item.rating}
-                  disabled={!isLoggedIn || Boolean(item.Users.length)}
-                  onChange={value => handlerRating(item.id, value)}
-                />,
-                <div>{item.rating}</div>,
-                <Comments props={item.id} />,
-                <Favorites props={item.id} />,
-              ]}
-              extra={<img width={250} height={200} alt="logo" src={item.img} />}
-            >
-              <List.Item.Meta description={item.title} />
-              {item.description}
-            </List.Item>
-          </>
-        )}
-      />
+        <div className="card-list-big-wrapper">
+          <List
+            className="card-row-container"
+            itemLayout="vertical"
+            size="large"
+            pagination={{
+              onChange: page => {
+                console.log(page);
+              },
+              pageSize: 3,
+            }}
+            dataSource={services}
+            renderItem={item => (
+              <>
+                <List.Item
+                  key={item.id}
+                  actions={[
+                    <div className="rating-component-main">
+                      <Rate
+                        allowHalf
+                        defaultValue={item.rating}
+                        disabled={!isLoggedIn || Boolean(item.Users.length)}
+                        onChange={value => handlerRating(item.id, value)}
+                      />
+                      <div>{item.rating}</div>,
+                      <Comments props={item.id} />,
+                      <Favorites props={item.id} />,
+                    </div>,
+                  ]}
+                  extra={
+                    <img width={250} height={200} alt="logo" src={item.img} />
+                  }
+                >
+                  <List.Item.Meta description={item.title} />
+                  <div className="long-card-description">
+                    {item.description}
+                  </div>
+                </List.Item>
+              </>
+            )}
+          />
+        </div>
       </div>
-
     </>
   );
 }

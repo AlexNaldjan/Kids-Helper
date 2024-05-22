@@ -62,12 +62,37 @@
   box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
-.profile-card-custom .ant-form .ant-form-vertical {
-  width: 600px;
+.ant-form {
+  font: 18px;
+  min-width: 545px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
-.profile-card-custom .ant-form-item .ant-form-item-label > label {
-  color: #fafafa;
+.ant-form-item-control-input {
+  margin-top: 20px;
+}
+
+.profile-card-custom .ant-form .ant-form-horizontal {
+  width: 600px;
+  background-color: none;
+}
+
+.ant-form-item .ant-form-item-label > label {
+  font-weight: 600;
+  font-size: 18px;
+  margin-left: 20px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  background-color: white;
 }
 .profile-card-custom .kids-list {
   list-style: none;
@@ -109,7 +134,7 @@
   justify-content: center;
   gap: 20px;
 }
-.kid-li-item {
+.profile-card-custom .kid-li-item {
   width: 300px;
   position: relative;
   padding-left: 20px;
@@ -249,6 +274,12 @@
   color: #364351;
   font-size: small;
 }
+
+.ant-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* стили модалок: */
 .profile-card-custom .ant-modal-content {
   background-color: #efff9e;
@@ -267,7 +298,7 @@
 }
 
 /* ФОРМЫ */
-.change-login-modal-from {
+.change-login-modal-form {
   background-color: #cbe5f8;
   margin: 20px;
   display: flex;
@@ -275,7 +306,7 @@
   align-items: center;
 }
 
-.change-login-modal-from .ant-form-item {
+.change-login-modal-form .ant-form-item {
   display: inline;
   justify-content: center;
   margin-top: 20px;

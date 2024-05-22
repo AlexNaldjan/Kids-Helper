@@ -3,9 +3,9 @@ import { FormEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
 import { CommentsResponse, Props } from '../../Card/type';
+import './Comment.css';
 import { CommentOutlined } from '@ant-design/icons';
 import React from 'react';
-import './Comment.css';
 import CommentItem from '../CommentItem/CommentItem';
 
 const { TextArea } = Input;
@@ -83,7 +83,6 @@ function Comments({ props }: Props): React.ReactElement {
         {comments.length > 0 ? (
           <List
             className="comment-list"
-            //header={`${comments.length} replies`}
             itemLayout="horizontal"
             dataSource={comments}
             renderItem={item => (

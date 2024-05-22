@@ -14,6 +14,7 @@ import { fetchCoordinates } from '../../store/map/mapThunks';
 import { setMarkers } from '../../store/map/markerSlice';
 import { Input, Select } from 'antd';
 import type { SearchProps } from 'antd/es/input/Search';
+import ModalWindow from '../../Components/Calendar/ModalWindow/ModalWindow';
 
 import Organization from '../Common/Card/Card';
 import { ServicesResponse } from '../../api/services/type';
@@ -27,6 +28,7 @@ function MapPage() {
   const selectedMarker = useSelector(
     (state: RootState) => state.map.selectedMarker,
   );
+  console.log('=======>', markersData);
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
   );
@@ -35,6 +37,11 @@ function MapPage() {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  // const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  // const handleModalOpen = () => {
+  //   setIsModalOpen(true);
+  // };
 
   const categories = [...new Set(markersData.map(marker => marker.category))];
 
@@ -102,89 +109,116 @@ function MapPage() {
 
   return (
     <div className="map">
-      <div className="search">
-        <Select
-          placeholder="Выберите категорию"
-          style={{ width: 200, marginRight: 10 }}
-          onChange={handleCategoryChange}
-        >
-          {categories.map(category => (
-            <Select.Option key={category} value={category}>
-              {category}
-            </Select.Option>
-          ))}
-        </Select>
-
-        <Search
-          placeholder="input search text"
-          allowClear
-          enterButton="Search"
-          size="large"
-          onSearch={onSearch}
-          onChange={handleSearchChange}
-        />
-      </div>
-      <div className="map-page">
-        <div className="map-container">
-          <YMaps query={{ lang: 'ru_RU' }}>
-            <div style={{ width: '1160px', height: '1000px' }}>
-              <Map
-                defaultState={{
-                  center: [55.796, 37.541],
-                  zoom: 9,
-                  controls: [],
-                }}
-                style={{ width: '100%', height: '600px' }}
-                onClick={handleMapClick}
-              >
-                {coordinates.map((coordinate, index) => (
-                  <Placemark
-                    key={markersData[index].id}
-                    geometry={coordinate}
-                    options={{
-                      preset: 'islands#icon',
-                      iconColor: '#ff0000',
-                    }}
-                    onClick={() => handleMarkerClick(index)}
-                  />
-                ))}
-                <FullscreenControl />
-              </Map>
-            </div>
-          </YMaps>
-        </div>
-        {selectedMarker !== null && (
-          <div className="marker-info">
-            {markersData[selectedMarker].title}
-            {/* <Organization
-              key={markersData[selectedMarker].id}
-              card={markersData[selectedMarker]}
-              setServices={setServices}
-              userId={profile.id}
-            /> */}
+      <div className="map-background" />
+      <div className="overlay" />
+      <div className="map-wrapper">
+        <div className="search-container">
+          <div className="map-filter-placeholder">
+            <Select
+              placeholder="Выберите категорию"
+              style={{ width: 200, marginRight: 10 }}
+              onChange={handleCategoryChange}
+            >
+              {categories.map(category => (
+                <Select.Option key={category} value={category}>
+                  {category}
+                </Select.Option>
+              ))}
+            </Select>
           </div>
-        )}
-        <div className="markers-container">
-          <div className="marker-wrap">
-            {selectedCategory !== null
-              ? filteredMarkersByCategory.map(marker => (
-                  <Organization
-                    key={marker.id}
-                    card={marker}
-                    setServices={setServices}
-                    userId={profile.id}
-                    className="organization-card"
-                  />
-                ))
-              : filteredMarkers.map(marker => (
-                  <Organization
-                    key={marker.id}
-                    card={marker}
-                    setServices={setServices}
-                    userId={profile.id}
-                    className="organization-card"
-                  />
-                ))}
+
+          <div className="map-search-placeholder">
+            <Search
+              placeholder="Найти организацию"
+              style={{ borderRadius: '25px' }}
+              allowClear
+              enterButton="Найти"
+              size="large"
+              onSearch={onSearch}
+              onChange={handleSearchChange}
+            />
+          </div>
+        </div>
+        <div className="map-page">
+          <div className="map-container">
+            <YMaps query={{ lang: 'ru_RU' }}>
+              <div style={{ width: '1160px', height: '1000px' }}>
+                <Map
+                  defaultState={{
+                    center: [55.796, 37.541],
+                    zoom: 9,
+                    controls: [],
+                  }}
+                  style={{ width: '100%', height: '600px' }}
+                  onClick={handleMapClick}
+                >
+                  {coordinates.map((coordinate, index) => (
+                    <Placemark
+                      key={markersData[index].id}
+                      geometry={coordinate}
+                      options={{
+                        preset: 'islands#icon',
+                        iconColor: '#ff0000',
+                      }}
+                      onClick={() => handleMarkerClick(index)}
+                    />
+                  ))}
+                  <FullscreenControl />
+                </Map>
+              </div>
+            </YMaps>
+          </div>
+          {selectedMarker !== null && (
+            <div className="marker-info">
+              <div className="org-title-small">
+                <div className="org-title-small-text-wrapper">
+                  {markersData[selectedMarker].title}
+                </div>
+              </div>
+              <div className="org-img-small">
+                <img src={markersData[selectedMarker].img} />
+              </div>
+              <div className="org-address-small">
+                Адрес: {markersData[selectedMarker].address}
+              </div>
+              <div className="org-description-small">
+                {markersData[selectedMarker].description}
+              </div>
+              <div className="org-contacts-small">
+                Контакты: {markersData[selectedMarker].contacts}
+              </div>
+              <div className="org-rating-small">
+                Оценки пользователей: {markersData[selectedMarker].rating}
+              </div>
+              <button className="add-event-map-small" type="button">
+                Добавить в событие
+              </button>
+            </div>
+          )}
+          <div className="markers-container">
+            <div className="marker-wrap">
+              {selectedCategory !== null
+                ? filteredMarkersByCategory.map(marker => (
+                    <div className="map-organisation-card">
+                      <Organization
+                        key={marker.id}
+                        card={marker}
+                        setServices={setServices}
+                        userId={profile.id}
+                      />
+                    </div>
+                  ))
+                : filteredMarkers.map(marker => (
+                    <div className="map-organisation-card">
+                      <Organization
+                        key={marker.id}
+                        card={marker}
+                        setServices={setServices}
+                        userId={profile.id}
+                      />
+                    </div>
+                  ))}
+            </div>
           </div>
         </div>
       </div>
