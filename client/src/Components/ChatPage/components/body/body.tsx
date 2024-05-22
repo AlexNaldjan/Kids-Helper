@@ -2,8 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import styles from './style.module.css';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
+import { Message } from '../../ChatPage';
 
-export const Body = ({ messages }) => {
+interface BodyProps {
+  messages: Message[];
+}
+
+export const Body: React.FC<BodyProps> = ({ messages }) => {
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
   );

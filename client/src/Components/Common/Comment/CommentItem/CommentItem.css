@@ -1,0 +1,29 @@
+.comment-item-container {
+  display: flex;
+  justify-content: space-between;
+  min-width: 400px;
+}
+
+.comment-avatar {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.comment-content {
+  background-color: #f9f9f9;
+  padding: 12px;
+  border-radius: 8px;
+  flex: 1;
+}
+
+.comment-username {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.comment-text {
+  font-size: 14px;
+}
