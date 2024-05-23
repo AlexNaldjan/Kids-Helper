@@ -9,7 +9,7 @@ router.post(
   fileMiddleware.single("avatar"),
   async (req, res) => {
     const { userId } = req.body;
-    const fileUrl = `/images/${req.file.filename}`; // Простой путь к файлу
+    const fileUrl = `/images/${req.file.filename}`;
 
     try {
       const user = await User.findByPk(userId);
@@ -26,8 +26,8 @@ router.post(
         res.status(404).send("Пользователь не найден.");
       }
     } catch (error) {
-      console.error("Ошибка при сохранении URL:", error);
-      res.status(500).send("Ошибка при сохранении URL.");
+      console.error("Ошибка при сохранении URL", error);
+      res.status(500).send("Ошибка при сохранении URL");
     }
   }
 );

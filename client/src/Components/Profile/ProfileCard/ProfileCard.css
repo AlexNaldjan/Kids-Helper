@@ -27,6 +27,9 @@
   gap: 20px;
   flex-direction: column;
 }
+.ant-form-item-control-input-content {
+  margin-top: 20px;
+}
 
 .profile-card-custom .avatar-container {
   margin-top: -20px;
@@ -62,18 +65,18 @@
   box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
-.ant-form {
+.profile-card-custom .ant-form {
   font: 18px;
-  min-width: 545px;
+  min-width: 551px;
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+  gap: 10px;
 }
 
-.ant-form-item-control-input {
+.profile-card-custom .ant-form-item-control-input {
   margin-top: 20px;
 }
 
@@ -153,6 +156,7 @@
   content: '•';
   color: var(--kid-color);
   position: absolute;
+  align-items: center;
   left: 0;
   font-size: 40px; /* Убедитесь, что размер адекватен */
   line-height: 1; /* Устанавливаем line-height */
@@ -231,6 +235,7 @@
   align-items: center;
   gap: 5px;
   margin-right: 3px;
+  margin-bottom: 10px;
 }
 #profile-change-btn,
 #profile-del-btn {

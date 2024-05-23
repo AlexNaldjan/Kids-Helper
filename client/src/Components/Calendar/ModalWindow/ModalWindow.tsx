@@ -151,6 +151,7 @@ function ModalWindow({
       onOk={addEvent}
       key={dayItem ? dayItem.unix() : undefined}
       cancelButtonProps={{ style: { display: 'none' } }}
+      okButtonProps={{ style: { display: 'none' } }}
     >
       <form className="event-form" onSubmit={handleSubmit}>
         <label className="input-label">
@@ -171,6 +172,7 @@ function ModalWindow({
               value={formData.time ? moment(formData.time, 'HH:mm') : null}
               onChange={handleTimeChange}
               format="HH:mm"
+              okButton="ОК"
             />
           </label>
         ) : (
@@ -195,7 +197,7 @@ function ModalWindow({
         )}
         <fieldset className="radio-set">
           <legend className="visually-hidden">Категории:</legend>
-          <div className="radio-container">
+          <div className="radio-container-add-event-in-calendar">
             <label className="radio-label">
               <input
                 className="radio"
@@ -290,7 +292,9 @@ function ModalWindow({
           </Select>
         </label>
 
-        <button type="submit">Создать Событие</button>
+        <button className="create-event-in-modal-btn" type="submit">
+          Создать Событие
+        </button>
       </form>
     </Modal>
   );

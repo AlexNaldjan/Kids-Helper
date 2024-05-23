@@ -9,8 +9,8 @@
   box-sizing: border-box;
   overflow: auto;
   background-color: #364351;
-  max-width: 840px; /* Общая максимальная ширина: 220px * 7 дней */
-  max-height: 880px; /* Общая максимальная высота: 160px * 5 недель + 40px для заголовка */
+  max-width: 840px;
+  max-height: 880px;
 }
 
 .calendar-day {
@@ -129,7 +129,3 @@
 .short-event-title {
   font-size: 7pt;
 }
- {
-}
-/* 
-стили для кнопок */

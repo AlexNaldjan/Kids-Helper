@@ -52,41 +52,52 @@ export default function Carousel() {
 
   return (
     <>
-      <Swiper
-        modules={[Virtual, Navigation, Pagination]}
-        onSwiper={setSwiperRef}
-        slidesPerView={3}
-        centeredSlides={true}
-        spaceBetween={30}
-        pagination={{
-          type: 'fraction',
-        }}
-        navigation={true}
-        virtual
-      >
-        {slides.map(slideContent => (
-          <>
-            <SwiperSlide key={slideContent.id}>
-              <img src={slideContent.image} alt={slideContent.image} />
-            </SwiperSlide>
-          </>
-        ))}
-      </Swiper>
+      <div className="swiper-container">
+        <div className="swiper-wrapper">
+          <Swiper
+            modules={[Virtual, Navigation, Pagination]}
+            onSwiper={setSwiperRef}
+            slidesPerView={3}
+            centeredSlides={true}
+            spaceBetween={30}
+            pagination={{
+              type: 'fraction',
+            }}
+            navigation={true}
+            virtual
+          >
+            {slides.map(slideContent => (
+              <>
+                <SwiperSlide key={slideContent.id}>
+                  <img src={slideContent.image} alt={slideContent.image} />
+                  <div className="swiper-title">{slideContent.title}</div>
+                  <div className="swiper-description">
+                    {slideContent.description}
+                  </div>
+                </SwiperSlide>
+              </>
+            ))}
+          </Swiper>
 
-      <p className="append-buttons">
-        <button onClick={() => slideTo(1)} className="prepend-slide">
-          Start
-        </button>
-        <button
-          onClick={() => slideTo(slides.length / 2)}
-          className="slide-250"
-        >
-          Middle
-        </button>
-        <button onClick={() => slideTo(slides.length)} className="slide-500">
-          End
-        </button>
-      </p>
+          <p className="append-buttons">
+            <button onClick={() => slideTo(1)} className="prepend-slide">
+              Start
+            </button>
+            <button
+              onClick={() => slideTo(slides.length / 2)}
+              className="slide-250"
+            >
+              Middle
+            </button>
+            <button
+              onClick={() => slideTo(slides.length)}
+              className="slide-500"
+            >
+              End
+            </button>
+          </p>
+        </div>
+      </div>
     </>
   );
 }

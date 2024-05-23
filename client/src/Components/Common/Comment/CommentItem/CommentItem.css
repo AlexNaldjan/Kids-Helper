@@ -1,9 +1,25 @@
 .comment-item-container {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  min-width: 400px;
+  gap: 28px;
+}
+.comment-item {
+  background-color: #364351;
+  border-radius: 25px;
+}
+.user-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 6px;
+  margin-left: 12px;
+  gap: 12px;
 }
 
+.comment-username {
+  color: #f9f9f9;
+}
 .comment-avatar {
   display: flex;
   width: 40px;
@@ -14,7 +30,9 @@
 
 .comment-content {
   background-color: #f9f9f9;
-  padding: 12px;
+  min-height: 70px;
+  min-width: 380px;
+  max-width: 350px;
   border-radius: 8px;
   flex: 1;
 }
@@ -25,5 +43,11 @@
 }
 
 .comment-text {
+  margin-top: 12px;
+  margin-left: 6px;
+  margin-right: 6px;
   font-size: 14px;
+  height: 28px;
+  text-align: left;
+  text-wrap: wrap;
 }

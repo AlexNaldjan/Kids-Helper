@@ -12,8 +12,8 @@ function BulletsComponent(): React.ReactElement {
             </div>
             <div>
               <p className="bullet-text">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Aperiam, tempore.
+                Понятные инструменты для планирования и организации досуга
+                детей,
               </p>
             </div>
           </div>
@@ -23,8 +23,8 @@ function BulletsComponent(): React.ReactElement {
             </div>
             <div>
               <p className="bullet-text">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Aperiam, tempore.
+                Находите новые и увлекательные мероприятия для детей всех
+                возрастов
               </p>
             </div>
           </div>
@@ -33,21 +33,9 @@ function BulletsComponent(): React.ReactElement {
               <img src="/src/Components/Main/BulletsComponent/иллюстрация часы.svg" />
             </div>
             <div>
-              <p className="bullet-text">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Aperiam, tempore.
-              </p>
-            </div>
-          </div>
-          <div id="bullet-4" className="bullet-wraper">
-            <div className="bullet-img">
-              <img src="/src/Components/Main/BulletsComponent/иллюстрация с чеком.svg" />
-            </div>
-            <div>
-              <p className="bullet-text">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Aperiam, tempore.
-              </p>
+              <p className="bullet-text"></p>
+              Управляйте своим временем, чтобы проводить больше времени с самыми
+              близкими
             </div>
           </div>
         </div>

@@ -9,20 +9,28 @@
 }
 
 .features-wrapper {
+  margin-left: 150px;
   display: flex;
   flex-direction: row;
-  gap: 160px;
+  gap: 150px;
   justify-content: center;
   background-color: #eac7ff;
-  height: 400px;
+  height: 300px;
   max-width: 1160px;
+}
+
+.feature-bullet-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
 }
 
 .feature-bullet-wraper {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 40px;
+  gap: 60px;
 }
 
 .feature-text {

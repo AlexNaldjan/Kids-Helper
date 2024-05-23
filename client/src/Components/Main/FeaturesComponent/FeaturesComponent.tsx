@@ -7,38 +7,31 @@ function FeaturesComponent(): React.ReactElement {
       <div className="features-container">
         <div className="features-wrapper">
           <div id="feature-bullet-1" className="feature-bullet-wraper">
-            <div>
-              <h1>Lorem, ipsum.</h1>
+            <div className="feature-bullet-content">
+              <h1>Планируйте досуг</h1>
               <p className="feature-bullet-text">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Aperiam, tempore.
+                Планируйте спортивные <br />и иные активности с детьми
               </p>
             </div>
           </div>
           <div id="feature-bullet-2" className="feature-bullet-wraper">
-            <div>
-              <h1>Lorem, ipsum.</h1>
+            <div className="feature-bullet-content">
+              <h1>Находите новые места</h1>
               <p className="feature-bullet-text">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Aperiam, tempore.
+                Выбирайте новые локации <br />и организации среди наших
+                партнёров
               </p>
             </div>
           </div>
           <div id="feature-bullet-3" className="feature-bullet-wraper">
-            <div>
-              <h1>Lorem, ipsum.</h1>
+            <div className="feature-bullet-content">
+              <h1>
+                Держите свой бюджет <br />
+                под контролем
+              </h1>
               <p className="feature-bullet-text">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Aperiam, tempore.
-              </p>
-            </div>
-          </div>
-          <div id="feature-bullet-4" className="feature-bullet-wraper">
-            <div>
-              <h1>Lorem, ipsum.</h1>
-              <p className="feature-bullet-text">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Aperiam, tempore.
+                Держите под контролём ваши расходы <br />и распоряжайтесь своим
+                временем и финансами эффективно
               </p>
             </div>
           </div>

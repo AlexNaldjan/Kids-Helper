@@ -107,8 +107,6 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   };
 
   const deleteEvent = async (id: number | null) => {
-    if (!window.confirm('Вы уверены, что хотите удалить это событие?')) return;
-
     try {
       const response = await fetch(
         `http://localhost:3000/api/profile/events/${id}`,
@@ -221,40 +219,63 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                         key={eventId}
                         content={
                           <>
-                            <div>
-                              <div className="event-date">
-                                {moment(event.date).format('YYYY-MM-DD HH:mm')}
+                            <div className="popover-text-container">
+                              <div className="popover-text-block event-date">
+                                <span className="date-name-popover">
+                                  Дата:{' '}
+                                  {moment(event.date).format(
+                                    'YYYY-MM-DD HH:mm',
+                                  )}
+                                </span>
                               </div>
-                              <div>
+                              <div className="popover-text-block kid-wrap-popover">
+                                <span className="kid-name-popover">
+                                  Для кого:
+                                </span>{' '}
                                 {profile?.kids?.find(
                                   kid => kid.id === event.kidId,
                                 )?.name || 'Не указан'}
                               </div>
-                              <div className="event-category">
+                              <div className="popover-text-block popover-event-category">
+                                <span className="category-name-popover">
+                                  Категория:
+                                </span>{' '}
                                 {event.category}
                               </div>
-                              <div className="event-description">
-                                {event.description}
+                              <div className="popover-text-block popover-cost-category">
+                                <span className="cost-name-popover">Цена:</span>{' '}
+                                {event.cost} Рублей
                               </div>
-
-                              <div className="popover-button-container">
-                                <Button
-                                  className="popover-delete-btn"
-                                  onClick={() => deleteEvent(event.id)}
-                                >
-                                  Удалить
-                                </Button>
-                                <Button
-                                  className="popover-close-btn"
-                                  onClick={() => hidePopover(eventId)}
-                                >
-                                  Закрыть
-                                </Button>
+                              <div className="popover-text-block event-description-container">
+                                <span className="description-name-popover">
+                                  Описание:
+                                </span>{' '}
+                                <div className="event-description">
+                                  {event.description}
+                                </div>
                               </div>
+                            </div>
+                            <div className="popover-button-container">
+                              <button
+                                className="popover-delete-btn"
+                                onClick={() => deleteEvent(event.id)}
+                              >
+                                Удалить
+                              </button>
+                              <button
+                                className="popover-close-btn"
+                                onClick={() => hidePopover(eventId)}
+                              >
+                                Закрыть
+                              </button>
                             </div>
                           </>
                         }
-                        title={event.title}
+                        title={
+                          <div id="popover-title-event-container">
+                            {event.title}
+                          </div>
+                        }
                         trigger="click"
                         open={popoverVisibility[eventId]}
                         onOpenChange={open =>
