@@ -14,7 +14,7 @@ import { fetchCoordinates } from '../../store/map/mapThunks';
 import { setMarkers } from '../../store/map/markerSlice';
 import { Input, Select } from 'antd';
 import type { SearchProps } from 'antd/es/input/Search';
-import ModalWindow from '../../Components/Calendar/ModalWindow/ModalWindow';
+// import ModalWindow from '../../Components/Calendar/ModalWindow/ModalWindow';
 
 import Organization from '../Common/Card/Card';
 import { ServicesResponse } from '../../api/services/type';
@@ -28,7 +28,8 @@ function MapPage() {
   const selectedMarker = useSelector(
     (state: RootState) => state.map.selectedMarker,
   );
-  console.log('=======>', markersData);
+
+  // console.log('=======>', );
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
   );

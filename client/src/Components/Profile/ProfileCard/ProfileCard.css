@@ -64,13 +64,13 @@
 
 .ant-form {
   font: 18px;
-  min-width: 545px;
+  min-width: 551px;
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+  gap: 10px;
 }
 
 .ant-form-item-control-input {
