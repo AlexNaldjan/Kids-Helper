@@ -107,8 +107,6 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   };
 
   const deleteEvent = async (id: number | null) => {
-    if (!window.confirm('Вы уверены, что хотите удалить это событие?')) return;
-
     try {
       const response = await fetch(
         `http://localhost:3000/api/profile/events/${id}`,

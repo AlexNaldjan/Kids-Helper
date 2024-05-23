@@ -1,33 +1,21 @@
-@font-face {
-  font-family: 'Onest';
-  src: url('Onest-Regular.woff2') format('woff2'),
-    url('Onest-Regular.woff') format('woff');
-  font-weight: 1;
-  font-style: normal;
-}
-
-::before,
-::after {
-  padding: 0;
-  margin: 0;
-  border: 0;
-  box-sizing: border-box;
-}
-
 img {
   vertical-align: top;
 }
 
 body,
-main {
+main,
+html {
+  overflow-y: scroll;
   margin: 0px auto;
-  height: 100vh;
+
   padding: 0;
   font-family: 'Onest Regular';
   color: #333;
 }
+
 .ant-modal-body {
-  max-height: 600px;
+  max-height: 650px;
+  overflow-y: scroll;
 }
 
 .ant-modal-footer {
@@ -61,6 +49,7 @@ main {
   border-width: 1px;
   background-color: #cbe5f8;
   min-width: 600px;
+  max-height: 680px;
 }
 .ant-modal .ant-modal-header {
   height: 40px;

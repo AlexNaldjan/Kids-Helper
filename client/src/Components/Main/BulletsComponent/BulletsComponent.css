@@ -16,7 +16,7 @@
   background-color: white;
   margin-top: 160px;
   margin-bottom: 160px;
-  height: 500px;
+  height: 300px;
   max-width: 1160px;
 }
 
@@ -28,6 +28,7 @@
 }
 
 .bullet-text {
+  text-wrap: pretty;
   font-size: larger;
   text-align: center;
 }

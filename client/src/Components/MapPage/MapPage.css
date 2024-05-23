@@ -41,14 +41,16 @@
   margin-bottom: 10px;
 }
 .ant-input-group-addon .ant-btn {
-  border-radius: 50px;
+  border-radius: 25px;
   width: 100px;
   background-color: #eac7ff;
   color: #364351;
   border-color: #364351;
   border-style: solid;
   border-width: 0.5px;
+  margin-bottom: 10px;
 }
+
 .ant-input-group-addon:hover .ant-btn:hover {
   color: #364351;
   background-color: #efff9e;

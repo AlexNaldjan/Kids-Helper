@@ -8,7 +8,7 @@ interface CommentItemProps {
 
 const CommentItem: React.FC<CommentItemProps> = ({ item }) => (
   <div className="comment-item-container">
-    <div>
+    <div className="user-wrapper">
       <img
         src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
         className="comment-avatar"

@@ -80,53 +80,56 @@ function Comments({ props }: Props): React.ReactElement {
         onCancel={cancelCommentModal}
         onOk={cancelCommentModal}
         cancelButtonProps={{ style: { display: 'none' } }}
+        okButtonProps={{ style: { display: 'none' } }}
       >
-        {comments.length > 0 ? (
-          <List
-            className="comment-list"
-            itemLayout="horizontal"
-            dataSource={comments}
-            renderItem={item => (
-              <li className="comment-item">
-                <div className=" user">
-                  <CommentItem item={item} />
-                  {/* <img
+        <div className="comments-container">
+          {comments.length > 0 ? (
+            <List
+              className="comment-list"
+              itemLayout="horizontal"
+              dataSource={comments}
+              renderItem={item => (
+                <li className="comment-item">
+                  <div className=" user">
+                    <CommentItem item={item} />
+                    {/* <img
                     src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
                     style={{ width: '30px' }}
                   />
 
                   <div>{item.userName}</div>
                   <div>{item.comment}</div> */}
-                </div>
-              </li>
-            )}
-          />
-        ) : (
-          <div> </div>
-        )}
+                  </div>
+                </li>
+              )}
+            />
+          ) : (
+            <div> </div>
+          )}
 
-        {isLoggedIn ? (
-          <>
-            <form onSubmit={handleSubmit}>
-              <TextArea
-                showCount
-                maxLength={100}
-                value={comment}
-                onChange={e => setComment(e.target.value)}
-                autoSize={true}
-                placeholder="Оставьте комминтарий"
-              />
+          {isLoggedIn ? (
+            <>
+              <form className="comment-form" onSubmit={handleSubmit}>
+                <TextArea
+                  showCount
+                  maxLength={100}
+                  value={comment}
+                  onChange={e => setComment(e.target.value)}
+                  autoSize={true}
+                  placeholder="Оставьте комментарий"
+                />
 
-              <Button type="primary" htmlType="submit">
-                Отправить
-              </Button>
-            </form>
-          </>
-        ) : (
-          <div>
-            Что бы оставить комментарий Вам необходимо зарегистрироваться
-          </div>
-        )}
+                <button className="comment-send-btn" type="submit">
+                  Отправить
+                </button>
+              </form>
+            </>
+          ) : (
+            <div>
+              Чтобы оставить комментарий Вам необходимо зарегистрироваться
+            </div>
+          )}
+        </div>
       </Modal>
     </>
   );

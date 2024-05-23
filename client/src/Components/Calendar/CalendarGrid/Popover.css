@@ -37,10 +37,6 @@
 }
 
 /* Стили для кнопок */
-.ant-btn {
-  margin: 5px;
-  border-radius: 5px; /* Скругленные углы */
-}
 
 .popover-button-container {
   display: flex;

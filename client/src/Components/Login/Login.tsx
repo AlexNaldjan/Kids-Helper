@@ -97,7 +97,7 @@ function Login(): React.ReactElement {
             </div>
           </div>
           <div className="form-btn-wrapper">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="login-btn">
               Вход
             </button>
           </div>

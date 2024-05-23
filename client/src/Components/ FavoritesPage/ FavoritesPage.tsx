@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { List, Rate } from 'antd';
 import Comments from '../Common/Comment/Comment/Comment';
 import Favorites from '../Common/Favorites/Favorites';
+import './FavoritePage.css';
 
 interface FavoritesType {
   id: number;
@@ -43,9 +44,12 @@ function FavoritesPage() {
   }, [profile, profile.id]);
 
   return (
-    <div className="card-list-container">
+    <div className="favorites-card-list-container">
+      <div className="favorites-header">
+        <p>Избранное</p>
+      </div>
       <List
-        className="card-row-container"
+        className="favorites-card-row-container"
         itemLayout="vertical"
         size="large"
         pagination={{
@@ -60,15 +64,17 @@ function FavoritesPage() {
             <List.Item
               key={item.id}
               actions={[
-                <Rate allowHalf defaultValue={item.rating} />,
-                <div>{item.rating}</div>,
-                <Comments props={item.id} />,
-                <Favorites props={item.id} />,
+                <div className="rating-component-main">
+                  <Rate allowHalf defaultValue={item.rating} />,
+                  <div>{item.rating}</div>,
+                  <Comments props={item.id} />,
+                  <Favorites props={item.id} />,
+                </div>,
               ]}
               extra={<img width={250} height={200} alt="logo" src={item.img} />}
             >
               <List.Item.Meta description={item.title} />
-              {item.description}
+              <div className="long-card-description">{item.description}</div>
             </List.Item>
           </>
         )}

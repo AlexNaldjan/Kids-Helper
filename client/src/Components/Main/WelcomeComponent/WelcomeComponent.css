@@ -22,20 +22,36 @@
 .left-welcome-component-container {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   min-width: 580px;
   margin: 0px;
   padding: 0px;
 }
 
+.main-logo {
+  margin-left: 80px;
+}
+
+.welcome-bullet {
+  text-align: center;
+}
+
+#get-started-btn-main {
+  margin-left: -10px;
+}
+
 .left-welcome-component-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   max-width: 290px;
   max-height: 290px;
   margin: 0px;
+  margin-right: 160px;
   padding: 0px;
+  gap: 10px;
 }
 
 .photo-column-left img,
