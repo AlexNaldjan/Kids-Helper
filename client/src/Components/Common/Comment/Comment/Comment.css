@@ -1,25 +1,33 @@
 .user {
   display: flex;
   justify-content: space-around;
-  width: 300px;
+  width: 100px;
 }
 
 .comment-list {
-  background-color: blue;
   display: flex;
 }
 .comment-item {
   background-color: green;
   min-width: 450px;
-  max-height: 80px;
+  min-height: 80px;
+  max-height: 100px;
   display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  align-items: center;
+  border-radius: 12px;
+}
+.comment-item-container {
+  min-width: 450px;
+  display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 .comment-list {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: brown;
   max-height: 400px;
   max-width: 520px;
   overflow: scroll;
@@ -35,4 +43,26 @@
 
 .ant-spin-nested-loading {
   height: auto;
+  min-width: 510px;
+  background-color: #eff2f7;
+}
+
+.ant-list {
+  background-color: #eff2f7;
+  min-width: 550px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.ant-form {
+  font: 18px;
+  min-width: 551px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
 }

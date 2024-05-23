@@ -191,7 +191,7 @@ function MapPage() {
               <div className="org-rating-small">
                 Оценки пользователей: {markersData[selectedMarker].rating}
               </div>
-              <button className="add-event-map-small" type="button">
+              <button className="add-event-map-small-btn" type="button">
                 Добавить в событие
               </button>
             </div>

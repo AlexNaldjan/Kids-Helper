@@ -244,6 +244,10 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                                 </span>{' '}
                                 {event.category}
                               </div>
+                              <div className="popover-text-block popover-cost-category">
+                                <span className="cost-name-popover">Цена:</span>{' '}
+                                {event.cost} Рублей
+                              </div>
                               <div className="popover-text-block event-description-container">
                                 <span className="description-name-popover">
                                   Описание:

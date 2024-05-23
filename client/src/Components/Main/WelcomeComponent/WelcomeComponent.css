@@ -72,6 +72,7 @@
 }
 
 #get-started-btn-main {
+  text-decoration: none;
   margin-top: 20px;
   padding: 14px 16px;
   border: #364351;

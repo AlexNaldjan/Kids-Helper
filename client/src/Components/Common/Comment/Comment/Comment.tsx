@@ -79,6 +79,7 @@ function Comments({ props }: Props): React.ReactElement {
         open={isCommentVisible}
         onCancel={cancelCommentModal}
         onOk={cancelCommentModal}
+        cancelButtonProps={{ style: { display: 'none' } }}
       >
         {comments.length > 0 ? (
           <List

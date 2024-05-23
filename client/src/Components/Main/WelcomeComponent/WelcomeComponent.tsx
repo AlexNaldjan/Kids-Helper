@@ -1,7 +1,13 @@
 import React from 'react';
 import './WelcomeComponent.css';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/';
 
 function WelcomeComponent() {
+  const isLoggedIn = useSelector(
+    (state: RootState) => !!state.auth.authData.accessToken,
+  );
   return (
     <div className="welcome-component-container">
       <div className="welcome-component-wrapper">
@@ -13,7 +19,15 @@ function WelcomeComponent() {
               Lorem ipsum, dolor sit amet consectetur adipisicing elit.
               Voluptatem doloremque ab est?
             </p>
-            <button id="get-started-btn-main">Начать</button>
+            {!isLoggedIn ? (
+              <Link to="/register" id="get-started-btn-main">
+                Начать
+              </Link>
+            ) : (
+              <Link to="/profile" id="get-started-btn-main">
+                В Профиль
+              </Link>
+            )}
           </div>
         </div>
         <div className="right-welcome-component-container">
