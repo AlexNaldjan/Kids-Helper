@@ -14,7 +14,7 @@ function Favorites({ props }: Props): React.ReactElement {
   useEffect(() => {
     async function getFavorites(userId: number) {
       try {
-        const res = await fetch(`http://localhost:3000/api/liked/${props}`, {
+        const res = await fetch(`http://31.129.42.58:3000/api/liked/${props}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId }),
@@ -35,7 +35,7 @@ function Favorites({ props }: Props): React.ReactElement {
     try {
       if (!favorites) {
         const res = await fetch(
-          `http://localhost:3000/api/add/liked/${props}`,
+          `http://31.129.42.58:3000/api/add/liked/${props}`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -48,7 +48,7 @@ function Favorites({ props }: Props): React.ReactElement {
         }
       }
 
-      const res = await fetch(`http://localhost:3000/api/liked/${props}`, {
+      const res = await fetch(`http://31.129.42.58:3000/api/liked/${props}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId }),

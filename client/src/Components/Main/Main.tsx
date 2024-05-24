@@ -3,12 +3,10 @@ import { ServicesResponse } from '../../api/services/type';
 import { List, Rate } from 'antd';
 
 import './main.css';
-// import Organization from '../Common/Card/Card';
 import { RootState } from '../../store';
 import { useSelector } from 'react-redux';
 import Comments from '../Common/Comment/Comment/Comment';
 import Favorites from '../Common/Favorites/Favorites';
-// import Carousel from '../Carousel/Carousel';
 import BulletsComponent from './BulletsComponent/BulletsComponent';
 import WelcomeComponent from './WelcomeComponent/WelcomeComponent';
 import FeaturesComponent from './FeaturesComponent/FeaturesComponent';
@@ -31,7 +29,7 @@ function Main(): JSX.Element {
       async function getSocialServices() {
         try {
           const res = await fetch(
-            `http://localhost:3000/api/socialService/${profile.id}`,
+            `http://31.129.42.58:3000/api/socialService/${profile.id}`,
           );
           const data = await res.json();
           setServices(data);
@@ -45,13 +43,13 @@ function Main(): JSX.Element {
 
   async function handlerRating(serviceId: number, ratingUser: number) {
     try {
-      await fetch('http://localhost:3000/api/rating', {
+      await fetch('http://31.129.42.58:3000/api/rating', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ serviceId, ratingUser, userId }),
       });
       const res = await fetch(
-        `http://localhost:3000/api/socialService/${userId}`,
+        `http://31.129.42.58:3000/api/socialService/${userId}`,
       );
       const data = await res.json();
       setServices(data);

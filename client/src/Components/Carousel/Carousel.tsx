@@ -81,19 +81,19 @@ export default function Carousel() {
 
           <p className="append-buttons">
             <button onClick={() => slideTo(1)} className="prepend-slide">
-              Start
+              Начало
             </button>
             <button
               onClick={() => slideTo(slides.length / 2)}
               className="slide-250"
             >
-              Middle
+              Середина
             </button>
             <button
               onClick={() => slideTo(slides.length)}
               className="slide-500"
             >
-              End
+              Конец
             </button>
           </p>
         </div>

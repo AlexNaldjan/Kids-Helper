@@ -115,13 +115,16 @@ function ModalWindow({
         kidId: formData.kidId,
       };
 
-      const response = await fetch('http://localhost:3000/api/profile/events', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'http://31.129.42.58:3000/api/profile/events',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(event),
         },
-        body: JSON.stringify(event),
-      });
+      );
 
       if (!response.ok) {
         const errorData = await response.json();

@@ -27,12 +27,12 @@ function Comments({ props }: Props): React.ReactElement {
       const userName = profile.username;
       const userId = profile.id;
       const serviceId = props;
-      await fetch('http://localhost:3000/api/add/comment', {
+      await fetch('http://31.129.42.58:3000/api/add/comment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userName, userId, serviceId, comment }),
       });
-      const res = await fetch(`http://localhost:3000/api/comment/${props}`);
+      const res = await fetch(`http://31.129.42.58:3000/api/comment/${props}`);
       const data = await res.json();
       setComments(data);
       setComment('');
@@ -43,7 +43,9 @@ function Comments({ props }: Props): React.ReactElement {
   useEffect(() => {
     async function getComments() {
       try {
-        const res = await fetch(`http://localhost:3000/api/comment/${props}`);
+        const res = await fetch(
+          `http://31.129.42.58:3000/api/comment/${props}`,
+        );
         const data = await res.json();
         setComments(data);
       } catch (error) {

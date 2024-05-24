@@ -32,14 +32,14 @@ export function ProfileCard(): JSX.Element {
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
   );
-  console.log(profile);
+
   const [isProfileModalVisible, setIsProfileModalVisible] =
     useState<boolean>(false); // состояни для профиля
   const [isKidsModalVisible, setIsKidsModalVisible] = useState<boolean>(false); // состояние для модалки "добавить ребенка"
   const [isOneKidModalVisible, setIsOneKidModalVisible] =
     useState<boolean>(false); // состояние для модалки "редактировать одного ребенка"
   const [selectedKid, setSelectedKid] = useState<Kid | undefined>(undefined); // состояние для выбранного ребенка
-  console.log(selectedKid);
+
   const [kidNameState, setKidNameState] = useState<string>('');
   const [kidAgeState, setKidAgeState] = useState<number>(0);
   const [kidColor, setKidColor] = useState<string>('#00000');
@@ -87,7 +87,7 @@ export function ProfileCard(): JSX.Element {
 
   const showOneKidModalWindow = (id: number | null) => {
     const kid = profile.kids.find(kid => kid.id == id);
-    console.log('Selected kid:', kid);
+
     setSelectedKid(kid); // Сохраняем выбранного ребёнка в состояние
 
     setIsOneKidModalVisible(true);
@@ -101,7 +101,7 @@ export function ProfileCard(): JSX.Element {
     try {
       const updatedUsername = form.getFieldValue('username');
       const response = await fetch(
-        `http://localhost:3000/api/profile/update/${profile.id}`,
+        `http://31.129.42.58:3000/api/profile/update/${profile.id}`,
         {
           method: 'PUT',
           headers: {
@@ -153,7 +153,7 @@ export function ProfileCard(): JSX.Element {
   const addKids = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/profile/kids/${profile.id}`,
+        `http://31.129.42.58:3000/api/profile/kids/${profile.id}`,
         {
           method: 'POST',
           headers: {
@@ -185,7 +185,7 @@ export function ProfileCard(): JSX.Element {
     console.log('id rebenka', selectedKid.id, kidNameState, kidAgeState);
     try {
       const response = await fetch(
-        `http://localhost:3000/api/profile/kids/${selectedKid.id}`,
+        `http://31.129.42.58:3000/api/profile/kids/${selectedKid.id}`,
         {
           method: 'PUT',
           headers: {
@@ -214,7 +214,7 @@ export function ProfileCard(): JSX.Element {
   const deleteKid = async (id: number | null) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/profile/kids/${id}`,
+        `http://31.129.42.58:3000/api/profile/kids/${id}`,
         {
           method: 'DELETE',
         },
@@ -230,7 +230,7 @@ export function ProfileCard(): JSX.Element {
       console.error('Error deleting kid:', error);
     }
   };
-  console.log('kids', profile.kids);
+
   return (
     <div className="profile-card-custom">
       <Card title="Личный кабинет" style={{ color: '#EFF2F7' }}>

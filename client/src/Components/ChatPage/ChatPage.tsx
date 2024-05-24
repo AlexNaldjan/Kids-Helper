@@ -5,7 +5,7 @@ import { MessageBlock } from './components/message-block/message-block';
 import styles from './style.module.css';
 import { useEffect, useState } from 'react';
 
-const socket = io('http://localhost:3000');
+const socket = io('http://31.129.42.58:3000');
 
 export interface Message {
   id: string;
@@ -19,7 +19,7 @@ function ChatPage() {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/messages');
+        const response = await fetch('http://31.129.42.58:3000/api/messages');
         const data = await response.json();
         setMessages(data);
       } catch (error) {

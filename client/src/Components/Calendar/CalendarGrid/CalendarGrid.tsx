@@ -74,7 +74,7 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
     async function fetchData() {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/profile/events?userId=${profile.id}`,
+          `http://31.129.42.58:3000/api/profile/events?userId=${profile.id}`,
         );
         const result = await response.json();
 
@@ -108,7 +108,7 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
   const deleteEvent = async (id: number | null) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/profile/events/${id}`,
+        `http://31.129.42.58:3000/api/profile/events/${id}`,
         {
           method: 'DELETE',
         },
@@ -120,7 +120,7 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
       console.log('Событие успешно удалено', response);
 
       const newEvents = await fetch(
-        `http://localhost:3000/api/profile/events?userId=${profile.id}`,
+        `http://31.129.42.58:3000/api/profile/events?userId=${profile.id}`,
       );
       const result = await newEvents.json();
 

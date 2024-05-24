@@ -28,7 +28,6 @@ function MapPage() {
     (state: RootState) => state.map.selectedMarker,
   );
 
-  // console.log('=======>', );
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
   );
@@ -46,7 +45,7 @@ function MapPage() {
       async function getSocialServices() {
         try {
           const res = await fetch(
-            `http://localhost:3000/api/socialService/${profile.id}`,
+            `http://31.129.42.58:3000/api/socialService/${profile.id}`,
           );
           const data = await res.json();
           setServices(data);
@@ -61,7 +60,7 @@ function MapPage() {
   useEffect(() => {
     async function getSocialServices() {
       try {
-        const res = await fetch('http://localhost:3000/api/socialService');
+        const res = await fetch('http://31.129.42.58:3000/api/socialService');
         const data = await res.json();
         dispatch(setMarkers(data));
       } catch (error) {

@@ -29,7 +29,7 @@ function FavoritesPage() {
     const fetchFavorites = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/liked/${profile.id}`,
+          `http://31.129.42.58:3000/api/liked/${profile.id}`,
         );
         const data = await response.json();
         setFavorites(data);

@@ -28,13 +28,13 @@ function Organization({
   );
   async function handlerRating(serviceId: number, ratingUser: number) {
     try {
-      await fetch('http://localhost:3000/api/rating', {
+      await fetch('http://31.129.42.58:3000/api/rating', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ serviceId, ratingUser, userId }),
       });
       const res = await fetch(
-        `http://localhost:3000/api/socialService/${userId}`,
+        `http://31.129.42.58:3000/api/socialService/${userId}`,
       );
       const data = await res.json();
       setServices(data);
