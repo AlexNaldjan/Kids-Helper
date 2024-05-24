@@ -1,5 +1,182 @@
-/* .card{
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-} */
+.ant-list
+  .ant-list-vertical
+  .ant-list-lg
+  .ant-list-split
+  .ant-list-something-after-last-item
+  .card-row-container {
+  margin-bottom: 20px;
+}
+
+.organisations-container .ant-list-items {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.organisations-container .ant-list-item-meta,
+.organisations-container .rating-component-main {
+  padding-left: 10px;
+}
+
+.organisations-container .ant-list-item .item-description-wrapper {
+  overflow: scroll;
+}
+.organisations-container .ant-spin-nested-loading {
+  height: 800px;
+}
+
+.organisations-container .ant-spin-container {
+  display: flex;
+  justify-content: center;
+  max-height: 860px;
+  max-width: 1160px;
+  background-color: #cbe5f8;
+}
+
+.organisations-container .ant-spin-nested-loading {
+  background-color: #cbe5f8;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.organisations-container .ant-card-body {
+  max-height: 300px;
+  display: flex;
+}
+
+.organisations-container .ant-list-item {
+  max-width: 1080px;
+  border-radius: 12px;
+  background-color: white;
+}
+
+.organisations-container .ant-list-vertical {
+  max-width: 1080px;
+  height: 240px;
+
+  background-color: white;
+}
+
+/* / ТЕЛО КАРТОЧКИ / */
+.card-list-container .ant-list-item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* текст с описанием */
+.card-list-container .description-text {
+  padding: 5px;
+  height: 150px;
+  width: 600px;
+  text-wrap: pretty;
+  overflow-y: auto;
+  word-wrap: break-word;
+}
+
+.ant-list-item-extra img {
+  width: 240px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 25px;
+}
+
+.organisations-container .ant-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0, auto;
+  width: 100%;
+  height: 920px;
+  background-color: #cbe5f8;
+}
+
+.rating-component-main {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: baseline;
+  align-items: center;
+}
+
+.rating-component-main .ant-btn {
+  border: none;
+  box-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.organisations-container .ant-list-items {
+  background-color: #cbe5f8;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  margin-left: 60px;
+}
+
+.organisations-container .ant-list-pagination {
+  position: absolute;
+  bottom: -50px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: #cbe5f8;
+}
+
+.main-page-card-container {
+  height: 300px;
+}
+
+.main-page-card-container .ant-card-cover img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.ant-card-body {
+  height: 500px;
+  overflow: scroll;
+}
+
+.ant-card-meta {
+  overflow: scroll;
+}
+
+.ant-pagination .ant-pagination-options {
+  display: none;
+}
+
+.organisations-container .ant-list-pagination {
+  padding: 10px;
+  width: 183vh;
+}
+
+.long-card-description {
+  min-height: 120px;
+  max-height: 120px;
+  max-width: 700px;
+  overflow-y: auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.organisations-container .card-list-container {
+  width: 100%;
+  background-color: #cbe5f8;
+  min-height: 100%;
+}
+.organisations-container .card-list-big-wrapper {
+  margin: 0px auto;
+  max-width: 1160px;
+  background-color: #cbe5f8;
+}
+
+.organisations-container .ant-spin-nested-loading {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

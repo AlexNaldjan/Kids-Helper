@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const cookie = require('cookie');
@@ -91,7 +92,7 @@ router.get('/profile', verifyAuthorizationMiddleware, async (req, res) => {
       include: [
         {
           model: Kid,
-          attributes: ['id', 'name', 'age'],
+          attributes: ['id', 'name', 'age', 'color'],
           as: 'Kids',
         },
       ],

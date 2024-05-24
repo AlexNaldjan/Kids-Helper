@@ -7,8 +7,9 @@ import {
   Upload,
   Descriptions,
   Modal,
+  Select,
 } from 'antd';
-
+const { Option } = Select;
 import { UploadOutlined } from '@ant-design/icons';
 
 import { useState, useEffect, FormEvent } from 'react';
@@ -23,6 +24,7 @@ export interface Kid {
   id: number | null;
   name: string;
   age: number;
+  color: string;
 }
 
 export function ProfileCard(): JSX.Element {
@@ -30,7 +32,7 @@ export function ProfileCard(): JSX.Element {
   const profile = useSelector(
     (state: RootState) => state.auth.profileData.profile,
   );
-
+  console.log(profile);
   const [isProfileModalVisible, setIsProfileModalVisible] =
     useState<boolean>(false); // состояни для профиля
   const [isKidsModalVisible, setIsKidsModalVisible] = useState<boolean>(false); // состояние для модалки "добавить ребенка"
@@ -40,6 +42,18 @@ export function ProfileCard(): JSX.Element {
   console.log(selectedKid);
   const [kidNameState, setKidNameState] = useState<string>('');
   const [kidAgeState, setKidAgeState] = useState<number>(0);
+  const [kidColor, setKidColor] = useState<string>('#00000');
+
+  const markerColors = [
+    'green',
+    'orange',
+    'yellow',
+    'purple',
+    'pink',
+    'tomato',
+    'salmon',
+    'grey',
+  ];
 
   const [form] = Form.useForm(); // хук для библиотеки ant design
 
@@ -52,10 +66,12 @@ export function ProfileCard(): JSX.Element {
       form.setFieldsValue({
         name: selectedKid.name,
         age: selectedKid.age,
+        color: selectedKid.color,
       });
       // Также обновляем локальное состояние, если используете его для полей
       setKidNameState(selectedKid.name);
       setKidAgeState(selectedKid.age);
+      setKidColor(selectedKid.color);
     }
   }, [selectedKid, isOneKidModalVisible, form]);
   // функции для модалок Профиля
@@ -123,6 +139,11 @@ export function ProfileCard(): JSX.Element {
     setKidAgeState(parseInt(e.target.value));
   };
 
+  const handleKidColorChange = (e: string) => {
+    console.log(e);
+    setKidColor(e);
+  };
+
   // функции для модалки "OneKid"
 
   const handleOneKidCancel = () => {
@@ -141,6 +162,7 @@ export function ProfileCard(): JSX.Element {
           body: JSON.stringify({
             name: kidNameState,
             age: kidAgeState,
+            color: kidColor,
           }),
         },
       );
@@ -155,6 +177,7 @@ export function ProfileCard(): JSX.Element {
       console.error('Error adding children:', error);
     }
   };
+  console.log(profile.id);
 
   const updateKid = async (): Promise<void> => {
     if (!selectedKid) return;
@@ -171,6 +194,7 @@ export function ProfileCard(): JSX.Element {
           body: JSON.stringify({
             name: kidNameState,
             age: kidAgeState,
+            color: kidColor,
           }),
         },
       );
@@ -206,119 +230,217 @@ export function ProfileCard(): JSX.Element {
       console.error('Error deleting kid:', error);
     }
   };
-
+  console.log('kids', profile.kids);
   return (
-    <Card title="Личный кабинет" style={{ color: '#EFF2F7', width: 600 }}>
-      <div className="avatar-container">
-        <Avatar size={100} />
-        <Upload>
-          <Button icon={<UploadOutlined />}>Изменить аватар</Button>
-        </Upload>
-      </div>
-      <Descriptions title="Данные профиля">
-        <div>{profile ? profile.username : 'Загрузка...'}</div>
-        <div>{profile ? profile.email : 'Загрузка...'}</div>
-      </Descriptions>
-      <Button onClick={showProfileModalWindow}>
-        Редактировать личные данные
-      </Button>
-      <Descriptions title="Мои Дети">
-        {profile?.kids?.length > 0 && (
-          <div className="kids-list-container">
-            <ul className="kids-list">
-              {profile.kids.map(kid => (
-                <li key={kid.id}>
-                  {kid.name}, {kid.age} лет
-                  <Button onClick={() => showOneKidModalWindow(kid.id)}>
-                    Изменить
-                  </Button>
-                  <Button onClick={() => deleteKid(kid.id)}>Удалить</Button>
-                </li>
-              ))}
-            </ul>
+    <div className="profile-card-custom">
+      <Card title="Личный кабинет" style={{ color: '#EFF2F7' }}>
+        <div className="avatar-container" style={{ gap: '40px' }}>
+          <Avatar size={100} />
+          <Upload>
+            <Button className="change-avatar" icon={<UploadOutlined />}>
+              Изменить аватар
+            </Button>
+          </Upload>
+        </div>
+        <Descriptions title="Данные профиля">
+          <div className="profile-data-wrapper">
+            <div className="profile-data-name">
+              <span>Псевдоним:</span>{' '}
+              {profile ? profile.username : 'Загрузка...'}
+            </div>
+            <div className="profile-data-email">
+              <span>Email:</span> {profile ? profile.email : 'Загрузка...'}
+            </div>
           </div>
-        )}
-      </Descriptions>
-      <Button onClick={showKidseModalWindow}>Добавить детей</Button>
+        </Descriptions>
+        <div className="profile-edit-nickname-btn">
+          <Button onClick={showProfileModalWindow}>Изменить псевдоним</Button>
+        </div>
 
-      <Modal
-        title="Изменить информацию о ребёнке"
-        open={isOneKidModalVisible}
-        onCancel={handleOneKidCancel}
-        onOk={updateKid}
-      >
-        {selectedKid && (
-          <Form
-            form={form}
-            initialValues={{ name: selectedKid.name, age: selectedKid.age }}
+        <Descriptions title="Мои Дети">
+          {profile?.kids?.length > 0 && (
+            <div className="kids-list-container">
+              <ul className="kids-list">
+                {profile.kids.map(kid => (
+                  <li
+                    className="kid-li-item"
+                    key={kid.id}
+                    style={{
+                      ...({ '--kid-color': kid.color } as React.CSSProperties),
+                      color: 'black',
+                    }}
+                  >
+                    <div className="kid-info-wrapper">
+                      {kid.name} {kid.age} лет
+                    </div>
+                    <div className="kid-info-btns-wrapper">
+                      <Button
+                        onClick={() => showOneKidModalWindow(kid.id)}
+                        id="profile-change-btn"
+                      >
+                        <span className="small-btn-text">Изменить</span>
+                      </Button>
+                      <Button
+                        onClick={() => deleteKid(kid.id)}
+                        id="profile-del-btn"
+                      >
+                        <svg
+                          className="svg-del-icon"
+                          width="32"
+                          height="32"
+                          viewBox="0 0 114 114"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="57"
+                            cy="56.9999"
+                            r="39"
+                            transform="rotate(45 57 56.9999)"
+                            fill="#EFF2F7"
+                            stroke="#364351"
+                            stroke-width="2"
+                          />
+                          <path
+                            d="M68.3137 45.6862L45.6863 68.3136"
+                            stroke="#364351"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M68.3137 68.3137L45.6863 45.6862"
+                            stroke="#364351"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                          />
+                        </svg>
+                      </Button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </Descriptions>
+        <div className="profile-add-kids-btn">
+          <Button
+            onClick={showKidseModalWindow}
+            id="profile-add-kids-btn
+        "
           >
+            Добавить детей
+          </Button>
+        </div>
+
+        <Modal
+          title="Изменить информацию о ребёнке"
+          open={isOneKidModalVisible}
+          onCancel={handleOneKidCancel}
+          onOk={updateKid}
+          cancelButtonProps={{ style: { display: 'none' } }}
+        >
+          {selectedKid && (
+            <Form
+              form={form}
+              initialValues={{ name: selectedKid.name, age: selectedKid.age }}
+            >
+              <Form.Item
+                name="name"
+                label="Имя Ребенка"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Пожалуйста, введите имя ребёнка!',
+                  },
+                ]}
+              >
+                <Input value={kidNameState} onChange={handleNameChange} />
+              </Form.Item>
+              <Form.Item
+                name="age"
+                label="Возраст Ребенка"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Пожалуйста, введите возраст ребёнка!',
+                  },
+                ]}
+              >
+                <Input value={kidAgeState} onChange={handleAgeChange} />
+              </Form.Item>
+            </Form>
+          )}
+        </Modal>
+
+        <Modal
+          title="Изменить псевдоним"
+          open={isProfileModalVisible}
+          onCancel={handleProfileCancel}
+          onOk={updateProfile}
+          className="change-login-modal"
+          cancelButtonProps={{ style: { display: 'none' } }}
+        >
+          <Form form={form} className="change-login-modal-from">
             <Form.Item
-              name="name"
-              label="Имя Ребенка"
+              name="username"
+              label="Псевдоним"
               rules={[
-                { required: true, message: 'Пожалуйста, введите имя ребёнка!' },
+                { required: true, message: 'Пожалуйста, введите псевдоним!' },
               ]}
+            >
+              <Input />
+            </Form.Item>
+          </Form>
+        </Modal>
+
+        <Modal
+          title="Добавить ребенка"
+          open={isKidsModalVisible}
+          onCancel={handleKidsCancel}
+          onOk={addKids}
+          cancelButtonProps={{ style: { display: 'none' } }}
+        >
+          <Form form={form}>
+            <Form.Item
+              label="Имя"
+              name="name"
+              rules={[{ required: true, message: 'Введите имя ребенка' }]}
             >
               <Input value={kidNameState} onChange={handleNameChange} />
             </Form.Item>
             <Form.Item
+              label="Возраст"
               name="age"
-              label="Возраст Ребенка"
-              rules={[
-                {
-                  required: true,
-                  message: 'Пожалуйста, введите возраст ребёнка!',
-                },
-              ]}
+              rules={[{ required: true, message: 'Введите возраст ребенка' }]}
             >
               <Input value={kidAgeState} onChange={handleAgeChange} />
             </Form.Item>
+            <Form.Item
+              label="Цвет маркера"
+              name="color"
+              rules={[
+                {
+                  required: true,
+                  message: 'Выберите маркер для ребенка',
+                },
+              ]}
+            >
+              <Select
+                dropdownStyle={{ width: '100px' }}
+                className="input-dropdown"
+                onChange={e => handleKidColorChange(e)}
+              >
+                {markerColors.map((kidColor, index) => (
+                  <Option key={index} value={kidColor}>
+                    {kidColor}
+                  </Option>
+                ))}
+              </Select>
+              {/* </label> */}
+            </Form.Item>
           </Form>
-        )}
-      </Modal>
-
-      <Modal
-        title="Редактировать профиль"
-        open={isProfileModalVisible}
-        onCancel={handleProfileCancel}
-        onOk={updateProfile}
-      >
-        <Form form={form}>
-          <Form.Item
-            name="username"
-            label="Псевдоним"
-            rules={[
-              { required: true, message: 'Пожалуйста, введите псевдоним!' },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Form>
-      </Modal>
-
-      <Modal
-        title="Добавить ребенка"
-        open={isKidsModalVisible}
-        onCancel={handleKidsCancel}
-        onOk={addKids}
-      >
-        <Form form={form}>
-          <Form.Item
-            label="Имя"
-            name="name"
-            rules={[{ required: true, message: 'Введите имя ребенка' }]}
-          >
-            <Input value={kidNameState} onChange={handleNameChange} />
-          </Form.Item>
-          <Form.Item
-            label="Возраст"
-            name="age"
-            rules={[{ required: true, message: 'Введите возраст ребенка' }]}
-          >
-            <Input value={kidAgeState} onChange={handleAgeChange} />
-          </Form.Item>
-        </Form>
-      </Modal>
-    </Card>
+        </Modal>
+      </Card>
+    </div>
   );
 }

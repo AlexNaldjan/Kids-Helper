@@ -1,27 +1,38 @@
-.profile-big-event-container {
-  margin: 20px;
+.profile-page-container {
+  margin: 0 auto;
+  max-width: 1160px;
+  min-height: 75vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.profile-container {
+.profile-big-container {
+  min-height: 695.5px;
+  margin: 40px 20px 20px 20px;
+  margin-left: 20px;
+  flex: 1;
+}
+.calendar-profile-container {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  gap: 20px;
+  justify-content: center;
 }
-
 .calendar-placeholder {
-  margin: 20px;
+  margin: 40px 20px 20px 20px;
   border-radius: 12px;
   box-sizing: border-box;
   overflow: hidden;
-  border-color: #364351;
-  border-width: 1px;
-  border-style: solid;
-  box-shadow: #364351;
+  border: 1px solid #364351; /* Упрощенная запись для стиля границы */
+  height: fit-content;
+  min-width: 840px;
 }
-
-.profile-card {
+.profile-page {
+  margin: 0 auto;
+  max-width: 1160px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }

@@ -1,0 +1,164 @@
+.ant-popover-content {
+  padding: 0px;
+  border-radius: 12px;
+  min-width: 300px;
+  max-width: 450px;
+  border: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+}
+
+.ant-popover-title {
+  padding: 15px;
+  margin: 15px;
+  display: flex;
+  height: 40px;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #cbe5f8; /* Темный фон для заголовка */
+  color: white;
+  font-size: 14pt;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  margin: -12px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+#popover-title-event-container {
+  margin-left: 15px;
+}
+.ant-popover .ant-popover-inner {
+  border-radius: 12px;
+}
+.ant-popover-inner-content {
+  font-family: 'Arial', sans-serif;
+  background-color: #ffffff; /* Светлый фон для контента */
+  padding: 12px;
+}
+
+/* Стили для кнопок */
+
+.popover-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.popover-close-btn {
+  margin-top: 15px;
+  outline: none;
+  box-shadow: none;
+  width: 80px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 16px;
+  border: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+  border-radius: 25px;
+  background-color: #cbe5f8;
+  color: #364351;
+}
+
+.popover-close-btn:hover {
+  outline: none;
+  border-color: #364351;
+  box-shadow: none;
+  transform: scale(1.1);
+  background-color: #efff9e;
+  color: #364351;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.popover-delete-btn {
+  margin-top: 15px;
+  outline: none;
+  box-shadow: none;
+  width: 80px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 16px;
+  border: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+  border-radius: 25px;
+  background-color: #f9b1b1;
+  color: #364351;
+}
+
+.popover-delete-btn:hover {
+  outline: none;
+  border-color: #364351;
+  box-shadow: none;
+  transform: scale(1.1);
+  color: #364351;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+/* Стили для даты, времени и текста */
+.event-date,
+.event-category {
+  color: #364351;
+  margin-bottom: 5px;
+}
+
+.event-description-container {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 5px;
+  border: 1px solid #eee;
+  margin-top: 10px;
+  border-radius: 5px;
+  background-color: #ffffff;
+}
+.kid-wrap-popover,
+.popover-event-category,
+.event-date {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+.event-description {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.popover-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.popover-text-block {
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.event-date,
+.kid-wrap-popover,
+.popover-event-category,
+.event-description-container {
+  margin: 0;
+  color: #333;
+}
+
+.event-description {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.date-name-popover,
+.cost-name-popover,
+.category-name-popover,
+.description-name-popover,
+.kid-name-popover {
+  font-weight: bold;
+  font: 16pt;
+}

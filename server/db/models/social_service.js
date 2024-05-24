@@ -1,4 +1,4 @@
-const { Model } = require("sequelize");
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Social_service extends Model {
@@ -8,9 +8,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      this.hasMany(models.Liked, { foreignKey: 'serviceId', as: 'likeds' });
       this.belongsToMany(models.User, {
         foreignKey: 'serviceId',
         through: 'Ratings',
+      });
+      this.belongsToMany(models.User, {
+        foreignKey: 'serviceId',
+        through: 'Comments',
+      });
+      this.belongsToMany(models.User, {
+        foreignKey: 'serviceId',
+        through: 'Likeds',
       });
     }
   }

@@ -11,17 +11,23 @@ import moment from 'moment';
 const { Option } = Select;
 
 interface ModalWindowProps {
-  dayItem: Moment | null | undefined;
+  dayItem: Moment | null;
   isModalOpen: boolean;
   isCalendar: boolean;
   formDataProps: FormData | null;
 
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleAddEvent: (
-    formData: FormData,
-    dayItem: Moment | null | undefined,
-  ) => void;
+  handleAddEvent: (formData: FormData, dayItem: Moment | null) => void;
 }
+const formDataClear = {
+  title: '',
+  description: '',
+  category: '',
+  cost: 0,
+  time: '',
+  date: '',
+  kidId: null,
+};
 
 function ModalWindow({
   dayItem,
@@ -31,15 +37,7 @@ function ModalWindow({
   handleAddEvent,
   formDataProps,
 }: ModalWindowProps): JSX.Element {
-  const [formData, setFormData] = useState<FormData>({
-    title: '',
-    description: '',
-    category: '',
-    cost: 0,
-    time: '',
-    date: '',
-    kidId: null,
-  });
+  const [formData, setFormData] = useState<FormData>(formDataClear);
 
   const dispatch = useDispatch();
   const profile = useSelector(
@@ -65,6 +63,16 @@ function ModalWindow({
     }
   }, [profile]);
 
+  useEffect(() => {
+    if (dayItem) {
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        date: dayItem.format('YYYY-MM-DD'),
+        time: dayItem.format('HH:mm'),
+      }));
+    }
+  }, [dayItem]);
+
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLTextAreaElement | HTMLSelectElement | HTMLInputElement
@@ -78,17 +86,11 @@ function ModalWindow({
   };
 
   const handleDateChange = (date: Moment | null) => {
-    if (isCalendar) {
-      setFormData(prev => ({
-        ...prev,
-        date: date ? date.toISOString() : '',
-      }));
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        date: date ? date.format('YYYY-MM-DD') : '',
-      }));
-    }
+    setFormData(prev => ({
+      ...prev,
+      date: date ? date.format('YYYY-MM-DD') : '',
+    }));
+    //}
   };
 
   const handleTimeChange = (time: Moment | null) => {
@@ -105,17 +107,15 @@ function ModalWindow({
         title: formData.title,
         description: formData.description,
         category: formData.category,
-        date: isCalendar
-          ? moment(formData.date).toISOString()
-          : moment(
-              `${formData.date} ${formData.time}`,
-              'YYYY-MM-DD HH:mm',
-            ).toISOString(),
+        date: moment(
+          `${formData.date} ${formData.time}`,
+          'YYYY-MM-DD HH:mm',
+        ).toISOString(),
         cost: formData.cost,
         kidId: formData.kidId,
       };
 
-      const response = await fetch(`http://localhost:3000/api/profile/events`, {
+      const response = await fetch('http://localhost:3000/api/profile/events', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -129,7 +129,8 @@ function ModalWindow({
       }
       const newEvent = await response.json();
       handleAddEvent(newEvent, dayItem);
-      setIsModalOpen(false); // Закрыть модальное окно после успешного создания
+      setIsModalOpen(false);
+      setFormData(formDataClear);
     } catch (error) {
       console.error('Error while creating an event:', error);
     }
@@ -151,6 +152,8 @@ function ModalWindow({
       onCancel={handleCancel}
       onOk={addEvent}
       key={dayItem ? dayItem.unix() : undefined}
+      cancelButtonProps={{ style: { display: 'none' } }}
+      okButtonProps={{ style: { display: 'none' } }}
     >
       <form className="event-form" onSubmit={handleSubmit}>
         <label className="input-label">
@@ -195,7 +198,7 @@ function ModalWindow({
         )}
         <fieldset className="radio-set">
           <legend className="visually-hidden">Категории:</legend>
-          <div className="radio-container">
+          <div className="radio-container-add-event-in-calendar">
             <label className="radio-label">
               <input
                 className="radio"
@@ -272,6 +275,7 @@ function ModalWindow({
             onChange={handleInputChange}
           ></textarea>
         </label>
+
         <label className="input-label">
           <span className="input-title">Ребенок:</span>
           <Select
@@ -288,7 +292,10 @@ function ModalWindow({
             ))}
           </Select>
         </label>
-        <button type="submit">Создать Событие</button>
+
+        <button className="create-event-in-modal-btn" type="submit">
+          Создать Событие
+        </button>
       </form>
     </Modal>
   );

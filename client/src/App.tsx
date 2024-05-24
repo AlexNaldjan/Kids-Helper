@@ -1,7 +1,6 @@
 import './App.css';
 import './Components/Common/Header/Header.css';
 import Header from './Components/Common/Header/Header';
-import Footer from './Components/Common/Footer/Footer';
 import Main from './Components/Main/Main';
 import MapPage from './Components/MapPage/MapPage';
 import Profile from './Components/Profile/Profile';
@@ -14,6 +13,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { getProfile } from './store/auth/actionCreators';
 import Carousel from './Components/Carousel/Carousel';
+import ChatPage from './Components/ChatPage/ChatPage';
 
 function App() {
   const isLoggedIn = useSelector(
@@ -29,6 +29,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/test" element={<Carousel />} />
+        <Route path="/chat" element={<ChatPage />} />
         <Route
           path="/map"
           element={isLoggedIn ? <MapPage /> : <Navigate to="/" />}
@@ -41,7 +42,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

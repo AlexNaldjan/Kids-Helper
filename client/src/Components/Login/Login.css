@@ -70,3 +70,27 @@ form {
   background-color: #eac7ff;
   color: #fff;
 }
+
+.login-btn {
+  text-decoration: none;
+  margin-top: 20px;
+  padding: 14px 16px;
+  border: #364351;
+  border-style: solid;
+  border-width: 0.5px;
+  border-radius: 25px;
+  width: 135px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #efff9e;
+  transition: 0.1s;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background-color: #cbe5f8;
+  transform: scale(1.1);
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+}
