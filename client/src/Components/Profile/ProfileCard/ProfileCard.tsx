@@ -425,18 +425,10 @@ export function ProfileCard(): JSX.Element {
                 },
               ]}
             >
-              {/* <label className="input-label">
-                <span className="input-title">Цвет маркера</span> */}
-
               <Select
-                className="input"
+                dropdownStyle={{ width: '100px' }}
+                className="input-dropdown"
                 onChange={e => handleKidColorChange(e)}
-                // rules={[
-                //   {
-                //     required: true,
-                //     message: 'Выберите маркер для ребенка',
-                //   },
-                // ]}
               >
                 {markerColors.map((kidColor, index) => (
                   <Option key={index} value={kidColor}>

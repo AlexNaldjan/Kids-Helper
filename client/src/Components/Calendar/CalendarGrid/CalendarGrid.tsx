@@ -7,7 +7,6 @@ import ModalWindow from '../ModalWindow/ModalWindow';
 import moment, { Moment } from 'moment';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
-import addEventButton from '/src/assets/add-event-button.svg';
 
 interface CalendarGridProps {
   startDay: Moment;
@@ -97,7 +96,7 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
     if (profile && profile.id) {
       fetchData();
     }
-  }, [profile]);
+  }, [profile, events]);
 
   const handleModalOpen = (dayItem: Moment | null | undefined) => {
     if (dayItem) {
@@ -207,7 +206,10 @@ function CalendarGrid({ startDay }: CalendarGridProps): JSX.Element {
                   onClick={() => handleModalOpen(dayItem)}
                   className="calendar-day-add-btn"
                 >
-                  <img src={addEventButton} alt="add-event-button" />
+                  <img
+                    src="/src/Components/Calendar/CalendarGrid/add-event-button.svg"
+                    alt="add-event-button"
+                  />
                 </Button>
                 <div className="short-events-wrapper">
                   {dayEvents.map(event => {

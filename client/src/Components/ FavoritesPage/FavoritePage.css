@@ -19,7 +19,7 @@
   min-width: 1160px;
 }
 .favorites-card-list-container .ant-spin-container {
-  m-height: 1200px;
+  min-height: 1200px;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
 }

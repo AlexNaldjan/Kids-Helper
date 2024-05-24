@@ -150,29 +150,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   position: relative;
-  padding-bottom: 10px;
-}
-
-/* Стили для всплывающего окна */
-.ant-card-meta-title:hover {
-  content: attr(data-full-title);
-  white-space: normal;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: rgba(234, 199, 255, 0.9);
-  padding: 5px;
-  border-radius: 12px;
-  border-style: solid;
-  border-width: 0.5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  width: 100%;
-  max-width: none;
-  overflow: visible;
-  transition: opacity 0.3s ease-in-out;
-  cursor: pointer;
-  pointer-events: none;
+  /* padding-bottom: 10px; */
 }
 
 .map-organisation-card .ant-btn {

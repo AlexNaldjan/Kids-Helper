@@ -1,7 +1,6 @@
 import './App.css';
 import './Components/Common/Header/Header.css';
 import Header from './Components/Common/Header/Header';
-import Footer from './Components/Common/Footer/Footer';
 import Main from './Components/Main/Main';
 import MapPage from './Components/MapPage/MapPage';
 import Profile from './Components/Profile/Profile';

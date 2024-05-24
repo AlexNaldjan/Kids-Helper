@@ -14,12 +14,14 @@ interface OrganizationProps {
   card: ServicesResponse;
   setServices: (props: []) => void;
   userId: number;
+  isMapPage: boolean;
 }
 
 function Organization({
   card,
   setServices,
   userId,
+  isMapPage,
 }: OrganizationProps): React.ReactElement {
   const isLoggedIn = useSelector(
     (state: RootState) => !!state.auth.authData.accessToken,
@@ -82,36 +84,62 @@ function Organization({
   };
 
   return (
-    <div className="main-page-card-container">
-      <Card
-        // style={{ width: '300px', height: '600px' }}
-        // cover={<div> {card.title} </div>}
-        // style={{ width: '500px', height: '500px' }}
-        cover={<img alt="img" src={card.img} />}
-      >
-        <div className="main-card-content-container">
-          <Meta title={card.title} description={card.description} />
-          <div className="rate-comment-main-page-card-wrapper">
-            <div className="rating-wrapper">
-              <Rate
-                allowHalf
-                defaultValue={card.rating}
-                disabled={!isLoggedIn || Boolean(card.Users.length)}
-                onChange={value => handlerRating(card.id, value)}
-              />
-              <div>{card.rating}</div>
-            </div>
-            <Comments props={card.id} />
+    <>
+      {isMapPage ? (
+        <div className="marker-info">
+          <div className="org-title-small">
+            <div className="org-title-small-text-wrapper">{card.title}</div>
+          </div>
+          <div className="org-img-small">
+            <img src={card.img} />
+          </div>
+          <div className="org-address-small">Адрес: {card.address}</div>
+          <div className="org-description-small">{card.description}</div>
+          <div className="org-contacts-small">Контакты: {card.contacts}</div>
+          <div className="org-rating-small">
+            Оценки пользователей: {card.rating}
           </div>
           <button
-            className="add-event-main"
+            className="add-event-map-small-btn"
             type="button"
             onClick={handleModalOpen}
           >
             Добавить в событие
           </button>
         </div>
-      </Card>
+      ) : (
+        <div className="main-page-card-container">
+          <Card
+            // style={{ width: '300px', height: '600px' }}
+            // cover={<div> {card.title} </div>}
+            // style={{ width: '500px', height: '500px' }}
+            cover={<img alt="img" src={card.img} />}
+          >
+            <div className="main-card-content-container">
+              <Meta title={card.title} description={card.description} />
+              <div className="rate-comment-main-page-card-wrapper">
+                <div className="rating-wrapper">
+                  <Rate
+                    allowHalf
+                    defaultValue={card.rating}
+                    disabled={!isLoggedIn || Boolean(card.Users.length)}
+                    onChange={value => handlerRating(card.id, value)}
+                  />
+                  <div>{card.rating}</div>
+                </div>
+                <Comments props={card.id} />
+              </div>
+              <button
+                className="add-event-main"
+                type="button"
+                onClick={handleModalOpen}
+              >
+                Добавить в событие
+              </button>
+            </div>
+          </Card>
+        </div>
+      )}
       <ModalWindow
         dayItem={null}
         isModalOpen={isModalOpen}
@@ -120,7 +148,7 @@ function Organization({
         isCalendar={false}
         formDataProps={formData}
       />
-    </div>
+    </>
   );
 }
 export default Organization;

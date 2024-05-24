@@ -19,6 +19,15 @@ interface ModalWindowProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleAddEvent: (formData: FormData, dayItem: Moment | null) => void;
 }
+const formDataClear = {
+  title: '',
+  description: '',
+  category: '',
+  cost: 0,
+  time: '',
+  date: '',
+  kidId: null,
+};
 
 function ModalWindow({
   dayItem,
@@ -28,15 +37,7 @@ function ModalWindow({
   handleAddEvent,
   formDataProps,
 }: ModalWindowProps): JSX.Element {
-  const [formData, setFormData] = useState<FormData>({
-    title: '',
-    description: '',
-    category: '',
-    cost: 0,
-    time: '',
-    date: '',
-    kidId: null,
-  });
+  const [formData, setFormData] = useState<FormData>(formDataClear);
 
   const dispatch = useDispatch();
   const profile = useSelector(
@@ -129,6 +130,7 @@ function ModalWindow({
       const newEvent = await response.json();
       handleAddEvent(newEvent, dayItem);
       setIsModalOpen(false);
+      setFormData(formDataClear);
     } catch (error) {
       console.error('Error while creating an event:', error);
     }
@@ -172,7 +174,6 @@ function ModalWindow({
               value={formData.time ? moment(formData.time, 'HH:mm') : null}
               onChange={handleTimeChange}
               format="HH:mm"
-              okButton="ОК"
             />
           </label>
         ) : (

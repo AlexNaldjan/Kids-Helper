@@ -10,13 +10,6 @@ import CommentItem from '../CommentItem/CommentItem';
 
 const { TextArea } = Input;
 
-// const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
-//   <Space>
-//     {React.createElement(icon)}
-//     {text}
-//   </Space>
-// );
-
 function Comments({ props }: Props): React.ReactElement {
   const [isCommentVisible, setIsCommentVisible] = useState<boolean>(false);
 
@@ -92,13 +85,6 @@ function Comments({ props }: Props): React.ReactElement {
                 <li className="comment-item">
                   <div className=" user">
                     <CommentItem item={item} />
-                    {/* <img
-                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                    style={{ width: '30px' }}
-                  />
-
-                  <div>{item.userName}</div>
-                  <div>{item.comment}</div> */}
                   </div>
                 </li>
               )}

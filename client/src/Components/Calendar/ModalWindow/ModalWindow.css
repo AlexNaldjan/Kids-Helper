@@ -52,40 +52,38 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 100%;
+
+  /* Стилизация кнопок */
+
+  /* Стилизация текстового поля */
+  .input-textarea {
+    height: 100px; /* Высота текстового поля */
+    resize: vertical; /* Позволяет пользователю изменять размер только вертикально */
+  }
+
+  /* Стилизация радиокнопок */
+  .radio-container {
+    display: flex;
+
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .radio-title {
+    margin-left: 5px;
+  }
+
+  .radio {
+    accent-color: #f9b1b1;
+  }
 }
-
-.input:focus,
-.ant-picker:focus,
-.ant-select-focused .ant-select-selector {
-  border-color: #f9b1b1;
-  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-}
-
-/* Стилизация кнопок */
-
-/* Стилизация текстового поля */
-.input-textarea {
-  height: 100px; /* Высота текстового поля */
-  resize: vertical; /* Позволяет пользователю изменять размер только вертикально */
-}
-
-/* Стилизация радиокнопок */
-.radio-container {
+.radio-container-add-event-in-calendar .radio-label {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.radio-label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.radio-title {
-  margin-left: 5px;
-}
-
-.radio {
-  accent-color: #f9b1b1;
+  gap: 5px;
 }
